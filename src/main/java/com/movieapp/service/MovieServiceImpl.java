@@ -80,4 +80,23 @@ public class MovieServiceImpl implements MovieService {
 
         return movie;
     }
+
+    @Override
+    public void editMovie(Long id, Movie editedMovie) {
+        // Retrieve the existing movie from the database
+        Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> new NullPointerException("Movie not found"));
+
+        // Update the fields of the existing movie with the edited values
+        existingMovie.setTitle(editedMovie.getTitle());
+        existingMovie.setReleaseYear(editedMovie.getReleaseYear());
+        existingMovie.setCast(editedMovie.getCast());
+        existingMovie.setDirector(editedMovie.getDirector());
+        existingMovie.setDescription(editedMovie.getDescription());
+        existingMovie.setGenre(editedMovie.getGenre());
+        existingMovie.setCategory(editedMovie.getCategory());
+        existingMovie.setRating(editedMovie.getRating());
+
+        // Save the updated movie back to the database
+        movieRepository.save(existingMovie);
+    }
 }

@@ -22,7 +22,7 @@
 
         <!-- Video Player -->
         <video controls>
-            <source th:src="@{/videos/yt5s.io-Avengers Assemble Scene - The Avengers (2012) Movie Clip HD-(1080p).mp4}" type="video/mp4">
+            <source th:src="@{${movie.url}}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
@@ -51,6 +51,18 @@
 
         <!-- Rating -->
         <p th:text="'Rating: ' + ${movie.rating}" class="rating">Rating: 4.5/5</p>
+
+    <!-- Remove Button -->
+    <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post">
+        <button type="submit" class="button-remove">Remove Movie</button>
+    </form>
+
+    <!-- Add this button within the movie-view div in movie.html -->
+    <form th:action="@{'/movies/edit/' + ${movie.id}}" th:method="POST">
+        <input type="hidden" name="_method" value="put" />
+        <button type="button" class="button-edit">Edit Movie</button>
+    </form>
+
 
 </div>
 

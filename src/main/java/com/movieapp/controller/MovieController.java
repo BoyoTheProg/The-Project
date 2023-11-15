@@ -50,14 +50,4 @@ public class MovieController {
         return new ModelAndView("redirect:/home");
     }
 
-    @PostMapping("/movies/remove/{id}")
-    public ModelAndView remove(@PathVariable("id") Long id){
-        if (!loggedUser.isLogged()){
-            return new ModelAndView("redirect:/");
-        }
-
-        movieService.remove(id);
-
-        return new ModelAndView("redirect:/home");
-    }
 }

@@ -119,6 +119,40 @@ h1 {
     color: #111;
 }
 
+/* Add this style for the Remove Button */
+.button-remove {
+    background-color: #d9534f; /* Red color for remove button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Remove Button hover effect */
+.button-remove:hover {
+    background-color: #c9302c; /* Darker red color on hover */
+}
+
+
+/* Add this style for the Edit Button */
+.button-edit {
+    background-color: #5bc0de; /* Light blue color for edit button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Edit Button hover effect */
+.button-edit:hover {
+    background-color: #46b8da; /* Darker blue color on hover */
+}
+
+
 
 /* Style for the movie-view class */
 .movie-view {

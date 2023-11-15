@@ -15,4 +15,6 @@ public interface MovieService {
     MovieDetailDto getMovieViewData(Long id);
 
     Movie getMovieById(Long id);
+
+    void editMovie(Long id, Movie editedMovie);
 }
