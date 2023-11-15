@@ -136,11 +136,13 @@ h1 {
 }
 
 
-/* Add this style for the Edit Button */
+
+/* Style for the Edit Movie button */
 .button-edit {
-    background-color: #5bc0de; /* Light blue color for edit button */
+    background-color: #e50914; /* Netflix red color */
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -149,86 +151,68 @@ h1 {
 
 /* Edit Button hover effect */
 .button-edit:hover {
-    background-color: #46b8da; /* Darker blue color on hover */
+    background-color: #cc0812; /* Darker red color on hover */
 }
 
 
 
-/* Style for the movie-view class */
+/* Styles for the movie-view class */
 .movie-view {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    background-color: rgba(255, 0, 0, 0.8);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    background-color: #141414;
+    color: white;
+    width: 900px;
+    margin-left: 300px;
 }
 
-/* Title styling */
-.movie-view h1 {
-    font-size: 32px;
-    color: #333;
+.movie-title {
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
-/* Video player styling */
-.movie-view video {
-    width: 100%;
-    max-height: 400px;
+.video-player {
+    width: 720px;
+    height: 480px;
     margin-bottom: 20px;
+    /* Add any specific styles for the video player */
 }
 
-/* Poster styling */
-.movie-view .poster {
-    max-width: 100%;
+.poster {
+    max-width: 640px;
     height: auto;
     margin-bottom: 20px;
 }
 
-/* Release year styling */
-.movie-view .release-year {
-    font-size: 18px;
-    color: #777;
+.movie-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
-/* Cast styling */
-.movie-view .cast {
-    font-size: 18px;
+.movie-details-left {
+    flex: 1;
+}
+
+.movie-details-right {
+    flex: 1;
+}
+
+.release-year,
+.cast,
+.director,
+.genre,
+.category,
+.rating {
     margin-bottom: 10px;
 }
 
-/* Director styling */
-.movie-view .director {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-/* Description styling */
-.movie-view .description {
-    font-size: 16px;
-    color: #555;
+.description {
+    line-height: 1.5;
     margin-bottom: 20px;
-}
-
-/* Genre styling */
-.movie-view .genre {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Category styling */
-.movie-view .category {
-    font-size: 16px;
-    color: #555;
-}
-
-/* Rating styling */
-.movie-view .rating {
-    font-size: 24px;
-    font-weight: bold;
-    color: #e44d26; /* Netflix-like orange color for rating */
-    margin-top: 10px;
 }
 
 /* Add more styles as needed */

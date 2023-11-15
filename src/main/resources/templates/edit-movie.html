@@ -16,7 +16,7 @@
 
   <!-- Release Year -->
   <label for="releaseYear">Release Year:</label>
-  <input type="number" id="releaseYear" name="releaseYear" th:value="${movie.releaseYear}" required>
+  <input type="number" id="releaseYear" name="releaseYear" min="1900" max="2023" th:value="${movie.releaseYear}" required>
 
   <!-- Cast -->
   <label for="cast">Cast:</label>

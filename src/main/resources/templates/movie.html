@@ -17,40 +17,68 @@
 <!--    </div>-->
 
 
-        <!-- Movie Title -->
-        <h1 th:text="${movie.title}">Movie Title</h1>
+<!--        &lt;!&ndash; Movie Title &ndash;&gt;-->
+<!--        <h1 th:text="${movie.title}">Movie Title</h1>-->
 
-        <!-- Video Player -->
-        <video controls>
+<!--        &lt;!&ndash; Video Player &ndash;&gt;-->
+
+
+<!--        &lt;!&ndash; Poster &ndash;&gt;-->
+<!--        <img th:src="${movie.poster}" alt="Movie Poster" class="poster">-->
+
+<!--        &lt;!&ndash; Release Year &ndash;&gt;-->
+<!--        <p th:text="'Release Year: ' + ${movie.releaseYear}" class="release-year">Release Year: 2023</p>-->
+
+<!--        &lt;!&ndash; Cast &ndash;&gt;-->
+<!--        <p th:text="'Cast: ' + ${movie.cast}" class="cast">Cast: Actor 1, Actor 2, Actor 3</p>-->
+
+<!--        &lt;!&ndash; Director &ndash;&gt;-->
+<!--        <p th:text="'Director: ' + ${movie.director}" class="director">Director: Director Name</p>-->
+
+<!--        &lt;!&ndash; Description &ndash;&gt;-->
+<!--        <p  th:text="${movie.description}" class="description">-->
+<!--            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod purus nec neque fringilla, vel cursus arcu laoreet.-->
+<!--        </p>-->
+
+<!--        &lt;!&ndash; Genre &ndash;&gt;-->
+<!--        <p th:text="'Genre: ' + ${movie.genre}" class="genre">Genre: Action</p>-->
+
+<!--        &lt;!&ndash; Category &ndash;&gt;-->
+<!--        <p th:text="'Category: ' + ${movie.category}" class="category">Category: Drama</p>-->
+
+<!--        &lt;!&ndash; Rating &ndash;&gt;-->
+<!--        <p th:text="'Rating: ' + ${movie.rating}" class="rating">Rating: 4.5/5</p>-->
+
+
+    <div class="movie-title" th:text="${movie.title}">Movie Title</div>
+<!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
+        <video width="720px" height="360px" controls>
             <source th:src="@{${movie.url}}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
-        <!-- Poster -->
         <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
+<!--    </div>-->
 
-        <!-- Release Year -->
-        <p th:text="'Release Year: ' + ${movie.releaseYear}" class="release-year">Release Year: 2023</p>
 
-        <!-- Cast -->
-        <p th:text="'Cast: ' + ${movie.cast}" class="cast">Cast: Actor 1, Actor 2, Actor 3</p>
+    <div class="movie-details">
+        <div class="movie-details-left">
+            <div class="release-year" th:text="'Release Year: ' + ${movie.releaseYear}">Release Year: 2022</div>
+            <div class="cast" th:text="'Cast: ' + ${movie.cast}">Cast: Actor 1, Actor 2, Actor 3</div>
+            <div class="director" th:text="'Director: ' + ${movie.director}">Director: Director Name</div>
+        </div>
 
-        <!-- Director -->
-        <p th:text="'Director: ' + ${movie.director}" class="director">Director: Director Name</p>
+        <div class="movie-details-right">
+            <div class="genre" th:text="'Genre: ' + ${movie.genre}">Genre: Action, Drama</div>
+            <div class="category" th:text="'Category: ' + ${movie.category}">Category: Thriller</div>
+            <div class="rating" th:text="'Rating: ' + ${movie.rating}">Rating: 4.5/5</div>
+        </div>
+    </div>
 
-        <!-- Description -->
-        <p  th:text="${movie.description}" class="description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod purus nec neque fringilla, vel cursus arcu laoreet.
-        </p>
+    <div class="description" th:text="${movie.description}">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
+    </div>
 
-        <!-- Genre -->
-        <p th:text="'Genre: ' + ${movie.genre}" class="genre">Genre: Action</p>
-
-        <!-- Category -->
-        <p th:text="'Category: ' + ${movie.category}" class="category">Category: Drama</p>
-
-        <!-- Rating -->
-        <p th:text="'Rating: ' + ${movie.rating}" class="rating">Rating: 4.5/5</p>
 
     <!-- Remove Button -->
     <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post">
@@ -58,13 +86,23 @@
     </form>
 
     <!-- Add this button within the movie-view div in movie.html -->
-    <form th:action="@{'/movies/edit/' + ${movie.id}}" th:method="POST">
-        <input type="hidden" name="_method" value="put" />
-        <button type="button" class="button-edit">Edit Movie</button>
-    </form>
+    <button type="button" class="button-edit" onclick="redirectToEdit()">Edit Movie</button>
 
 
 </div>
+<script>
+    function redirectToEdit() {
+        // Get the movie ID from Thymeleaf model (replace 'movieId' with the actual model attribute)
+        var movieId = [[${movie.id}]];
+
+        if (movieId) {
+            // Redirect to the edit page with the movie ID
+            window.location.href = '/movies/edit/' + movieId;
+        } else {
+            console.error('Movie ID not available.');
+        }
+    }
+</script>
 
 <footer th:replace="~{fragments/commons::footer}"></footer>
 </body>
