@@ -137,7 +137,7 @@
             </div>
             <input type="number" class="form-control" id="rating"
                    th:field="*{rating}"
-                   th:errorclass="bg-danger">
+                   th:errorclass="bg-danger" step="0.1" min="1" max="10">
             <small th:if="${#fields.hasErrors('rating')}"
                    th:errors="*{rating}" class="text-danger">Rating error message</small>
         </div>
