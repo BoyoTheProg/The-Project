@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+<div class="movie-view">
+    <!-- Display detailed information about the movie -->
+<!--    <h2 th:text="${movie.title}">Movie Title</h2>-->
+<!--    <img th:src="${movie.poster}" alt="Movie Image" class="movie-image" />-->
+<!--    <p th:text="${movie.description}">Movie Description</p>-->
+
+<!--    <div class="buttons">-->
+<!--        <a href="index.html" class="button">Homepage</a>-->
+<!--        <a href="login.html" class="button">Login</a>-->
+<!--        <a href="register.html" class="button">Register</a>-->
+<!--    </div>-->
+
+
+        <!-- Movie Title -->
+        <h1 th:text="${movie.title}">Movie Title</h1>
+
+        <!-- Video Player -->
+        <video controls>
+            <source th:src="@{/videos/yt5s.io-Avengers Assemble Scene - The Avengers (2012) Movie Clip HD-(1080p).mp4}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Poster -->
+        <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
+
+        <!-- Release Year -->
+        <p th:text="'Release Year: ' + ${movie.releaseYear}" class="release-year">Release Year: 2023</p>
+
+        <!-- Cast -->
+        <p th:text="'Cast: ' + ${movie.cast}" class="cast">Cast: Actor 1, Actor 2, Actor 3</p>
+
+        <!-- Director -->
+        <p th:text="'Director: ' + ${movie.director}" class="director">Director: Director Name</p>
+
+        <!-- Description -->
+        <p  th:text="${movie.description}" class="description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod purus nec neque fringilla, vel cursus arcu laoreet.
+        </p>
+
+        <!-- Genre -->
+        <p th:text="'Genre: ' + ${movie.genre}" class="genre">Genre: Action</p>
+
+        <!-- Category -->
+        <p th:text="'Category: ' + ${movie.category}" class="category">Category: Drama</p>
+
+        <!-- Rating -->
+        <p th:text="'Rating: ' + ${movie.rating}" class="rating">Rating: 4.5/5</p>
+
+</div>
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+
+</html>

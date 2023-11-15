@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+
+<ul class="movie-list">
+  <!-- Iterate through movies and generate movie cards as list items -->
+<!--  <li th:each="availableMovie : ${movies.availableMovies}" class="movie-card">-->
+<!--    <img th:src="${availableMovie.poster}" alt="Movie Image" class="movie-image" />-->
+<!--    <div class="movie-title" th:text="${availableMovie.title}">Movie Title</div>-->
+<!--  </li>-->
+  <li th:each="availableMovie : ${movies.availableMovies}" class="movie-card">
+    <a th:href="@{'/movies/' + ${availableMovie.id}}">
+      <img th:src="${availableMovie.poster}" alt="Movie Image" class="movie-image" />
+      <div class="movie-title" th:text="${availableMovie.title}">Movie Title</div>
+    </a>
+  </li>
+</ul>
+  <!-- Add home-specific content here -->
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+
+</html>
+

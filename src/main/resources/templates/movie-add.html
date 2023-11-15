@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add movie</span></h1>
+    <hr class="hr-3 w-25 bg-white"/>
+
+    <form class="mx-auto w-25 bg-blur rounded"
+          th:method="POST"
+          th:action="@{/movies/add}"
+          th:object="${movieAddBindingDto}">
+
+<!--TITLE-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="title" class="h4 mb-2">Title</label>
+            </div>
+            <input type="text" class="form-control" id="title"
+                   th:field="*{title}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('title')}"
+                   th:errors="*{title}" class="text-danger">Title error message</small>
+        </div>
+
+<!--        url-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="url" class="h4 mb-2">URL</label>
+            </div>
+            <input type="text" class="form-control" id="url"
+                   th:field="*{url}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('url')}"
+                   th:errors="*{url}" class="text-danger">URL error message</small>
+        </div>
+<!--        poster-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                    <label for="poster" class="h4 mb-2">Poster</label>
+            </div>
+            <input type="text" class="form-control" id="poster"
+                   th:field="*{poster}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('poster')}"
+                   th:errors="*{poster}" class="text-danger">Poster error message</small>
+        </div>
+<!--        releaseYear-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="releaseYear" class="h4 mb-2">Release Year</label>
+            </div>
+            <input type="text" inputmode="numeric" class="form-control" id="releaseYear"
+                   th:field="*{releaseYear}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('releaseYear')}"
+                   th:errors="*{releaseYear}" class="text-danger">Release Year error message</small>
+        </div>
+<!--        cast-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="cast" class="h4 mb-2">Cast</label>
+            </div>
+            <input type="text" class="form-control" id="cast"
+                   th:field="*{cast}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('cast')}"
+                   th:errors="*{cast}" class="text-danger">Cast error message</small>
+        </div>
+<!--        director-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="director" class="h4 mb-2">Director</label>
+            </div>
+            <input type="text" class="form-control" id="director"
+                   th:field="*{director}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('director')}"
+                   th:errors="*{director}" class="text-danger">Director error message</small>
+        </div>
+<!--        description-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="description" class="h4 mb-2">Description</label>
+            </div>
+            <textarea type="text" class="form-control" id="description"
+                      th:field="*{description}"
+                      th:errorclass="bg-danger"></textarea>
+            <small th:if="${#fields.hasErrors('description')}"
+                   th:errors="*{description}" class="text-danger">Description error message</small>
+        </div>
+<!--        genre-->
+        <div class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="genre" class="h4 mb-2">Genre</label>
+            </div>
+            <select class="browser-default custom-select" id="genre"
+                    th:field="*{genre}"
+                    th:errorclass="bg-danger">
+                <option value="">Select genre</option>
+                <option value="ACTION">Action</option>
+                <option value="DRAMA">Drama</option>
+                <option value="COMEDY">Comedy</option>
+                <option value="SCIENCE_FICTION">Science-Fiction</option>
+                <option value="FANTASY">Fantasy</option>
+                <option value="WESTERN">Western</option>
+            </select>
+
+            <small th:if="${#fields.hasErrors('genre')}"
+                   th:errors="*{genre}" class="text-danger">Genre error message</small>
+        </div>
+<!--        category-->
+        <div class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="category" class="h4 mb-2">Category</label>
+            </div>
+            <select class="browser-default custom-select" id="category"
+                    th:field="*{category}"
+                    th:errorclass="bg-danger">
+                <option value="">Select genre</option>
+                <option value="G">All Ages</option>
+                <option value="PG">PG(8+)</option>
+                <option value="PG_13">PG-13(12+)</option>
+                <option value="R">R(16+)</option>
+                <option value="NC_17">18+</option>
+            </select>
+
+            <small th:if="${#fields.hasErrors('category')}"
+                   th:errors="*{category}" class="text-danger">Category error message</small>
+        </div>
+<!--        rating-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="rating" class="h4 mb-2">Rating</label>
+            </div>
+            <input type="number" class="form-control" id="rating"
+                   th:field="*{rating}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('rating')}"
+                   th:errors="*{rating}" class="text-danger">Rating error message</small>
+        </div>
+
+
+
+
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning  mb-3" value="Register">Add movie</button>
+        </div>
+
+    </form>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
