@@ -42,7 +42,7 @@ public class HomeController {
 //        return new ModelAndView("home", "words", wordHomeDto);
         MovieHomeDto movieHomeDto = movieService.getHomeViewData();
 
-        return new ModelAndView("home", "movies", movieHomeDto);
+        return new ModelAndView("home1", "movies", movieHomeDto);
 //        return new ModelAndView("home");
     }
 }
