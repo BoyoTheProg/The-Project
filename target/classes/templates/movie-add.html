@@ -58,7 +58,18 @@
             <small th:if="${#fields.hasErrors('releaseYear')}"
                    th:errors="*{releaseYear}" class="text-danger">Release Year error message</small>
         </div>
-<!--        cast-->
+<!--  runtime-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                <label for="releaseYear" class="h4 mb-2">Runtime</label>
+            </div>
+            <input type="text" inputmode="numeric" class="form-control" id="runtime"
+                   th:field="*{runtime}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('runtime')}"
+                   th:errors="*{runtime}" class="text-danger">Runtime error message</small>
+        </div>
+<!-- cast-->
         <div class="form-group">
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="cast" class="h4 mb-2">Cast</label>

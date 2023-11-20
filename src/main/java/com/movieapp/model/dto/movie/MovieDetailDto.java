@@ -8,6 +8,7 @@ public class MovieDetailDto {
     private String url;
     private String poster;
     private int releaseYear;
+    private int runtime;
     private String cast;
     private String director;
     private String description;
@@ -18,11 +19,12 @@ public class MovieDetailDto {
     public MovieDetailDto() {
     }
 
-    public MovieDetailDto(String title, String url, String poster, int releaseYear, String cast, String director, String description, GenreType genre, CategoryType category, double rating) {
+    public MovieDetailDto(String title, String url, String poster, int releaseYear, int runtime, String cast, String director, String description, GenreType genre, CategoryType category, double rating) {
         this.title = title;
         this.url = url;
         this.poster = poster;
         this.releaseYear = releaseYear;
+        this.runtime = runtime;
         this.cast = cast;
         this.director = director;
         this.description = description;
@@ -69,5 +71,9 @@ public class MovieDetailDto {
 
     public double getRating() {
         return rating;
+    }
+
+    public int getRuntime() {
+        return runtime;
     }
 }

@@ -25,6 +25,9 @@ public class MovieAddBindingDto {
     @Min(1900)
     @Max(2023)
     private int releaseYear;
+    @NotNull(message = "You must enter the runtime!")
+    @Min(1)
+    private int runtime;
     @NotNull(message = "You must enter the cast")
     private String cast;
     @NotNull(message = "You must enter the director!")
@@ -119,5 +122,17 @@ public class MovieAddBindingDto {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 }

@@ -11,6 +11,7 @@ public class MovieDTO {
     private String url;
     private String poster;
     private int releaseYear;
+    private int runtime;
     private String cast;
     private String director;
     private String description;
@@ -107,6 +108,14 @@ public class MovieDTO {
         this.description = description;
     }
 
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
     public static MovieDTO createFromMovie(Movie movie){
         MovieDTO movieDTO = new MovieDTO();
 
@@ -115,6 +124,7 @@ public class MovieDTO {
         movieDTO.setUrl(movie.getUrl());
         movieDTO.setPoster(movie.getPoster());
         movieDTO.setReleaseYear(movie.getReleaseYear());
+        movieDTO.setRuntime(movie.getRuntime());
         movieDTO.setCast(movie.getCast());
         movieDTO.setDirector(movie.getDirector());
         movieDTO.setDescription(movie.getDescription());

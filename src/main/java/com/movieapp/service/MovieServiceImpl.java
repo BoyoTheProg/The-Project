@@ -64,6 +64,7 @@ public class MovieServiceImpl implements MovieService {
                 movie.getUrl(),
                 movie.getPoster(),
                 movie.getReleaseYear(),
+                movie.getRuntime(),
                 movie.getCast(),
                 movie.getDirector(),
                 movie.getDescription(),
@@ -89,6 +90,7 @@ public class MovieServiceImpl implements MovieService {
         // Update the fields of the existing movie with the edited values
         existingMovie.setTitle(editedMovie.getTitle());
         existingMovie.setReleaseYear(editedMovie.getReleaseYear());
+        existingMovie.setRuntime(editedMovie.getRuntime());
         existingMovie.setCast(editedMovie.getCast());
         existingMovie.setDirector(editedMovie.getDirector());
         existingMovie.setDescription(editedMovie.getDescription());

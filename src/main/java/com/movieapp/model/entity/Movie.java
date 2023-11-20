@@ -17,6 +17,8 @@ public class Movie extends BaseEntity{
     private String poster;
     @Column(nullable = false, name = "release_year")
     private int releaseYear;
+    @Column(nullable = false, name = "runtime")
+    private int runtime;
     @Column(nullable = false)
     private String cast;
     @Column(nullable = false)
@@ -113,6 +115,13 @@ public class Movie extends BaseEntity{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 }
 
