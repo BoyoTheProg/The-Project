@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" >
 
 <head>
   <meta charset="UTF-8">
@@ -23,7 +23,7 @@
 <body>
 
 <!-- NAV -->
-<div class="nav-wrapper">
+<header class="nav-wrapper">
   <div class="container">
     <div class="nav">
       <a href="#" class="logo">
@@ -48,16 +48,16 @@
       </div>
     </div>
   </div>
-</div>
+</header>
 <!-- END NAV -->
 
 <!-- HERO SECTION -->
-<ul class="hero-section">
+<div class="hero-section">
   <!-- HERO SLIDE -->
-  <li  th:each="availableMovie : ${movies.availableMovies}" class="hero-slide">
-    <div class="owl-carousel carousel-nav-center" id="hero-carousel">
+  <div   class="hero-slide">
+    <div  class="owl-carousel carousel-nav-center" id="hero-carousel">
       <!-- SLIDE ITEM -->
-      <div class="hero-slide-item">
+      <div th:each="availableMovie : ${movies.availableMovies}" class="hero-slide-item">
         <img th:src="${availableMovie.poster}" alt="">
         <div class="overlay"></div>
         <div class="hero-slide-item-content">
@@ -96,14 +96,16 @@
       <!-- END SLIDE ITEM -->
 
     </div>
-  </li>
+  </div>
   <!-- END HERO SLIDE -->
   <!-- TOP MOVIES SLIDE -->
-  <ul class="top-movies-slide">
-    <li th:each="availableMovie : ${movies.availableMovies}" class="owl-carousel" id="top-movies-slide">
-
+  <div class="top-movies-slide">
+      <div class="section-header">
+          top movies
+      </div>
+    <div class="owl-carousel" id="top-movies-slide">
       <!-- MOVIE ITEM -->
-      <div class="movie-item">
+      <div th:each="availableMovie : ${movies.availableMovies}"  class="movie-item">
         <img th:src="${availableMovie.poster}" alt="">
         <div class="movie-item-content">
           <div class="movie-item-title">
@@ -128,211 +130,53 @@
         </div>
       </div>
       <!-- END MOVIE ITEM -->
-    </li>
-  </ul>
-  <!-- END TOP MOVIES SLIDE -->
-</ul>
-<!-- END HERO SECTION -->
-
-<!-- LATEST MOVIES SECTION -->
-<div class="section">
-  <div class="container">
-    <div class="section-header">
-      latest movies
     </div>
-    <div class="movies-slide carousel-nav-center owl-carousel">
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/theatre-dead.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Theatre of the dead
+  </div>
+  <!-- END TOP MOVIES SLIDE -->
+</div>
+<!-- LATEST MOVIES SECTION -->
+      <div class="section">
+        <div class="container">
+          <div class="section-header">
+            latest movies
           </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
+          <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            <div th:each="availableMovie : ${movies.availableMovies}" href="#" class="movie-item">
+              <img th:src="${availableMovie.poster}" alt="">
+              <div class="movie-item-content">
+                <div class="movie-item-title">
+                  Theatre of the dead
+                </div>
+                <div class="movie-infos">
+                  <div class="movie-info">
+                    <i class="bx bxs-star"></i>
+                    <span>9.5</span>
+                  </div>
+                  <div class="movie-info">
+                    <i class="bx bxs-time"></i>
+                    <span>120 mins</span>
+                  </div>
+                  <div class="movie-info">
+                    <span>HD</span>
+                  </div>
+                  <div class="movie-info">
+                    <span>16+</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/transformer.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Transformer
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/resident-evil.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Resident Evil
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/captain-marvel.png" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Captain Marvel
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/hunter-killer.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Hunter Killer
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/blood-shot.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Bloodshot
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
-      <!-- MOVIE ITEM -->
-      <a href="#" class="movie-item">
-        <img src="./images/movies/call.jpg" alt="">
-        <div class="movie-item-content">
-          <div class="movie-item-title">
-            Call
-          </div>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span>9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span>120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span>16+</span>
-            </div>
-          </div>
-        </div>
-      </a>
-      <!-- END MOVIE ITEM -->
+            <!-- END MOVIE ITEM -->
     </div>
   </div>
 </div>
 <!-- END LATEST MOVIES SECTION -->
-
+<!-- END HERO SECTION -->
 
 <!-- SPECIAL MOVIE SECTION -->
 <div class="section">
   <div class="hero-slide-item">
-    <img src="./images/transformer-banner.jpg" alt="">
+    <img src="./img/transformer.jpg" alt="">
     <div class="overlay"></div>
     <div class="hero-slide-item-content">
       <div class="item-content-wraper">
@@ -526,7 +370,7 @@
 <!-- OWL CAROUSEL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 <!-- APP SCRIPT -->
-<script src="app.js"></script>
+<script src="/JavaScript/app.js"></script>
 
 </body>
 

@@ -5,40 +5,74 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Movie Time</title>
-    <link rel="stylesheet" href="/css/reset-css.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
+<!--    <link rel="stylesheet" href="/css/reset-css.css"/>-->
+<!--    <link rel="stylesheet" href="/css/bootstrap.min.css"/>-->
+<!--    <link rel="stylesheet" href="/css/style.css"/>-->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
 </head>
 
 <body>
 
-<header>
-    <h1>Movie Time</h1>
+<!--<header>-->
+<!--    <h1>Movie Time</h1>-->
 
-    <nav class="navbar navbar-expand-lg bg-nav rounded header" >
-        <a class="nav-link my-text-color active h5 button" href="/home">Movie App</a>
-        <a class="nav-link my-text-color active h5 button " href="/movies/add">Add Movie</a>
+<!--    <nav class="navbar navbar-expand-lg bg-nav rounded header" >-->
+<!--        <a class="nav-link my-text-color active h5 button" href="/home">Movie App</a>-->
+<!--        <a class="nav-link my-text-color active h5 button " href="/movies/add">Add Movie</a>-->
 
-        <div class="collapse navbar-collapse d-flex justify-content-end " id="navbarNav">
-            <ul class="navbar-nav row buttons">
-                <li class="nav-item col-md-4">
-                    <a class="nav-link active h5 my-text-color button" href="/login">Login</a>
-                </li>
+<!--        <div class="collapse navbar-collapse d-flex justify-content-end " id="navbarNav">-->
+<!--            <ul class="navbar-nav row buttons">-->
+<!--                <li class="nav-item col-md-4">-->
+<!--                    <a class="nav-link active h5 my-text-color button" href="/login">Login</a>-->
+<!--                </li>-->
 
-                <li class="nav-item col-md-4">
-                    <a class="nav-link my-text-color active h5 button" href="/register">Register</a>
-                </li>
+<!--                <li class="nav-item col-md-4">-->
+<!--                    <a class="nav-link my-text-color active h5 button" href="/register">Register</a>-->
+<!--                </li>-->
 
-                <a class="nav-link h5 my-text-color button" th:if="${@loggedUser.isLogged}" th:text="${@loggedUser.username}"></a>
-                <li th:if="${@loggedUser.isLogged}" class="nav-item col-md-4">
-                <form th:action="@{/logout}" th:method="POST">
-                    <button type="submit" class="button nav-link my-text-color active h5 ">Logout</button>
-                </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<!--                <a class="nav-link h5 my-text-color button" th:if="${@loggedUser.isLogged}" th:text="${@loggedUser.username}"></a>-->
+<!--                <li th:if="${@loggedUser.isLogged}" class="nav-item col-md-4">-->
+<!--                <form th:action="@{/logout}" th:method="POST">-->
+<!--                    <button type="submit" class="button nav-link my-text-color active h5 ">Logout</button>-->
+<!--                </form>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+    <!-- NAV -->
+    <header class="nav-wrapper">
+        <nav class="container">
+            <div class="nav">
+                <a href="/home" class="logo">
+                    <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
+                </a>
+                <a href="/movies/add" class="logo">
+                    <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color">Add Movie</span>
+                </a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="#">Genres</a></li>
+                    <li><a href="#">About</a></li>
+                    <li>
+                        <a href="/login" class="btn btn-hover">
+                            <span>Log in</span>
+                        </a>
+                        <a href="/register" class="btn btn-hover">
+                            <span>Register</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- MOBILE MENU TOGGLE -->
+                <div class="hamburger-menu" id="hamburger-menu">
+                    <div class="hamburger"></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- END NAV -->
+<!--</header>-->
 
 <div th:fragment="content">
     <!-- Page-specific content goes here -->
@@ -51,6 +85,14 @@
         </div>
     </div>
 </footer>
+
+<!-- SCRIPT -->
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- OWL CAROUSEL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+<!-- APP SCRIPT -->
+<script src="/JavaScript/app.js"></script>
 
 </body>
 

@@ -25,6 +25,7 @@ body {
     padding-top: var(--nav-height);
 }
 
+
 a {
     text-decoration: none;
     color: unset;
@@ -205,8 +206,10 @@ a.movie-item:hover {
 
 .hero-slide-item img {
     width: 100%;
+    height: auto; /* Maintain aspect ratio */
     position: absolute;
-    top: 0;
+    top: 50%; /* Center vertically */
+    transform: translateY(-40%); /* Adjust for half of the image height */
     left: 0;
 }
 
