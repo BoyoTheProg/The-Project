@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/commons::head}"></head>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Movie Time</title>
+        <link rel="stylesheet" href="/css/reset-css.css"/>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<!--        <link rel="stylesheet" href="/css/style.css"/>-->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+</head>
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
-    <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-25 bg-blur"
           th:action="@{/login}"
           th:method="POST"
@@ -47,5 +55,13 @@
     </form>
 </main>
 <footer th:replace="~{fragments/commons::footer}"></footer>
+
+<!-- SCRIPT -->
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- OWL CAROUSEL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+<!-- APP SCRIPT -->
+<script src="/JavaScript/app.js"></script>
 </body>
 </html>
