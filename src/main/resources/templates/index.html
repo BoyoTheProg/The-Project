@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="~{fragments/commons::head}"></head>
 
 <body>
@@ -8,8 +9,14 @@
     <div class="movie-list">
         <!-- Add movie cards here -->
     </div>
+    <th:block sec:authorize="isAuthenticated()">
+        <th:block sec:authentication="name"></th:block>
+    </th:block>
+    <th:block sec:authorize="!isAuthenticated()">
+        Anonymous!
+    </th:block>
     <div class="hero-slide-item">
-        <img src="./img/transformer.jpg" alt="">
+        <img src="./images/transformer.jpg" alt="">
         <div class="buttons">
             <a href="/login" class="btn">Login</a>
             <a href="/register" class="btn">Register</a>

@@ -16,38 +16,43 @@
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
     <form class="mx-auto w-25 bg-blur"
-          th:action="@{/login}"
-          th:method="POST"
-          th:object="${UserLoginBindingDto}">
+          th:method="post"
+          th:action="@{/login}">
 
         <!--    Example: Render errors messages with fields.errors - you can make it differently. -->
         <!--    <div th:each="error: ${#fields.errors()}" th:text="${error}" class="text-danger">Error messages</div>-->
 
-        <div th:if="${hasLoginError}"
-             th:text="'Incorrect username or password!'" class="text-danger"></div>
-        <div th:if="${#fields.hasErrors('username')}"
-             th:errors="*{username}" class="text-danger"></div>
-        <div th:if="${#fields.hasErrors('password')}"
-             th:errors="*{password}" class="text-danger"></div>
-
         <div class="form-group">
-            <div class="label-holder text-white d-flex justify-content-center">
-                <label for="username" class="h3 mb-2">Username</label>
-            </div>
-            <input type="text" class="form-control" id="username"
-                   th:field="*{username}"
-                   th:errorclass="bg-danger"/>
+            <label for="username" class="text-white font-weight-bold">Username</label>
+            <input id="username"
+                   name="username"
+                   th:value="${username}"
+                   type="text"
+                   class="form-control"
+                   placeholder="Username"/>
+        </div>
+        <div class="form-group">
+            <label for="password" class="text-white font-weight-bold">Password</label>
+            <input id="password"
+                   name="password"
+                   type="password" min="3"
+                   max="20" class="form-control"
+                   placeholder="Password"/>
+
         </div>
 
         <div class="form-group">
-            <div class="label-holder text-white d-flex justify-content-center">
-                <label for="password" class="h3 mb-2">Password</label>
-            </div>
-            <input type="password" class="form-control" id="password"
-                   th:field="*{password}"
-                   th:errorclass="bg-danger"/>
+            <label for="rememberme" class="text-white font-weight-bold">Remember me</label>
+            <input  id="rememberme"
+                    name="rememberme"
+                    type="checkbox"
+                    class="form-control"/>
+
         </div>
 
+        <p th:if="${bad_credentials}" class="errors alert alert-danger">
+            Invalid username or password.
+        </p>
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-warning  mb-3">Login</button>
         </div>
@@ -56,12 +61,6 @@
 </main>
 <footer th:replace="~{fragments/commons::footer}"></footer>
 
-<!-- SCRIPT -->
-<!-- JQUERY -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<!-- OWL CAROUSEL -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
-<!-- APP SCRIPT -->
-<script src="/JavaScript/app.js"></script>
+
 </body>
 </html>

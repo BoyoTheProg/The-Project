@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en" >
 
 <head>
   <meta charset="UTF-8">
@@ -34,11 +34,14 @@
         <li><a href="#">Genres</a></li>
         <li><a href="#">About</a></li>
         <li>
-          <a href="/login" class="btn btn-hover">
+          <a href="/login" class="btn btn-hover" >
             <span>Log in</span>
           </a>
-          <a href="/register" class="btn btn-hover">
+          <a href="/register" class="btn btn-hover" >
             <span>Register</span>
+          </a>
+          <a href="/logout" class="btn btn-hover" >
+            <span>Logout</span>
           </a>
         </li>
       </ul>
@@ -57,35 +60,35 @@
   <div   class="hero-slide">
     <div  class="owl-carousel carousel-nav-center" id="hero-carousel">
       <!-- SLIDE ITEM -->
-      <div th:each="availableMovie : ${movies.availableMovies}" class="hero-slide-item">
-        <img th:src="${availableMovie.poster}" alt="">
+      <div th:each="movie : ${movies}" class="hero-slide-item">
+        <img th:src="${movie.poster}" alt="">
         <div class="overlay"></div>
         <div class="hero-slide-item-content">
           <div class="item-content-wraper">
-            <div class="item-content-title top-down" th:text="${availableMovie.title}">
+            <div class="item-content-title top-down" th:text="${movie.title}">
               Black Panther
             </div>
             <div class="movie-infos top-down delay-2">
               <div class="movie-info">
                 <i class="bx bxs-star"></i>
-                <span th:text="${availableMovie.rating}">9.5</span>
+                <span th:text="${movie.rating}">9.5</span>
               </div>
               <div class="movie-info">
                 <i class="bx bxs-time"></i>
-                <span th:text="${availableMovie.runtime} + ' mins'">120 mins</span>
+                <span th:text="${movie.runtime} + ' mins'">120 mins</span>
               </div>
               <div class="movie-info">
                 <span>HD</span>
               </div>
               <div class="movie-info">
-                <span th:text="${availableMovie.category}">16+</span>
+                <span th:text="${movie.category}">16+</span>
               </div>
             </div>
-            <div class="item-content-description top-down delay-4" th:text="${availableMovie.description}">
+            <div class="item-content-description top-down delay-4" th:text="${movie.description}">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, possimus eius. Deserunt non odit, cum vero reprehenderit laudantium odio vitae autem quam, incidunt molestias ratione mollitia accusantium, facere ab suscipit.
             </div>
             <div class="item-action top-down delay-6">
-              <a th:href="@{'/movies/' + ${availableMovie.id}}" class="btn btn-hover">
+              <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-hover">
                 <i class="bx bxs-right-arrow"></i>
                 <span>Watch now</span>
               </a>
@@ -105,26 +108,26 @@
       </div>
     <div class="owl-carousel" id="top-movies-slide">
       <!-- MOVIE ITEM -->
-      <div th:each="availableMovie : ${movies.availableMovies}"  class="movie-item">
-        <img th:src="${availableMovie.poster}" alt="" class="movie-item-img">
+      <div th:each="movie : ${movies}"  class="movie-item">
+        <img th:src="${movie.poster}" alt="" class="movie-item-img">
         <div class="movie-item-content">
-          <div class="movie-item-title" th:text="${availableMovie.title}">
+          <div class="movie-item-title" th:text="${movie.title}">
             The Dark Knight
           </div>
           <div class="movie-infos">
             <div class="movie-info">
               <i class="bx bxs-star"></i>
-              <span th:text="${availableMovie.rating}">9.5</span>
+              <span th:text="${movie.rating}">9.5</span>
             </div>
             <div class="movie-info">
               <i class="bx bxs-time"></i>
-              <span th:text="${availableMovie.runtime} + ' mins'">120 mins</span>
+              <span th:text="${movie.runtime} + ' mins'">120 mins</span>
             </div>
             <div class="movie-info">
               <span>HD</span>
             </div>
             <div class="movie-info">
-              <span th:text="${availableMovie.category}">16+</span>
+              <span th:text="${movie.category}">16+</span>
             </div>
           </div>
         </div>
@@ -142,26 +145,26 @@
           </div>
           <div class="movies-slide carousel-nav-center owl-carousel">
             <!-- MOVIE ITEM -->
-            <div th:each="availableMovie : ${movies.availableMovies}" href="#" class="movie-item">
-              <img th:src="${availableMovie.poster}" alt="" class="movie-item-img">
+            <div th:each="movie : ${movies}" href="#" class="movie-item">
+              <img th:src="${movie.poster}" alt="" class="movie-item-img">
               <div class="movie-item-content">
-                <div class="movie-item-title" th:text="${availableMovie.title}">
+                <div class="movie-item-title" th:text="${movie.title}">
                   Theatre of the dead
                 </div>
                 <div class="movie-infos">
                   <div class="movie-info">
                     <i class="bx bxs-star"></i>
-                    <span th:text="${availableMovie.rating}">9.5</span>
+                    <span th:text="${movie.rating}">9.5</span>
                   </div>
                   <div class="movie-info">
                     <i class="bx bxs-time"></i>
-                    <span th:text="${availableMovie.runtime} + ' mins'">120 mins</span>
+                    <span th:text="${movie.runtime} + ' mins'">120 mins</span>
                   </div>
                   <div class="movie-info">
                     <span>HD</span>
                   </div>
                   <div class="movie-info">
-                    <span th:text="${availableMovie.category}">16+</span>
+                    <span th:text="${movie.category}">16+</span>
                   </div>
                 </div>
               </div>
@@ -176,7 +179,7 @@
 <!-- SPECIAL MOVIE SECTION -->
 <div class="section">
   <div class="hero-slide-item">
-    <img src="./img/transformer.jpg" alt="">
+    <img src="./images/transformer.jpg" alt="">
     <div class="overlay"></div>
     <div class="hero-slide-item-content">
       <div class="item-content-wraper">

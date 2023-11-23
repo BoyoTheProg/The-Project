@@ -18,7 +18,7 @@ public class Subscription extends BaseEntity{
     @ManyToOne
     private Plan plan;
     @OneToOne
-    private User user;
+    private UserEntity userEntity;
 
     public LocalDate getCreatedOn() {
         return createdOn;
@@ -44,12 +44,12 @@ public class Subscription extends BaseEntity{
         this.plan = plan;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
 

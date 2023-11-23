@@ -52,10 +52,9 @@
 
     <div class="movie-title" th:text="${movie.title}">Movie Title</div>
 <!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
-        <video width="720px" height="360px" controls>
-            <source th:src="@{${movie.url}}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <iframe  width="560" height="315" allowfullscreen src="">
+
+    </iframe>
 
         <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
 <!--    </div>-->

@@ -10,7 +10,7 @@ public class Review extends BaseEntity{
     @Length(min = 3)
     private String review;
     @ManyToOne
-    private User user;
+    private UserEntity userEntity;
     @ManyToOne
     private Movie movie;
 
@@ -22,12 +22,12 @@ public class Review extends BaseEntity{
         this.review = review;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     public Movie getMovie() {

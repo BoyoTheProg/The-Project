@@ -2,7 +2,6 @@ package com.movieapp.controller;
 
 import com.movieapp.model.dto.movie.MovieAddBindingDto;
 import com.movieapp.service.MovieService;
-import com.movieapp.service.impl.LoggedUser;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,11 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class MovieController {
     private final MovieService movieService;
 
-    private final LoggedUser loggedUser;
 
-    public MovieController(MovieService movieService, LoggedUser loggedUser) {
+    public MovieController(MovieService movieService) {
         this.movieService = movieService;
-        this.loggedUser = loggedUser;
     }
 
     @GetMapping("/movies/add")
@@ -36,9 +33,6 @@ public class MovieController {
             @ModelAttribute("movieAddBindingDto") @Valid MovieAddBindingDto movieAddBindingDto
             ,BindingResult bindingResult){
 
-        if (!loggedUser.isLogged()){
-            return new ModelAndView("redirect:/");
-        }
 
         if (bindingResult.hasErrors()){
             return new ModelAndView("movie-add");
