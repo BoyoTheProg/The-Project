@@ -54,8 +54,8 @@
                 <a href="/home" class="logo">
                     <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
                 </a>
-                <a href="/movies/add" class="logo">
-                    <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color">Add Movie</span>
+                <a href="/movies/add" class="logo" sec:authorize="hasRole('ADMIN')">
+                    <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color" >Add Movie</span>
                 </a>
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="/home">Home</a></li>
@@ -63,15 +63,15 @@
                     <li><a href="#">About</a></li>
                     <li>
                         <a href="/login" class="btn btn-hover" >
-                            <span>Log in</span>
+                            <span sec:authorize="!isAuthenticated()">Log in</span>
                         </a>
                         <a href="/register" class="btn btn-hover" >
-                            <span>Register</span>
+                            <span sec:authorize="!isAuthenticated()">Register</span>
                         </a>
 
                         <form th:method="post"
-                              th:action="@{/logout}">
-                            <input type="submit" class="btn btn-link" value="Logout"/>
+                              th:action="@{/logout}" >
+                            <input type="submit" class="btn btn-link" value="Logout" sec:authorize="isAuthenticated()"/>
                         </form>
                     </li>
                 </ul>

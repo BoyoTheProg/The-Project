@@ -1,6 +1,7 @@
 package com.movieapp.controller;
 
 import com.movieapp.model.dto.user.UserRegisterBindingDto;
+import com.movieapp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
+
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @GetMapping("/login")
     public String login(){
@@ -33,21 +41,29 @@ public class UserController {
 
 
 
-    @GetMapping("/register")
-    public ModelAndView register(@ModelAttribute("UserRegisterBindingDto") UserRegisterBindingDto userRegisterBindingDto){
+//    @PostMapping("/register")
+//    public ModelAndView register(@ModelAttribute("UserRegisterBindingDto") @Valid UserRegisterBindingDto userRegisterBindingDto
+//            , BindingResult bindingResult){
+//
+//
+//        if (bindingResult.hasErrors()){
+//            return new ModelAndView("register");
+//        }
+//
+//        return new ModelAndView("redirect:/login");
+//    }
 
-        return new ModelAndView("register");
+    @GetMapping("/register")
+    public String register() {
+        return "register";
     }
 
     @PostMapping("/register")
-    public ModelAndView register(@ModelAttribute("UserRegisterBindingDto") @Valid UserRegisterBindingDto userRegisterBindingDto
-            , BindingResult bindingResult){
+    public String register(UserRegisterBindingDto userRegistrationDTO) {
 
 
-        if (bindingResult.hasErrors()){
-            return new ModelAndView("register");
-        }
+        userService.register(userRegistrationDTO);
 
-        return new ModelAndView("redirect:/login");
+        return "redirect:/login";
     }
 }

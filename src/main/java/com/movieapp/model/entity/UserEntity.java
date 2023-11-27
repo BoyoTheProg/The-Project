@@ -1,10 +1,11 @@
 package com.movieapp.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +21,13 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false, unique = true)
     @Email
     private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<RoleEntity> roles = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -43,6 +51,14 @@ public class UserEntity extends BaseEntity{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
 

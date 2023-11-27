@@ -1,7 +1,10 @@
 package com.movieapp.service;
 
+import com.movieapp.model.entity.RoleEntity;
 import com.movieapp.model.entity.UserEntity;
 import com.movieapp.repo.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,18 +22,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         return userRepository
+        return userRepository
                 .findByUsername(username)
-                .map(this::map)
+                .map(UserDetailsServiceImpl::map)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found!"));
-
     }
 
-    private UserDetails map(UserEntity userEntity){
+    private static UserDetails map(UserEntity userEntity) {
         return User
                 .withUsername(userEntity.getUsername())
                 .password(userEntity.getPassword())
-                .authorities(List.of())
+                .authorities(userEntity.getRoles().stream().map(UserDetailsServiceImpl::map).toList())
                 .build();
+    }
+
+    private static GrantedAuthority map(RoleEntity roleEntity) {
+        return new SimpleGrantedAuthority(
+                "ROLE_" + roleEntity.getRole().name()
+        );
     }
 }

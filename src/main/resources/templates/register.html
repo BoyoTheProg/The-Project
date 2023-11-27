@@ -8,60 +8,110 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Register</span></h1>
 
     <form class="mx-auto w-25 bg-blur rounded"
-          th:method="POST"
-          th:action="@{/register}"
-          th:object="${UserRegisterBindingDto}">
+          th:method="post"
+          th:action="@{/register}">
 
-        <div class="form-group">
-            <div class="label-holder textCol d-flex justify-content-center">
-                <label for="username" class="h4 mb-2 text-white">Username</label>
-            </div>
+<!--        <div class="form-group">-->
+<!--            <div class="label-holder textCol d-flex justify-content-center">-->
+<!--                <label for="username" class="h4 mb-2 text-white">Username</label>-->
+<!--            </div>-->
 
-            <!--        Example: Render errors messages with th:errorclass "is-invalid" and class "invalid-feedback" - you can make it differently. -->
-            <!--        <input th:field="*{username}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control"-->
-            <!--               id="username" name="username"/>-->
-            <!--        <small class="invalid-feedback text-danger">Username error message</small>-->
+<!--                    Example: Render errors messages with th:errorclass "is-invalid" and class "invalid-feedback" - you can make it differently. -->
+<!--                    <input th:field="*{username}" th:errorclass="'is-invalid alert-danger'" type="text" class="form-control"-->
+<!--                           id="username" name="username"/>-->
+<!--                    <small class="invalid-feedback text-danger">Username error message</small>-->
 
-            <div th:if="${hasRegistrationError}" class="text-danger"> Registration Error occurred
-            </div>
+<!--            <div th:if="${hasRegistrationError}" class="text-danger"> Registration Error occurred-->
+<!--            </div>-->
 
-            <input type="text" class="form-control" id="username"
-                   th:field="*{username}"
-                   th:errorclass="bg-danger"/>
-            <small th:if="${#fields.hasErrors('username')}"
-                   th:errors="*{username}" class="text-danger">Username error message</small>
+<!--            <input type="text" class="form-control" id="username"-->
+<!--                   th:field="*{username}"-->
+<!--                   th:errorclass="bg-danger"/>-->
+<!--            <small th:if="${#fields.hasErrors('username')}"-->
+<!--                   th:errors="*{username}" class="text-danger">Username error message</small>-->
+<!--        </div>-->
+
+        <div class="form-group ">
+            <label for="username" class="text-white font-weight-bold">Username</label>
+            <input id="username"
+                   name="username"
+                   type="text"
+                   class="form-control"
+                   placeholder="Username"/>
+            <p class="errors alert alert-danger">
+                Username is required.
+            </p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="email" class="h4 mb-2">Email</label>
-            </div>
-            <input type="email" class="form-control" id="email"
-                   th:field="*{email}"
-                   th:errorclass="bg-danger"/>
-            <small th:if="${#fields.hasErrors('email')}"
-                   th:errors="*{email}" class="text-danger">Email error message</small>
+
+<!--        <div class="form-group">-->
+<!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
+<!--                <label for="email" class="h4 mb-2">Email</label>-->
+<!--            </div>-->
+<!--            <input type="email" class="form-control" id="email"-->
+<!--                   th:field="*{email}"-->
+<!--                   th:errorclass="bg-danger"/>-->
+<!--            <small th:if="${#fields.hasErrors('email')}"-->
+<!--                   th:errors="*{email}" class="text-danger">Email error message</small>-->
+<!--        </div>-->
+
+        <div class="form-group ">
+            <label for="email" class="text-white font-weight-bold">Email</label>
+            <input id="email"
+                   name="email"
+                   type="text"
+                   class="form-control"
+                   placeholder="Email"/>
+            <p class="errors alert alert-danger">
+                Email is required.
+            </p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="password" class="h4 mb-2">Password</label>
-            </div>
-            <input type="password" class="form-control" id="password"
-                   th:field="*{password}"
-                   th:errorclass="bg-danger"/>
-            <small th:if="${#fields.hasErrors('password')}"
-                   th:errors="*{password}" class="text-danger">Password error message</small>
+<!--        <div class="form-group">-->
+<!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
+<!--                <label for="password" class="h4 mb-2">Password</label>-->
+<!--            </div>-->
+<!--            <input type="password" class="form-control" id="password"-->
+<!--                   th:field="*{password}"-->
+<!--                   th:errorclass="bg-danger"/>-->
+<!--            <small th:if="${#fields.hasErrors('password')}"-->
+<!--                   th:errors="*{password}" class="text-danger">Password error message</small>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
+<!--                <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>-->
+<!--            </div>-->
+<!--            <input type="password" class="form-control" id="confirmPassword"-->
+<!--                   th:field="*{confirmPassword}"-->
+<!--                   th:classappend="${#fields.hasErrors('password')} ? bg-danger"/>-->
+<!--        </div>-->
+
+
+        <div class="form-group ">
+            <label for="password" class="text-white font-weight-bold">Password</label>
+            <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"/>
+            <p class="errors alert alert-danger">
+                Password is required.
+            </p>
+        </div>
+        <div class="form-group ">
+            <label for="confirmPassword" class="text-white font-weight-bold">Confirm Password</label>
+            <input id="confirmPassword"
+                   name="confirmPassword"
+                   type="password"
+                   class="form-control"
+                   placeholder="Confirm password"/>
+            <p class="errors alert alert-danger">
+                Password confirmation is required.
+            </p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>
-            </div>
-            <input type="password" class="form-control" id="confirmPassword"
-                   th:field="*{confirmPassword}"
-                   th:classappend="${#fields.hasErrors('password')} ? bg-danger"/>
-        </div>
 
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-warning  mb-3" value="Register">Register</button>
