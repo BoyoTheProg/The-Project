@@ -13,12 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests(
                 authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/login", "/register", "/home", "/login-error").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/login-error").permitAll()
                         .anyRequest().authenticated()
         ).formLogin(
                 formLogin -> {

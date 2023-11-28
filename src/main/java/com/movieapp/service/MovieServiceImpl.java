@@ -36,6 +36,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setCategory(movieAddBindingDto.getCategory());
             movie.setGenre(movieAddBindingDto.getGenre());
             movie.setRating(movieAddBindingDto.getRating());
+            movie.setRuntime(movieAddBindingDto.getRuntime());
 
             movieRepository.save(movie);
         }

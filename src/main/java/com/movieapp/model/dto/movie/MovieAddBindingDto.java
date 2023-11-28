@@ -9,11 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 
-import java.time.Year;
-
 
 public class MovieAddBindingDto {
-    private final int year = Year.now().getValue();
 
     @NotNull(message = "You must enter the title!")
     private String title;
@@ -122,10 +119,6 @@ public class MovieAddBindingDto {
 
     public void setRating(double rating) {
         this.rating = rating;
-    }
-
-    public int getYear() {
-        return year;
     }
 
     public int getRuntime() {

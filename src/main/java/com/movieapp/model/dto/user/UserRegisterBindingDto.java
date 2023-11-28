@@ -1,23 +1,32 @@
 package com.movieapp.model.dto.user;
 
+import com.movieapp.model.entity.Plan;
+import com.movieapp.model.enums.SubscriptionType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
 
 public class UserRegisterBindingDto {
     @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
+    @NotNull
     private String username;
 
     @Size(min = 3, max = 20, message = "Password length must be between 3 and 20 characters!")
+    @NotNull
     private String password;
 
+    @NotNull
     private String confirmPassword;
 
     @Email
     @NotBlank(message = "Email cannot be empty!")
     private String email;
+
+
+    private Plan plan;
 
     public String getUsername() {
         return username;
@@ -49,5 +58,13 @@ public class UserRegisterBindingDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 }

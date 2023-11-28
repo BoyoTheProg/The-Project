@@ -22,6 +22,9 @@ public class UserEntity extends BaseEntity{
     @Email
     private String email;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Subscription subscription;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -51,6 +54,14 @@ public class UserEntity extends BaseEntity{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
     public List<RoleEntity> getRoles() {

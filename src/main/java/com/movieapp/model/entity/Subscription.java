@@ -15,10 +15,13 @@ public class Subscription extends BaseEntity{
     @Column(nullable = false, name = "valid_till")
     @Future
     private LocalDate validTill;
-    @ManyToOne
-    private Plan plan;
     @OneToOne
+    @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "plan_id")
+    private Plan plan;
 
     public LocalDate getCreatedOn() {
         return createdOn;
