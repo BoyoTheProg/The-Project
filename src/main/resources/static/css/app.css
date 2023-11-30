@@ -25,6 +25,25 @@ body {
     padding-top: var(--nav-height);
 }
 
+.welcome-page {
+    position: relative;
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-image: url("/images/index.jpg");
+}
+.welcome-page {
+
+    opacity: 1.0;
+}
+.welcome-page hover {
+  opacity: 0.7;
+}
 
 a {
     text-decoration: none;
@@ -140,6 +159,70 @@ a.movie-item:hover {
 
 .btn i {
     margin-right: 1rem;
+}
+
+.buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: inline-flex;
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button-auto-width {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.button:hover {
+    background-color: red;
+    color: #111;
+    transition: 0.3s ease-in-out;
+}
+
+/* Add this style for the Remove Button */
+.button-remove {
+    background-color: #d9534f; /* Red color for remove button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Remove Button hover effect */
+.button-remove:hover {
+    background-color: #c9302c; /* Darker red color on hover */
+}
+
+
+
+/* Style for the Edit Movie button */
+.button-edit {
+    background-color: #e50914; /* Netflix red color */
+    color: white;
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Edit Button hover effect */
+.button-edit:hover {
+    background-color: #cc0812; /* Darker red color on hover */
 }
 
 .hamburger-menu {
@@ -614,4 +697,63 @@ footer .content {
     .nav-menu.active {
         left: 0;
     }
+}
+
+/* Styles for the movie-view class */
+.movie-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #141414;
+    color: white;
+    width: 900px;
+    margin-left: 300px;
+}
+
+.movie-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.video-player {
+    width: 720px;
+    height: 480px;
+    margin-bottom: 20px;
+    /* Add any specific styles for the video player */
+}
+
+.poster {
+    max-width: 640px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.movie-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.movie-details-left {
+    flex: 1;
+}
+
+.movie-details-right {
+    flex: 1;
+}
+
+.release-year,
+.cast,
+.director,
+.genre,
+.category,
+.rating {
+    margin-bottom: 10px;
+}
+
+.description {
+    line-height: 1.5;
+    margin-bottom: 20px;
 }

@@ -1,0 +1,27 @@
+<!-- add.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Review</title>
+</head>
+<body>
+<h2>Add Review</h2>
+<form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
+    <input type="hidden" th:field="*{movie.id}">
+
+    <label >User:</label>
+    <th:block sec:authorize="isAuthenticated()">
+        <th:block sec:authentication="name"></th:block>
+    </th:block>
+    <br>
+
+    <label for="review">Review:</label>
+    <textarea id="review" name="review" th:field="*{review}" required></textarea>
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+<a th:href="@{/movies/{movieId}}">Back to Reviews</a>
+</body>
+</html>

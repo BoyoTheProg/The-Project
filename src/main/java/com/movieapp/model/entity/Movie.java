@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Entity
 @Table(name = "movies")
 public class Movie extends BaseEntity{
@@ -36,6 +38,9 @@ public class Movie extends BaseEntity{
     @Min(1)
     @Max(10)
     private double rating;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
 
     public String getTitle() {
@@ -122,6 +127,14 @@ public class Movie extends BaseEntity{
 
     public void setRuntime(int runtime) {
         this.runtime = runtime;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
 

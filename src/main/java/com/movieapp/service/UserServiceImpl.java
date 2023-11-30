@@ -2,16 +2,19 @@ package com.movieapp.service;
 
 
 import com.movieapp.model.dto.user.UserRegisterBindingDto;
-import com.movieapp.model.entity.Plan;
 import com.movieapp.model.entity.Subscription;
 import com.movieapp.model.entity.UserEntity;
 import com.movieapp.repo.PlanRepository;
 import com.movieapp.repo.SubscriptionRepository;
 import com.movieapp.repo.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -70,4 +73,25 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public UserEntity getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof User) {
+                // Spring Security User object, extract the username
+                String username = ((User) principal).getUsername();
+
+                // Assuming you have a method to get the user by username returning Optional<UserEntity>
+                Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+
+                // Return the UserEntity if present in the Optional
+                return userEntityOptional.orElse(null);
+            }
+        }
+
+        return null;
+    }
 }

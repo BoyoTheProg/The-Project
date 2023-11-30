@@ -12,6 +12,7 @@ public class Review extends BaseEntity{
     @ManyToOne
     private UserEntity userEntity;
     @ManyToOne
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     public String getReview() {

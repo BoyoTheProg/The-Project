@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<html xmlns:th="http://www.thymeleaf.org" lang="en"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/commons::head}"></head>
 
 <body>
@@ -78,15 +78,24 @@
     <div class="description" th:text="${movie.description}">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
     </div>
+    <div>
+        <ul>
+            <li th:each="review : ${reviews}">
+                <p th:text="${review.userEntity.username + ': ' + review.review}"></p>
+            </li>
+        </ul>
+        <a th:href="@{'/movies/reviews/add/' + ${movie.id}}">Add Review</a>
+        <a th:href="@{/home}">Back to Movies</a>
+    </div>
 
 
     <!-- Remove Button -->
-    <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post">
+    <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post" sec:authorize="hasRole('ADMIN')">
         <button type="submit" class="button-remove">Remove Movie</button>
     </form>
 
     <!-- Add this button within the movie-view div in movie.html -->
-    <button type="button" class="button-edit" onclick="redirectToEdit()">Edit Movie</button>
+    <button type="button" class="button-edit" onclick="redirectToEdit()" sec:authorize="hasRole('ADMIN')">Edit Movie</button>
 
 
 </div>
