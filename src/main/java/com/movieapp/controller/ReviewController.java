@@ -47,4 +47,32 @@ public class ReviewController {
         reviewService.saveReview(movieId, review);
         return "redirect:/movies/{movieId}";
     }
+
+    @GetMapping("/reviews/edit/{reviewId}")
+    public String showEditForm(@PathVariable Long reviewId, Model model) {
+        Review review = reviewService.getReviewById(reviewId);
+
+        model.addAttribute("review", review);
+
+        return "edit-review";
+    }
+
+    @PutMapping("/reviews/edit/{reviewId}")
+    public String editReview(@PathVariable Long reviewId, @ModelAttribute("editedReview") Review editedReview) {
+        Movie movie = movieService.getMovieByReviewId(reviewId);
+
+        reviewService.editReview(reviewId, editedReview);
+
+        return "redirect:/movies/" + movie.getId();
+    }
+
+    @PostMapping("/reviews/delete/{reviewId}")
+    public String deleteReview(@PathVariable Long reviewId) {
+        Movie movie = movieService.getMovieByReviewId(reviewId);
+
+        reviewService.deleteReview(reviewId);
+
+
+        return "redirect:/movies/" + movie.getId();
+    }
 }

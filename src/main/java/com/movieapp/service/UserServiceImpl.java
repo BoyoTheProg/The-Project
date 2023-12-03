@@ -94,4 +94,10 @@ public class UserServiceImpl implements UserService {
 
         return null;
     }
+
+    @Override
+    public UserEntity getUserById(Long userId) {
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        return userOptional.orElse(null);
+    }
 }

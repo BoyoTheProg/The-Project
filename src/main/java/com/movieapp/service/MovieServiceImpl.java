@@ -5,7 +5,9 @@ import com.movieapp.model.dto.movie.MovieDTO;
 import com.movieapp.model.dto.movie.MovieDetailDto;
 import com.movieapp.model.dto.movie.MovieHomeDto;
 import com.movieapp.model.entity.Movie;
+import com.movieapp.model.entity.Review;
 import com.movieapp.repo.MovieRepository;
+import com.movieapp.repo.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,11 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
+    private final ReviewRepository reviewRepository;
 
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, ReviewRepository reviewRepository) {
         this.movieRepository = movieRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -24,8 +28,8 @@ public class MovieServiceImpl implements MovieService {
 //        Movie movie = movieRepository.findByTitle(movieAddBindingDto.getTitle());
 
 
-        if (movieRepository.count() >= 0){
-            Movie movie= new Movie();
+        if (movieRepository.count() >= 0) {
+            Movie movie = new Movie();
             movie.setTitle(movieAddBindingDto.getTitle());
             movie.setCast(movieAddBindingDto.getCast());
             movie.setDirector(movieAddBindingDto.getDirector());
@@ -57,7 +61,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDetailDto getMovieViewData(Long id){
+    public MovieDetailDto getMovieViewData(Long id) {
         MovieDTO movie = MovieDTO.createFromMovie(movieRepository.getById(id));
 
         return new MovieDetailDto(
@@ -102,4 +106,19 @@ public class MovieServiceImpl implements MovieService {
         // Save the updated movie back to the database
         movieRepository.save(existingMovie);
     }
+
+    @Override
+    public Movie getMovieByReviewId(Long reviewId) {
+        // Fetch the review by ID
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+
+        // Check if the review is not null and has an associated movie
+        if (review != null && review.getMovie() != null) {
+            return review.getMovie();
+        }
+
+        // Return null if the review or associated movie is not found
+        return null;
+    }
 }
+

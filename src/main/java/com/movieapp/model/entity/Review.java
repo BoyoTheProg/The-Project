@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 @Table(name = "reviews")
 public class Review extends BaseEntity{
     @Column
-    @Length(min = 3)
+    @Length(min = 1)
     private String review;
     @ManyToOne
     private UserEntity userEntity;
@@ -23,7 +23,7 @@ public class Review extends BaseEntity{
         this.review = review;
     }
 
-    public UserEntity getUser() {
+    public UserEntity getUserEntity() {
         return userEntity;
     }
 

@@ -9,4 +9,6 @@ public interface UserService {
     boolean register(UserRegisterBindingDto userRegisterBindingDto) throws Exception;
 
     UserEntity getCurrentUser();
+
+    UserEntity getUserById(Long id);
 }

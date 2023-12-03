@@ -1,63 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/commons::head}"></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Movie Time</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <!--    <link rel="stylesheet" href="/css/style.css"/>-->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+          rel="stylesheet">
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <
+    <style>
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .form-container {
+            max-width: 400px;
+        }
+
+        .btn-pop {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cancel {
+            background-color: #ccc;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
 
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
 <div class="movie-view">
-    <!-- Display detailed information about the movie -->
-<!--    <h2 th:text="${movie.title}">Movie Title</h2>-->
-<!--    <img th:src="${movie.poster}" alt="Movie Image" class="movie-image" />-->
-<!--    <p th:text="${movie.description}">Movie Description</p>-->
-
-<!--    <div class="buttons">-->
-<!--        <a href="index.html" class="button">Homepage</a>-->
-<!--        <a href="login.html" class="button">Login</a>-->
-<!--        <a href="register.html" class="button">Register</a>-->
-<!--    </div>-->
-
-
-<!--        &lt;!&ndash; Movie Title &ndash;&gt;-->
-<!--        <h1 th:text="${movie.title}">Movie Title</h1>-->
-
-<!--        &lt;!&ndash; Video Player &ndash;&gt;-->
-
-
-<!--        &lt;!&ndash; Poster &ndash;&gt;-->
-<!--        <img th:src="${movie.poster}" alt="Movie Poster" class="poster">-->
-
-<!--        &lt;!&ndash; Release Year &ndash;&gt;-->
-<!--        <p th:text="'Release Year: ' + ${movie.releaseYear}" class="release-year">Release Year: 2023</p>-->
-
-<!--        &lt;!&ndash; Cast &ndash;&gt;-->
-<!--        <p th:text="'Cast: ' + ${movie.cast}" class="cast">Cast: Actor 1, Actor 2, Actor 3</p>-->
-
-<!--        &lt;!&ndash; Director &ndash;&gt;-->
-<!--        <p th:text="'Director: ' + ${movie.director}" class="director">Director: Director Name</p>-->
-
-<!--        &lt;!&ndash; Description &ndash;&gt;-->
-<!--        <p  th:text="${movie.description}" class="description">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod purus nec neque fringilla, vel cursus arcu laoreet.-->
-<!--        </p>-->
-
-<!--        &lt;!&ndash; Genre &ndash;&gt;-->
-<!--        <p th:text="'Genre: ' + ${movie.genre}" class="genre">Genre: Action</p>-->
-
-<!--        &lt;!&ndash; Category &ndash;&gt;-->
-<!--        <p th:text="'Category: ' + ${movie.category}" class="category">Category: Drama</p>-->
-
-<!--        &lt;!&ndash; Rating &ndash;&gt;-->
-<!--        <p th:text="'Rating: ' + ${movie.rating}" class="rating">Rating: 4.5/5</p>-->
 
 
     <div class="movie-title" th:text="${movie.title}">Movie Title</div>
-<!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
-    <iframe  width="560" height="315" allowfullscreen src="">
+    <!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
+    <iframe width="560" height="315" allowfullscreen src="">
 
     </iframe>
 
-        <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
-<!--    </div>-->
+    <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
+    <!--    </div>-->
 
 
     <div class="movie-details">
@@ -80,9 +85,24 @@
     </div>
     <div>
         <ul>
-            <li th:each="review : ${reviewService.getReviewsByMovieId(${movie.id})">
+            <th:block th:each="review : ${reviews}">
+            <li>
+                <!-- Display review information -->
                 <p th:text="${review.userEntity.username + ': ' + review.review}"></p>
+
+                <!-- Edit Button -->
+                <button type="button" class="button-edit" th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit</button>
+
+                <!-- Delete Form -->
+                <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post" sec:authorize="hasRole('ADMIN')">
+                    <button type="submit" class="button-remove">Delete</button>
+                </form>
+
+                <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
+
+                </div>
             </li>
+        </th:block>
         </ul>
         <a th:href="@{'/movies/reviews/add/' + ${movie.id}}">Add Review</a>
         <a th:href="@{/home}">Back to Movies</a>
@@ -95,11 +115,13 @@
     </form>
 
     <!-- Add this button within the movie-view div in movie.html -->
-    <button type="button" class="button-edit" onclick="redirectToEdit()" sec:authorize="hasRole('ADMIN')">Edit Movie</button>
+    <button type="button" class="button-edit" onclick="redirectToEdit()" sec:authorize="hasRole('ADMIN')">Edit Movie
+    </button>
 
 
 </div>
-<script>
+<!--<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
+<script th:inline="javascript">
     function redirectToEdit() {
         var movieId = [[${movie.id}]];
 
@@ -110,9 +132,29 @@
             console.error('Movie ID not available.');
         }
     }
+
+function openEditForm(reviewId) {
+        // Dynamically load the edit form content into the container
+        console.log('Review ID:', reviewId);
+        $('#editReviewFormContainer_' + reviewId).load('/movies/reviews/edit/' + reviewId, function() {
+            // Optionally, you can customize the loaded content or perform additional actions
+            // For example, you might set the reviewId in the loaded content if needed
+            // $('#editReviewFormContainer_' + reviewId).find('#editedReview').attr('th:name', 'editedReview_' + reviewId);
+        });
+
+        // Display the popup form
+        $('#editReviewFormContainer_' + reviewId ).fadeIn();
+    }
+
+    function closeEditForm(reviewId) {
+        // Close the popup form
+        $('#editReviewFormContainer_' + reviewId).fadeOut();
+    }
+
 </script>
 
 <footer th:replace="~{fragments/commons::footer}"></footer>
+
 </body>
 
 </html>
