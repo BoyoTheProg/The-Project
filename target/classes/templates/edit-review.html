@@ -1,0 +1,75 @@
+<!-- edit-review.html -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Review</title>
+    <style>
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .form-container {
+            max-width: 400px;
+        }
+
+        .btn-pop {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cancel {
+            background-color: #ccc;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <form th:action="@{'/movies/reviews/edit/' + ${review.id}}" method="post" class="form-container">
+        <input type="hidden" name="_method" value="put" />
+        <!-- Assuming you have an input field for editing the review content -->
+        <label for="editedReview.reviewText"><b>Edit Review</b></label>
+        <textarea id="editedReview.reviewText" th:field="*{review.review}" required></textarea>
+
+        <!-- Add any additional input fields or form elements as needed -->
+
+        <button type="submit" class="btn-pop">Save Changes</button>
+        <button type="button" class="btn-pop cancel" onclick="closeEditForm(${review.id})">Close</button>
+    </form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <!-- Include jQuery -->
+<script>
+    // Function to open the edit form
+    function openEditForm(reviewId) {
+        // Display the popup form for the corresponding review
+        $('#editReviewForm').fadeIn();
+
+        // Optionally, you can load the content of the edit form asynchronously
+        // (Assuming you have an endpoint for loading the content of the edit form)
+        $('#editReviewForm').load(`/movies/reviews/edit/${reviewId}`);
+    }
+
+    // Function to close the edit form
+    function closeEditForm(reviewId) {
+        // Close the popup form
+        $('#editReviewFormContainer_' + reviewId).fadeOut();
+    }
+</script>
+
+</body>
+</html>
