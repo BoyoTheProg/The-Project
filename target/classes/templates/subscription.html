@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Information</title>
+</head>
+<body>
+<h1>Subscription Information</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>User</th>
+        <th>Plan</th>
+        <th>Created On</th>
+        <th>Valid Till</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Use Thymeleaf syntax to iterate over subscriptions -->
+    <tr th:each="subscription : ${subscriptions}">
+        <td th:text="${subscription.user.username}"></td>
+        <td th:text="${subscription.plan.name}"></td>
+        <td th:text="${subscription.createdOn}"></td>
+        <td th:text="${subscription.validTill}"></td>
+        <td>
+            <ul>
+                <!-- Use Thymeleaf syntax to iterate over roles -->
+                <li th:each="role : ${subscription.user.roles}">
+                    <span th:text="${role.roleName}"></span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
