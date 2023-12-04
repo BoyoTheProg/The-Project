@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -123,5 +124,34 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUserById(Long userId) {
         Optional<UserEntity> userOptional = userRepository.findById(userId);
         return userOptional.orElse(null);
+    }
+
+    @Override
+    public void deleteUserAndSubscription(Long userId) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            userRepository.delete(user);
+        }
+    }
+
+    @Override
+    public List<UserRoleEnum> getAllRoles() {
+        return Arrays.asList(UserRoleEnum.values());
+    }
+
+    @Override
+    public void changeUserRole(Long userId, UserRoleEnum selectedRole) {
+        RoleEntity role = roleRepository.findByRole(selectedRole)
+                .orElseThrow(() -> new IllegalArgumentException("Selected role not found"));
+
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        List<RoleEntity> userRoles = Collections.singletonList(role);
+
+        if (user != null) {
+            user.setRoles(userRoles);
+            userRepository.save(user);
+        }
     }
 }

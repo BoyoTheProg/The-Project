@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscription Information</title>
+    <style>
+    div[id^='changeRolePopup'] {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    </style>
 </head>
 <body>
 <h1>Subscription Information</h1>
@@ -33,8 +46,44 @@
                 </li>
             </ul>
         </td>
+        <td>
+            <form method="post" th:action="@{/deleteUserAndSubscription/{userId}(userId=${subscription.user.id})}">
+                <button type="submit" onclick="return confirm('Are you sure?')">Delete User</button>
+            </form>
+        </td>
+        <td>
+            <button th:attr="data-userid=${subscription.user.id}" onclick="showChangeRolePopup(this)">Change Role</button>
+            <!-- Add the role change popup for each row -->
+            <div th:attr="id='changeRolePopup_' + ${subscription.user.id}" style="display: none;">
+                <h2>Change User Role</h2>
+                <form method="post" th:action="@{/changeUserRole/{userId}(userId=${subscription.user.id})}">
+                    <label>Select Role:</label>
+                    <div th:each="role : ${allRoles}">
+                        <input type="radio" th:id="'role_' + ${role}" th:name="selectedRole" th:value="${role}" />
+                        <label th:for="'role_' + ${role}" th:text="${role}"></label><br />
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script th:inline="javascript">
+
+    function showChangeRolePopup(button) {
+        var userId = $(button).data('userid');
+        $("#changeRolePopup_" + userId).show();
+    }
+
+    $(document).ready(function () {
+        // Hide the popups when the "Save Changes" buttons are clicked
+        $("button[type='submit']").click(function () {
+            $(this).closest("div[id^='changeRolePopup']").hide();
+        });
+    });
+</script>
 </body>
 </html>

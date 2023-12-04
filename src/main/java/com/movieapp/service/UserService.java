@@ -3,6 +3,9 @@ package com.movieapp.service;
 
 import com.movieapp.model.dto.user.UserRegisterBindingDto;
 import com.movieapp.model.entity.UserEntity;
+import com.movieapp.model.enums.UserRoleEnum;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -11,4 +14,10 @@ public interface UserService {
     UserEntity getCurrentUser();
 
     UserEntity getUserById(Long id);
+
+    void deleteUserAndSubscription(Long userId);
+
+    List<UserRoleEnum> getAllRoles();
+
+    void changeUserRole(Long userId, UserRoleEnum selectedRole);
 }

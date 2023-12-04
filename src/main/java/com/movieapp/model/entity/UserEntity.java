@@ -27,7 +27,7 @@ public class UserEntity extends BaseEntity{
     @JsonIgnore
     private Subscription subscription;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
