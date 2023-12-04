@@ -1,5 +1,6 @@
 package com.movieapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -23,6 +24,7 @@ public class UserEntity extends BaseEntity{
     private String email;
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Subscription subscription;
 
     @ManyToMany(fetch = FetchType.EAGER)

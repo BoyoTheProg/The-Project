@@ -25,8 +25,7 @@ public class UserRegisterBindingDto {
     @NotBlank(message = "Email cannot be empty!")
     private String email;
 
-
-    private Plan plan;
+    private SubscriptionType plan;
 
     public String getUsername() {
         return username;
@@ -60,11 +59,11 @@ public class UserRegisterBindingDto {
         this.email = email;
     }
 
-    public Plan getPlan() {
+    public SubscriptionType getPlan() {
         return plan;
     }
 
-    public void setPlan(Plan plan) {
+    public void setPlan(SubscriptionType plan) {
         this.plan = plan;
     }
 }

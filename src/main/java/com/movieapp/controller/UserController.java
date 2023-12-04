@@ -60,6 +60,6 @@ public class UserController {
 
         userService.register(userRegistrationDTO);
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 }

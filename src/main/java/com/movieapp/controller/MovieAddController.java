@@ -13,11 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class MovieController {
+public class MovieAddController {
     private final MovieService movieService;
 
 
-    public MovieController(MovieService movieService) {
+    public MovieAddController(MovieService movieService) {
         this.movieService = movieService;
     }
 
@@ -29,8 +29,7 @@ public class MovieController {
     }
 
     @PostMapping("/movies/add")
-    public ModelAndView add(
-            @ModelAttribute("movieAddBindingDto") @Valid MovieAddBindingDto movieAddBindingDto
+    public ModelAndView add(@ModelAttribute("movieAddBindingDto") @Valid MovieAddBindingDto movieAddBindingDto
             ,BindingResult bindingResult){
 
 
