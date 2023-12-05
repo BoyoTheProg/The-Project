@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Genres</title>
+</head>
+<body>
+<h2>Select a Genre</h2>
+<ul>
+    <!-- Loop through the genres provided by the model attribute -->
+    <li th:each="genre : ${genres}">
+        <!-- Use th:href to dynamically generate genre links -->
+        <a th:href="@{'/genres/' + ${genre.name()}}" th:text="${genre.name()}"></a>
+    </li>
+</ul>
+</body>
+</html>

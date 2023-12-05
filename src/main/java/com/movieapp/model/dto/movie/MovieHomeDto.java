@@ -7,6 +7,7 @@ public class MovieHomeDto {
 
     private List<MovieDTO> availableMovies;
 
+
     private int availableSize;
 
     public MovieHomeDto() {

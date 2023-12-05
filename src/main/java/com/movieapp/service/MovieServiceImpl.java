@@ -6,6 +6,7 @@ import com.movieapp.model.dto.movie.MovieDetailDto;
 import com.movieapp.model.dto.movie.MovieHomeDto;
 import com.movieapp.model.entity.Movie;
 import com.movieapp.model.entity.Review;
+import com.movieapp.model.enums.GenreType;
 import com.movieapp.repo.MovieRepository;
 import com.movieapp.repo.ReviewRepository;
 import jakarta.transaction.Transactional;
@@ -120,5 +121,16 @@ public class MovieServiceImpl implements MovieService {
         // Return null if the review or associated movie is not found
         return null;
     }
+
+
+    @Override
+    public MovieHomeDto getGenreViewData(GenreType genre){
+        List<MovieDTO> availableMovies = movieRepository.getMoviesByGenre(String.valueOf(genre)).stream()
+                .map(MovieDTO::createFromMovie)
+                .toList();
+
+        return new MovieHomeDto(availableMovies);
+    }
+
 }
 
