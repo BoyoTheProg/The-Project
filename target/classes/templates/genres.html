@@ -3,15 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Genres</title>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <style>
+        /* Add a class for the links to apply styles */
+        .btn-hovera {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            text-decoration: none;
+            color: #fff;
+            background: #e08d3c;
+            border-radius: 5px;
+            border-color:white;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* Add a class for the background transition effect */
+        .btn-hovera:hover {
+            background: url('./images/genres.jpg'); ;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Style for the div element */
+        #specificDivId {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url('./images/background1.jpg'); /* Default background with fading black */
+            padding: 10px;
+            height: 400px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Dark shadow with left to right shading */
+            transition: background 0.5s ease; /* Transition for background change */
+        }
+    </style>
+
 </head>
 <body>
+
+<header th:replace="~{fragments/commons::nav}"></header>
+
 <h2>Select a Genre</h2>
-<ul>
-    <!-- Loop through the genres provided by the model attribute -->
-    <li th:each="genre : ${genres}">
-        <!-- Use th:href to dynamically generate genre links -->
-        <a th:href="@{'/genres/' + ${genre.name()}}" th:text="${genre.name()}"></a>
-    </li>
-</ul>
+<div id="specificDivId" class="buttons">
+    <!-- Use th:href to dynamically generate genre links -->
+        <a th:each="genre : ${genres}" th:href="@{'/genres/' + ${genre.name()}}" th:text="${genre.name()}" class="button btn-hovera"></a>
+</div>
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+
 </body>
 </html>

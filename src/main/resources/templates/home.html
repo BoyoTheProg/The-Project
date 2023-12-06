@@ -36,12 +36,13 @@
         <li><a href="/home">Home</a></li>
         <li><a href="/genres">Genres</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="/subscriptions">Subscriptions</a></li>
-          <a href="/login" class="btn btn-hover" >
-            <span sec:authorize="!isAuthenticated()">Log in</span>
+        <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
+        <li>
+          <a href="/login" class="btn btn-hover"  sec:authorize="!isAuthenticated()">
+            <span>Log in</span>
           </a>
-          <a href="/register" class="btn btn-hover" >
-            <span sec:authorize="!isAuthenticated()">Register</span>
+          <a href="/register" class="btn btn-hover" sec:authorize="!isAuthenticated()">
+            <span>Register</span>
           </a>
           <form th:method="post"
                 th:action="@{/logout}">

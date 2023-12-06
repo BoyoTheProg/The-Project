@@ -2,13 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>sms</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genre</title>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
 </head>
 <body>
-<h2>hty</h2>
+
+<header th:replace="~{fragments/commons::nav}"></header>
+
+<!-- genre.html -->
 <div class="top-movies-slide">
-    <div class="section-header"></div>
-    <div class="owl-carousel" id="genre-movies-slide">
+    <div class="section-header">
+        <span th:text="${genre} + ' Movies'">Genre Movies</span>
+    </div>
+    <div class="owl-carousel" id="top-movies-slide">
         <!-- MOVIE ITEM -->
         <div th:each="movie : ${movies}" class="movie-item">
             <img th:src="${movie.poster}" alt="" class="movie-item-img">
@@ -23,13 +40,30 @@
                         <i class="bx bxs-time"></i>
                         <span th:text="${movie.runtime} + ' mins'">120 mins</span>
                     </div>
-                    <!-- Add more movie information as needed -->
+                    <div class="movie-info">
+                        <span>HD</span>
+                    </div>
+                    <div class="movie-info">
+                        <span th:text="${movie.category}">16+</span>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- END MOVIE ITEM -->
     </div>
 </div>
+
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+
 <!-- Add content specific to the genre -->
+
+<!-- SCRIPT -->
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- OWL CAROUSEL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+<!-- APP SCRIPT -->
+<script src="/JavaScript/app.js"></script>
 </body>
 </html>

@@ -57,9 +57,12 @@
 
     <div class="movie-title" th:text="${movie.title}">Movie Title</div>
     <!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
-    <iframe width="560" height="315" allowfullscreen src="">
 
-    </iframe>
+    <iframe id="iframe-embed" width="100%" height="500" scrolling="no" frameborder="0"
+            th:src="${movie.url}" allowfullscreen=""
+            webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+
+    <!--    <iframe width="700" height="350" allowfullscreen src="https://doc.vidcloud9.org/watch/?v11#RERHMFlTWVZGQ1N4alloZnVNMXZ5bEJSWndEdjlGWVJ4OVMyb3JXTnE4T0hDM3JmaEpuSzdTeWVtN0IxQ3RKZW1FbjZYR2VsZTY4PQ">-->
 
     <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
     <!--    </div>-->
