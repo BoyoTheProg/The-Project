@@ -30,7 +30,11 @@
         <div th:each="movie : ${movies}" class="movie-item">
             <img th:src="${movie.poster}" alt="" class="movie-item-img">
             <div class="movie-item-content">
-                <div class="movie-item-title" th:text="${movie.title}">The Dark Knight</div>
+                <a th:href="@{'/movies/' + ${movie.id}}">
+                    <div class="movie-item-title" th:text="${movie.title}">
+                        The Dark Knight
+                    </div>
+                </a>
                 <div class="movie-infos">
                     <div class="movie-info">
                         <i class="bx bxs-star"></i>

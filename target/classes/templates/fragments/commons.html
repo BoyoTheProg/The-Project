@@ -6,16 +6,17 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Movie Time</title>
-    <link rel="stylesheet" href="/css/reset-css.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-<!--    <link rel="stylesheet" href="/css/style.css"/>-->
-    <link rel="stylesheet" href="/css/grid.css"/>
-    <link rel="stylesheet" href="/css/app.css"/>
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
     <!-- BOX ICONS -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+
     <script src="/JavaScript/app.js"></script>
 </head>
 
@@ -34,8 +35,8 @@
                 </a>
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="/home">Home</a></li>
-                    <li><a href="#">Genres</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="/genres">Genres</a></li>
+                    <li><a href="home#infoSection">About</a></li>
                     <li>
                         <a href="/login" class="btn btn-hover" sec:authorize="!isAuthenticated()">
                             <span>Log in</span>
@@ -46,7 +47,7 @@
 
                         <form th:method="post"
                               th:action="@{/logout}" >
-                            <input type="submit" class="button" value="Logout" sec:authorize="isAuthenticated()"/>
+                            <input type="submit" class="btn1 btn-hover" value="Logout" sec:authorize="isAuthenticated()"/>
                         </form>
                     </li>
                 </ul>
@@ -64,13 +65,11 @@
     <!-- Page-specific content goes here -->
 </div>
 
-<footer class="footer bg-nav  py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 my-text-color">
-            &copy; Created by Boyan. All rights reserved. 2023
+    <footer>
+        <div class="copyright">
+            Copyright 2023 &copy; Boyan
         </div>
-    </div>
-</footer>
+    </footer>
 
 <!-- SCRIPT -->
 <!-- JQUERY -->
@@ -79,6 +78,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 <!-- APP SCRIPT -->
 <script src="/JavaScript/app.js"></script>
+    <script>
+        function redirectToAbout() {
+            window.location.href = 'home.html#specific-object';
+        }
+    </script>
 
 </body>
 

@@ -4,24 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Review</title>
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <style>
+        .con {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("/images/review.jpg");
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%; /* Adjust the width as needed */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label, textarea {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: red;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c80815;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h2>Add Review</h2>
-<form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
-    <input type="hidden" th:field="*{movie.id}">
+    <header th:replace="~{fragments/commons::nav}"></header>
+    <div class="con">
+        <div class="container">
+            <h2>Add Review</h2>
+            <form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
+                <input type="hidden" th:field="*{movie.id}">
 
-    <label >User:</label>
-    <th:block sec:authorize="isAuthenticated()">
-        <th:block sec:authentication="name"></th:block>
-    </th:block>
-    <br>
+                <label >User:</label>
+                <th:block sec:authorize="isAuthenticated()">
+                    <th:block sec:authentication="name"></th:block>
+                </th:block>
+                <br>
 
-    <label for="review">Review:</label>
-    <textarea id="review" name="review" th:field="*{review}" required></textarea>
-    <br>
+                <label for="review">Review:</label>
+                <textarea id="review" name="review" th:field="*{review}" required></textarea>
+                <br>
 
-    <button type="submit">Submit</button>
-</form>
-<a th:href="@{/movies/{movieId}}">Back to Reviews</a>
+                <button type="submit" class="button">Submit</button>
+            </form>
+            <a th:href="@{/movies/{movieId}}" class="back-link">Back to Reviews</a>
+        </div>
+    </div>
+    <footer th:replace="~{fragments/commons::footer}"></footer>
 </body>
 </html>

@@ -34,18 +34,47 @@
         }
 
         .btn-pop {
-            background-color: #4CAF50;
+            background-color: red;
             color: white;
             padding: 10px;
             border: none;
             cursor: pointer;
             width: 100%;
         }
+<!--        ul {-->
+<!--            list-style-type: none;-->
+<!--            padding: 10px;-->
+<!--            background-color:#ffcc00;-->
+<!--            border-radius: 10px;-->
+<!--            width: 100%;-->
+<!--        }-->
 
-        .cancel {
-            background-color: #ccc;
-            margin-top: 10px;
+<!--        li {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 10px;-->
+<!--            margin-left: 5px;-->
+<!--            margin-right: 5px;-->
+<!--            padding-top: 5px;-->
+<!--            padding-bottom: 5px;-->
+<!--            border-radius: 10px;-->
+<!--            background-color:#ed872d;-->
+<!--        }-->
+
+        p {
+            flex-grow: 1; /* Take up remaining space to the left of the buttons */
         }
+
+        .button-container {
+            display: flex;
+        }
+
+        .button-edit,
+        .button-remove {
+            margin-left: 10px; /* Adjust the margin as needed for spacing between buttons */
+        }
+
     </style>
 
 </head>
@@ -67,6 +96,9 @@
     <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
     <!--    </div>-->
 
+    <div class="description" th:text="${movie.description}">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
+    </div>
 
     <div class="movie-details">
         <div class="movie-details-left">
@@ -83,9 +115,9 @@
         </div>
     </div>
 
-    <div class="description" th:text="${movie.description}">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
-    </div>
+    <br>
+    <br>
+
     <div>
         <ul>
             <th:block th:each="review : ${reviews}">
@@ -93,13 +125,15 @@
                 <!-- Display review information -->
                 <p th:text="${review.userEntity.username + ': ' + review.review}"></p>
 
-                <!-- Edit Button -->
-                <button type="button" class="button-edit" th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit</button>
+                <div class="button-container" sec:authorize="hasRole('ADMIN')">
+                    <!-- Edit Button -->
+                    <button type="button" class="button-edit" th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit</button>
 
-                <!-- Delete Form -->
-                <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post" sec:authorize="hasRole('ADMIN')">
-                    <button type="submit" class="button-remove">Delete</button>
-                </form>
+                    <!-- Delete Form -->
+                    <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post" >
+                        <button type="submit" class="button-remove">Delete</button>
+                    </form>
+                </div>
 
                 <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
 
@@ -107,20 +141,26 @@
             </li>
         </th:block>
         </ul>
-        <a th:href="@{'/movies/reviews/add/' + ${movie.id}}">Add Review</a>
-        <a th:href="@{/home}">Back to Movies</a>
+        <br>
+        <br>
+        <div class="button-container">
+            <a th:href="@{'/movies/reviews/add/' + ${movie.id}}" class="button ">Add Review</a>
+            <a th:href="@{/home}" class="button ">Back to Movies</a>
+        </div>
     </div>
 
+    <br>
 
-    <!-- Remove Button -->
-    <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post" sec:authorize="hasRole('ADMIN')">
-        <button type="submit" class="button-remove">Remove Movie</button>
-    </form>
+    <div class="button-container" sec:authorize="hasRole('ADMIN')">
+        <!-- Remove Button -->
+        <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post" >
+            <button type="submit" class="button-remove">Remove Movie</button>
+        </form>
 
-    <!-- Add this button within the movie-view div in movie.html -->
-    <button type="button" class="button-edit" onclick="redirectToEdit()" sec:authorize="hasRole('ADMIN')">Edit Movie
-    </button>
-
+        <!-- Add this button within the movie-view div in movie.html -->
+        <button type="button" class="button-edit" onclick="redirectToEdit()" >Edit Movie
+        </button>
+    </div>
 
 </div>
 <!--<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->

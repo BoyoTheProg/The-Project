@@ -1,24 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscription Information</title>
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
     <style>
-    div[id^='changeRolePopup'] {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border: 1px solid #ccc;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        /* Apply styles to the entire table */
+        table {
+            width: 50%;
+            height: 50%;
+            border-collapse: collapse; /* This removes the default spacing between table cells */
+        }
+
+        /* Apply styles to the table header (th) */
+        th {
+            background-color: red;
+            color: white;
+            padding: 10px; /* Adjust as needed */
+            text-align: left; /* Adjust as needed */
+        }
+
+        /* Apply styles to the table cells (td) */
+        td {
+            border: 1px solid #ddd; /* Border color for cells */
+            padding: 8px; /* Adjust as needed */
+        }
+
+        /* Add some hover effect to the table rows */
+        tr:hover {
+            background-color: red; /* Adjust as needed */
+        }
+
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/commons::nav}"></header>
+
 <h1>Subscription Information</h1>
 
 <table border="1">
@@ -48,27 +67,30 @@
         </td>
         <td>
             <form method="post" th:action="@{/deleteUserAndSubscription/{userId}(userId=${subscription.user.id})}">
-                <button type="submit" onclick="return confirm('Are you sure?')">Delete User</button>
+                <button type="submit" onclick="return confirm('Are you sure?')" class="button">Delete User</button>
             </form>
         </td>
         <td>
-            <button th:attr="data-userid=${subscription.user.id}" onclick="showChangeRolePopup(this)">Change Role</button>
+            <button th:attr="data-userid=${subscription.user.id}" onclick="showChangeRolePopup(this)" class="button">Change Role
+            </button>
             <!-- Add the role change popup for each row -->
             <div th:attr="id='changeRolePopup_' + ${subscription.user.id}" style="display: none;">
-                <h2>Change User Role</h2>
                 <form method="post" th:action="@{/changeUserRole/{userId}(userId=${subscription.user.id})}">
                     <label>Select Role:</label>
                     <div th:each="role : ${allRoles}">
-                        <input type="radio" th:id="'role_' + ${role}" th:name="selectedRole" th:value="${role}" />
-                        <label th:for="'role_' + ${role}" th:text="${role}"></label><br />
+                        <input type="radio" th:id="'role_' + ${role}" th:name="selectedRole" th:value="${role}"/>
+                        <label th:for="'role_' + ${role}" th:text="${role}"></label><br/>
                     </div>
-                    <button type="submit">Save Changes</button>
+                    <button type="submit" class="btn">Save Changes</button>
                 </form>
             </div>
         </td>
     </tr>
     </tbody>
 </table>
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script th:inline="javascript">
@@ -84,6 +106,7 @@
             $(this).closest("div[id^='changeRolePopup']").hide();
         });
     });
+
 </script>
 </body>
 </html>

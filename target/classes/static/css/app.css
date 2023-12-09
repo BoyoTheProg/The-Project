@@ -125,6 +125,18 @@ a.movie-item:hover {
     color: unset;
 }
 
+.btn1 {
+    color: #ffffff;
+    background-color: red;
+    padding: 0.25rem 1.5rem;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+}
+
 .btn {
     color: #ffffff;
     padding: 0.25rem 1.5rem;
@@ -618,6 +630,7 @@ footer .content {
 
 .copyright {
     padding: 10px;
+    height:50px;
     border-top: 1px solid var(--body-bg);
     background-color: var(--box-bg);
     text-align: center;
