@@ -31,9 +31,6 @@ public class UserDto {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -47,15 +44,28 @@ public class UserDto {
         this.subscription = subscription;
     }
 
-    public List<RoleDto> getRoles() {
-        return roles;
-    }
 
     public void setRoles(List<RoleDto> roles) {
         this.roles = roles;
     }
 
     private static Set<Long> processedUserIds = new HashSet<>();
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public static Set<Long> getProcessedUserIds() {
+        return processedUserIds;
+    }
+
+    public static void setProcessedUserIds(Set<Long> processedUserIds) {
+        UserDto.processedUserIds = processedUserIds;
+    }
 
     public static UserDto createFromUser(UserEntity user) {
         if (processedUserIds.contains(user.getId())) {

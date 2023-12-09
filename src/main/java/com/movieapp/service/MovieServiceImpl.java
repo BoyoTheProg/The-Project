@@ -9,6 +9,7 @@ import com.movieapp.model.entity.Review;
 import com.movieapp.model.enums.GenreType;
 import com.movieapp.repo.MovieRepository;
 import com.movieapp.repo.ReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +84,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     @Transactional
     public Movie getMovieById(Long id) {
-        Movie movie = movieRepository.findById(id).orElse(null);
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie not found with id: " + id));
 
         return movie;
     }

@@ -77,8 +77,6 @@ public class UserServiceImpl implements UserService {
         subscription.setCreatedOn(LocalDate.now());
         subscription.setValidTill(LocalDate.now().plusMonths(1));
 
-        // Save the subscription
-        subscriptionRepository.save(subscription);
 
         // Save the subscription
         subscriptionRepository.save(subscription);

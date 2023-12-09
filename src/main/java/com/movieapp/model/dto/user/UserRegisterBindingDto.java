@@ -2,6 +2,8 @@ package com.movieapp.model.dto.user;
 
 import com.movieapp.model.entity.Plan;
 import com.movieapp.model.enums.SubscriptionType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +27,7 @@ public class UserRegisterBindingDto {
     @NotBlank(message = "Email cannot be empty!")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private SubscriptionType plan;
 
     public String getUsername() {

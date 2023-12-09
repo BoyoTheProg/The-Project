@@ -21,16 +21,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
 
+
+
     @Transactional(readOnly = true)
     public List<SubscriptionDto> getAllSubscriptions() {
         List<Subscription> availableSubscriptions = subscriptionRepository.getAllAvailable();
 
         return availableSubscriptions.stream()
-                .map(subscription -> {
-                    Hibernate.initialize(subscription.getUser());  // Eagerly fetch UserEntity
-                    return SubscriptionDto.createFromSubscription(subscription);
-                })
+                .map(SubscriptionDto::createFromSubscription)
                 .collect(Collectors.toList());
     }
-
 }

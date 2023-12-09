@@ -73,7 +73,4 @@ public class MovieDetailDto {
         return rating;
     }
 
-    public int getRuntime() {
-        return runtime;
-    }
 }

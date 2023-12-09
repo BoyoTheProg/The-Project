@@ -1,8 +1,6 @@
 package com.movieapp.controller;
 
 import com.movieapp.model.dto.subscription.SubscriptionDto;
-import com.movieapp.model.entity.Subscription;
-import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.UserRoleEnum;
 import com.movieapp.service.SubscriptionService;
 import com.movieapp.service.UserService;

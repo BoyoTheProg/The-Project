@@ -46,6 +46,10 @@ public class SubscriptionDto {
     }
 
     public static SubscriptionDto createFromSubscription(Subscription subscription) {
+        if (subscription == null) {
+            return new SubscriptionDto(); // or handle as needed
+        }
+
         SubscriptionDto dto = new SubscriptionDto();
         dto.setUser(UserDto.createFromUser(subscription.getUser()));
         dto.setPlan(PlanDto.createFromPlan(subscription.getPlan()));

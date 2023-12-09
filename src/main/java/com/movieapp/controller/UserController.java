@@ -38,28 +38,19 @@ public class UserController {
 
 
 
-//    @PostMapping("/register")
-//    public ModelAndView register(@ModelAttribute("UserRegisterBindingDto") @Valid UserRegisterBindingDto userRegisterBindingDto
-//            , BindingResult bindingResult){
-//
-//
-//        if (bindingResult.hasErrors()){
-//            return new ModelAndView("register");
-//        }
-//
-//        return new ModelAndView("redirect:/login");
-//    }
-
     @GetMapping("/register")
     public String register() {
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(UserRegisterBindingDto userRegistrationDTO) throws Exception {
-
-        userService.register(userRegistrationDTO);
-
-        return "redirect:/";
+    public String register(UserRegisterBindingDto userRegistrationDTO, Model model) throws Exception {
+        try {
+            userService.register(userRegistrationDTO);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("registration_error", "true");
+            return "register";
+        }
     }
 }
