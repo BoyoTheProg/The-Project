@@ -18,6 +18,7 @@
   <!-- APP CSS -->
   <link rel="stylesheet" href="/css/grid.css"/>
   <link rel="stylesheet" href="/css/app.css"/>
+
 </head>
 
 <body>
@@ -35,7 +36,7 @@
       <ul class="nav-menu" id="nav-menu">
         <li><a href="/home">Home</a></li>
         <li><a href="/genres">Genres</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#infoSection">About</a></li>
         <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
         <li>
           <a href="/login" class="btn btn-hover"  sec:authorize="!isAuthenticated()">
@@ -46,7 +47,7 @@
           </a>
           <form th:method="post"
                 th:action="@{/logout}">
-            <input type="submit" class="btn btn-link" value="Logout" sec:authorize="isAuthenticated()"/>
+            <input type="submit" class="btn1 btn-link" value="Logout" sec:authorize="isAuthenticated()"/>
           </form>
         </li>
       </ul>
@@ -116,9 +117,11 @@
       <div th:each="movie : ${movies}"  class="movie-item">
         <img th:src="${movie.poster}" alt="" class="movie-item-img">
         <div class="movie-item-content">
-          <div class="movie-item-title" th:text="${movie.title}">
-            The Dark Knight
-          </div>
+          <a th:href="@{'/movies/' + ${movie.id}}">
+            <div class="movie-item-title" th:text="${movie.title}">
+              The Dark Knight
+            </div>
+          </a>
           <div class="movie-infos">
             <div class="movie-info">
               <i class="bx bxs-star"></i>
@@ -153,9 +156,11 @@
             <div th:each="movie : ${movies}" href="#" class="movie-item">
               <img th:src="${movie.poster}" alt="" class="movie-item-img">
               <div class="movie-item-content">
-                <div class="movie-item-title" th:text="${movie.title}">
-                  Theatre of the dead
-                </div>
+                <a th:href="@{'/movies/' + ${movie.id}}">
+                  <div class="movie-item-title" th:text="${movie.title}">
+                    The Dark Knight
+                  </div>
+                </a>
                 <div class="movie-infos">
                   <div class="movie-info">
                     <i class="bx bxs-star"></i>
@@ -181,53 +186,14 @@
 <!-- END LATEST MOVIES SECTION -->
 <!-- END HERO SECTION -->
 
-<!-- SPECIAL MOVIE SECTION -->
-<div class="section">
-  <div class="hero-slide-item">
-    <img src="./images/transformer.jpg" alt="">
-    <div class="overlay"></div>
-    <div class="hero-slide-item-content">
-      <div class="item-content-wraper">
-        <div class="item-content-title">
-          Transformer
-        </div>
-        <div class="movie-infos">
-          <div class="movie-info">
-            <i class="bx bxs-star"></i>
-            <span>9.5</span>
-          </div>
-          <div class="movie-info">
-            <i class="bx bxs-time"></i>
-            <span>120 mins</span>
-          </div>
-          <div class="movie-info">
-            <span>HD</span>
-          </div>
-          <div class="movie-info">
-            <span>16+</span>
-          </div>
-        </div>
-        <div class="item-content-description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, possimus eius. Deserunt non odit, cum vero reprehenderit laudantium odio vitae autem quam, incidunt molestias ratione mollitia accusantium, facere ab suscipit.
-        </div>
-        <div class="item-action">
-          <a href="#" class="btn btn-hover">
-            <i class="bx bxs-right-arrow"></i>
-            <span>Watch now</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END SPECIAL MOVIE SECTION -->
 
-<!-- PRICING SECTION -->
-<div class="section">
+
+<!-- INFO SECTION -->
+<div class="section" id="infoSection">
   <div class="container">
     <div class="pricing">
       <div class="pricing-header">
-        Fl<span class="main-color">i</span>x pricing
+        Fl<span class="main-color">i</span>x info
       </div>
       <div class="pricing-list">
         <div class="row">
@@ -235,42 +201,49 @@
           <div class="col-4 col-md-12 col-sm-12">
             <div class="pricing-box hightlight">
               <div class="pricing-box-header">
-                <div class="pricing-name">
-                  Standard
-                </div>
                 <div class="pricing-price">
-                  $9.99 <span>/month</span>
+                  About Us
                 </div>
               </div>
               <div class="pricing-box-content">
                 <p>Originals</p>
-                <p>Swich plans anytime</p>
-              </div>
-              <div class="pricing-box-action">
-                <a href="/register" class="btn btn-hover">
-                  <span>Register now</span>
-                </a>
+                <p>
+                  Your Movie Site is dedicated to bringing you the latest and greatest in the world of movies.
+                  Whether you're a film enthusiast or just looking for something to watch on a lazy Sunday,
+                  we've got you covered with reviews, recommendations, and much more.<br>
+                </p>
               </div>
             </div>
           </div>
           <div class="col-4 col-md-12 col-sm-12">
-            <div class="pricing-box">
+            <div class="pricing-box hightlight">
               <div class="pricing-box-header">
-                <div class="pricing-name">
-                  Premium
-                </div>
                 <div class="pricing-price">
-                  $14.99 <span>/month</span>
+                  Our Mission
                 </div>
               </div>
               <div class="pricing-box-content">
-                <p>Originals</p>
-                <p>Swich plans anytime</p>
+                <p>Switch plans anytime</p>
+                <p>
+                  At Your Movie Site, our mission is to provide a platform for movie lovers to explore, discover,
+                  and discuss their favorite films. We believe in the power of storytelling and the impact of
+                  cinema on our lives. Join us in the journey of celebrating the art of filmmaking.
+                </p>
               </div>
-              <div class="pricing-box-action">
-                <a href="/register" class="btn btn-hover">
-                  <span>Register now</span>
-                </a>
+            </div>
+          </div>
+          <div class="col-4 col-md-12 col-sm-12" id="contacts">
+            <div class="pricing-box hightlight">
+              <div class="pricing-box-header">
+                <div class="pricing-price">
+                  Contact Us
+                </div>
+              </div>
+              <div class="pricing-box-content">
+                <p>
+                  Have questions, suggestions, or just want to say hello? Feel free to contact us at<br>
+                  <a href="mailto:info@yourmoviesite.com">info@yourmoviesite.com</a>.
+                </p>
               </div>
             </div>
           </div>
@@ -279,7 +252,7 @@
     </div>
   </div>
 </div>
-<!-- END PRICING SECTION -->
+<!-- END INFO SECTION -->
 
 <!-- FOOTER SECTION -->
 <footer class="section">
@@ -287,11 +260,11 @@
     <div class="row">
       <div class="col-4 col-md-6 col-sm-12">
         <div class="content">
-          <a href="#" class="logo">
+          <a href="/home" class="logo">
             <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
           </a>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut veniam ex quos hic id nobis beatae earum sapiente! Quod ipsa exercitationem officiis non error illum minima iusto et. Dolores, quibusdam?
+            ...Dream, Want, Watch...
           </p>
           <div class="social-list">
             <a href="#" class="social-item">
@@ -312,10 +285,9 @@
             <div class="content">
               <p><b>Flix</b></p>
               <ul class="footer-menu">
-                <li><a href="#">About us</a></li>
+                <li><a href="#infoSection">About us</a></li>
                 <li><a href="#">My profile</a></li>
-                <li><a href="#">Pricing plans</a></li>
-                <li><a href="#">Contacts</a></li>
+                <li><a href="#contacts">Contacts</a></li>
               </ul>
             </div>
           </div>
@@ -323,10 +295,9 @@
             <div class="content">
               <p><b>Browse</b></p>
               <ul class="footer-menu">
-                <li><a href="#">About us</a></li>
+                <li><a href="#infoSection">About us</a></li>
                 <li><a href="#">My profile</a></li>
-                <li><a href="#">Pricing plans</a></li>
-                <li><a href="#">Contacts</a></li>
+                <li><a href="#contacts">Contacts</a></li>
               </ul>
             </div>
           </div>
@@ -334,43 +305,22 @@
             <div class="content">
               <p><b>Help</b></p>
               <ul class="footer-menu">
-                <li><a href="#">About us</a></li>
+                <li><a href="#infoSection">About us</a></li>
                 <li><a href="#">My profile</a></li>
-                <li><a href="#">Pricing plans</a></li>
-                <li><a href="#">Contacts</a></li>
+                <li><a href="#contacts">Contacts</a></li>
               </ul>
             </div>
           </div>
-          <div class="col-3 col-md-6 col-sm-6">
-            <div class="content">
-              <p><b>Download app</b></p>
-              <ul class="footer-menu">
-                <li>
-                  <a href="#">
-                    <img src="./images/google-play.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="./images/app-store.png" alt="">
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="copyright">
+    Copyright 2023 &copy; Boyan
+  </div>
 </footer>
 <!-- END FOOTER SECTION -->
-
-<!-- COPYRIGHT SECTION -->
-<div class="copyright">
-  Copyright 2023 <a href="https://www.youtube.com/channel/UCnNgtK4tGlWcceXVzoyTg8Q" target="_blank">
-  Boyan</a>
-</div>
-<!-- END COPYRIGHT SECTION -->
 
 <!-- SCRIPT -->
 <!-- JQUERY -->

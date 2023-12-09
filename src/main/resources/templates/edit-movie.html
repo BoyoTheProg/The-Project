@@ -1,54 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/commons::head}"></head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Movie</title>
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- APP CSS -->
+  <link rel="stylesheet" href="/css/reset-css.css"/>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <!--        <link rel="stylesheet" href="/css/style.css"/>-->
+  <link rel="stylesheet" href="/css/grid.css"/>
+  <link rel="stylesheet" href="/css/app.css"/>
+</head>
 
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
-<h1>Edit Movie</h1>
+<div class="con">
 
-<form th:action="@{'/movies/edit/' + ${movie.id}}" method="post">
+<h1 class="text-center mt-2">Edit Movie</h1>
+
+<form th:action="@{'/movies/edit/' + ${movie.id}}" method="post" class="mx-auto w-25 bg-blur rounded">
   <!-- Include Thymeleaf's _method for PUT request -->
   <input type="hidden" name="_method" value="put" />
 
   <!-- Movie Title -->
+  <div class="form-group ">
   <label for="title">Title:</label>
-  <input type="text" id="title" name="title" th:value="${movie.title}" required>
+  <input type="text" id="title" class="form-control" name="title" th:value="${movie.title}" required>
+  </div>
 
   <!-- Release Year -->
+  <div class="form-group ">
   <label for="releaseYear">Release Year:</label>
-  <input type="number" id="releaseYear" name="releaseYear" min="1900" max="2023" th:value="${movie.releaseYear}" required>
+  <input type="number" id="releaseYear" class="form-control" name="releaseYear" min="1900" max="2023" th:value="${movie.releaseYear}" required>
+  </div>
 
   <!-- Runtime -->
+  <div class="form-group ">
   <label for="runtime">Runtime:</label>
-  <input type="number" id="runtime" name="runtime" min="1" th:value="${movie.runtime}" required>
+  <input type="number" id="runtime" class="form-control" name="runtime" min="1" th:value="${movie.runtime}" required>
+  </div>
 
   <!-- Cast -->
+  <div class="form-group ">
   <label for="cast">Cast:</label>
-  <input type="text" id="cast" name="cast" th:value="${movie.cast}" required>
+  <input type="text" id="cast" class="form-control" name="cast" th:value="${movie.cast}" required>
+  </div>
 
   <!-- Director -->
+  <div class="form-group ">
   <label for="director">Director:</label>
-  <input type="text" id="director" name="director" th:value="${movie.director}" required>
+  <input type="text" id="director" class="form-control" name="director" th:value="${movie.director}" required>
+  </div>
 
   <!-- Description -->
+  <div class="form-group ">
   <label for="description">Description:</label>
-  <textarea id="description" name="description" required th:text="${movie.description}"></textarea>
+  <textarea id="description" class="form-control" name="description" required th:text="${movie.description}"></textarea>
+  </div>
 
   <!-- Genre -->
+  <div class="form-group ">
   <label for="genre">Genre:</label>
-  <input type="text" id="genre" name="genre" th:value="${movie.genre}" required>
+  <input type="text" id="genre" class="form-control" name="genre" th:value="${movie.genre}" required>
+  </div>
 
   <!-- Category -->
+  <div class="form-group ">
   <label for="category">Category:</label>
-  <input type="text" id="category" name="category" th:value="${movie.category}" required>
+  <input type="text" id="category" class="form-control" name="category" th:value="${movie.category}" required>
+  </div>
 
   <!-- Rating -->
+  <div class="form-group ">
   <label for="rating">Rating:</label>
-  <input type="number" id="rating" name="rating" step="0.1" min="1" max="10" th:value="${movie.rating}" required>
+  <input type="number" id="rating" class="form-control" name="rating" step="0.1" min="1" max="10" th:value="${movie.rating}" required>
+  </div>
 
   <!-- Submit Button -->
+  <div class="button-holder d-flex justify-content-center">
   <button type="submit" class="button-edit">Save Changes</button>
+  </div>
 </form>
-
+</div>
 </body>
 </html>
