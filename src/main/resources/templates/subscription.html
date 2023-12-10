@@ -67,11 +67,11 @@
         </td>
         <td>
             <form method="post" th:action="@{/deleteUserAndSubscription/{userId}(userId=${subscription.user.id})}">
-                <button type="submit" onclick="return confirm('Are you sure?')" class="button">Delete User</button>
+                <button type="submit" onclick="return confirm('Are you sure?')" class="button1">Delete User</button>
             </form>
         </td>
         <td>
-            <button th:attr="data-userid=${subscription.user.id}" onclick="showChangeRolePopup(this)" class="button">Change Role
+            <button th:attr="data-userid=${subscription.user.id}" onclick="showChangeRolePopup(this)" class="button1">Change Role
             </button>
             <!-- Add the role change popup for each row -->
             <div th:attr="id='changeRolePopup_' + ${subscription.user.id}" style="display: none;">
@@ -81,7 +81,7 @@
                         <input type="radio" th:id="'role_' + ${role}" th:name="selectedRole" th:value="${role}"/>
                         <label th:for="'role_' + ${role}" th:text="${role}"></label><br/>
                     </div>
-                    <button type="submit" class="btn">Save Changes</button>
+                    <button type="submit" class="button1">Save Changes</button>
                 </form>
             </div>
         </td>
