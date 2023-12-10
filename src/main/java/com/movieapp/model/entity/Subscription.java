@@ -55,6 +55,13 @@ public class Subscription extends BaseEntity{
         this.userEntity = userEntity;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
     // getters and setters
 }

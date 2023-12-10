@@ -7,10 +7,7 @@ import com.movieapp.model.entity.RoleEntity;
 import com.movieapp.model.entity.Subscription;
 import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.UserRoleEnum;
-import com.movieapp.repo.PlanRepository;
-import com.movieapp.repo.RoleRepository;
-import com.movieapp.repo.SubscriptionRepository;
-import com.movieapp.repo.UserRepository;
+import com.movieapp.repo.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -33,14 +30,16 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     private final PlanRepository planRepository;
+    private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserServiceImpl(UserRepository userRepository, SubscriptionRepository subscriptionRepository, RoleRepository roleRepository, PlanRepository planRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, SubscriptionRepository subscriptionRepository, RoleRepository roleRepository, PlanRepository planRepository, ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.roleRepository = roleRepository;
         this.planRepository = planRepository;
+        this.reviewRepository = reviewRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -129,6 +128,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {
+            user.getRoles().clear();
             userRepository.delete(user);
         }
     }

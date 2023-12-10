@@ -38,4 +38,8 @@ public class Review extends BaseEntity{
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 }
