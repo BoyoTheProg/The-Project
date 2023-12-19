@@ -5,16 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Registration</title>
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
     <style>
-        body {
-            text-align: left;
+       .con {
             margin: 20px;
-        }
-
-        .left-center {
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("/images/premium.jpg");
+            background-size: cover;
+            display: flex;
+            color: white; /* Set the text color to white */
+            font-family: Arial, sans-serif; /* Choose an appropriate font */
         }
 
         .thankful-message {
@@ -30,20 +33,45 @@
         .go-home-link {
             font-size: 16px;
         }
+
+        .container {
+            background-color: rgba(0,0,0,0.7); /* Semi-transparent black background for better readability */
+            padding: 20px; /* Adjust as needed */
+            border-radius: 10px; /* Rounded corners for the container */
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            text-decoration: none;
+            color: white;
+            background-color: red; /* Choose a background color for the button */
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #c80815 ; /* Change the background color on hover */
+        }
+
+
     </style>
 </head>
 <body>
-<div class="left-center">
-    <div class="thankful-message">
-        Thank you for choosing our Premium subscription!
-    </div>
+<div class="con">
+    <div class="container">
+        <div class="thankful-message">
+            Thank you for choosing our Premium subscription!
+        </div>
 
-    <div class="promo-code">
-        Your subscription promo code: <span th:text="${userPromoCode}"></span>
-    </div>
+        <div class="promo-code">
+            Your subscription promo code: <span class="btn" th:text="${userPromoCode}"></span><br>
+            You can use that code to get 70% discount at our partners movie theatres
+        </div>
 
-    <div class="go-home-link">
-        <a href="/">Go Home</a>
+        <div class="go-home-link">
+            <a href="/" class="button1">Go Home</a>
+        </div>
     </div>
 </div>
 </body>
