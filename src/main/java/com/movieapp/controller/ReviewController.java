@@ -4,7 +4,6 @@ import com.movieapp.model.entity.Movie;
 import com.movieapp.model.entity.Review;
 import com.movieapp.service.MovieService;
 import com.movieapp.service.ReviewService;
-import com.movieapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +42,8 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews/add/{movieId}")
-    public String saveReview(@PathVariable Long movieId, @RequestParam String review) {
-        reviewService.saveReview(movieId, review);
+    public String saveReview(@PathVariable Long movieId, @RequestParam String review, @RequestParam Double newRating) {
+        reviewService.saveReview(movieId, review, newRating);
         return "redirect:/movies/{movieId}";
     }
 

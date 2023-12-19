@@ -4,6 +4,8 @@ import com.movieapp.model.enums.GenreType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -135,6 +137,24 @@ public class Movie extends BaseEntity{
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public double getAverageRating() {
+        if (reviews == null || reviews.isEmpty()) {
+            return 0.0; // or any default value
+        }
+
+        double totalRating = 0.0;
+        for (Review review : reviews) {
+            totalRating += review.getRating();
+        }
+
+        return (totalRating + getRating()) / (reviews.size() + 1);
+    }
+
+    // Calculate total reviews dynamically based on reviews list size
+    public int getTotalReviews() {
+        return (reviews != null) ? reviews.size() : 0;
     }
 }
 

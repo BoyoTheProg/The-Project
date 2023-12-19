@@ -14,6 +14,8 @@ public class Review extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
+    @Column
+    private Double rating;
 
     public String getReview() {
         return review;
@@ -41,5 +43,13 @@ public class Review extends BaseEntity{
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }
