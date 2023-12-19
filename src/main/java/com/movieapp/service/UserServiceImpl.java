@@ -6,6 +6,7 @@ import com.movieapp.model.entity.Plan;
 import com.movieapp.model.entity.RoleEntity;
 import com.movieapp.model.entity.Subscription;
 import com.movieapp.model.entity.UserEntity;
+import com.movieapp.model.enums.SubscriptionType;
 import com.movieapp.model.enums.UserRoleEnum;
 import com.movieapp.repo.*;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.movieapp.model.PromoCodeGenerator.generateRandomPromoCode;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -76,6 +79,10 @@ public class UserServiceImpl implements UserService {
         subscription.setCreatedOn(LocalDate.now());
         subscription.setValidTill(LocalDate.now().plusMonths(1));
 
+        if (userRegisterBindingDto.getPlan().equals(SubscriptionType.PREMIUM)){
+            String promoCode = generateRandomPromoCode();
+            subscription.setPromoCode(promoCode);
+        }
 
         // Save the subscription
         subscriptionRepository.save(subscription);
@@ -151,5 +158,26 @@ public class UserServiceImpl implements UserService {
             user.setRoles(userRoles);
             userRepository.save(user);
         }
+    }
+
+    @Override
+    public Subscription getUserSubscriptionByUserId(Long userId) {
+        // Assume subscription repository method to get the user's subscription by user ID
+        return subscriptionRepository.findByUserEntity(userRepository.findById(userId));
+    }
+
+    @Override
+    public Long getUserIdByUsername(String username) {
+        // Assume user repository method to get the user's ID by username
+        Optional<UserEntity> user = userRepository.findByUsername(username);
+        return user != null ? user.get().getId() : null;
+    }
+
+    @Override
+    public UserEntity getUserByUsername(String username) {
+
+        Optional<UserEntity> user = userRepository.findByUsername(username);
+
+        return user != null ? user.get() : null;
     }
 }

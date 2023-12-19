@@ -2,6 +2,7 @@ package com.movieapp.service;
 
 
 import com.movieapp.model.dto.user.UserRegisterBindingDto;
+import com.movieapp.model.entity.Subscription;
 import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.UserRoleEnum;
 
@@ -20,4 +21,10 @@ public interface UserService {
     List<UserRoleEnum> getAllRoles();
 
     void changeUserRole(Long userId, UserRoleEnum selectedRole);
+
+    Subscription getUserSubscriptionByUserId(Long userId);
+
+    Long getUserIdByUsername(String username);
+
+    UserEntity getUserByUsername(String username);
 }

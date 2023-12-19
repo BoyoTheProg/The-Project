@@ -23,6 +23,9 @@ public class Subscription extends BaseEntity{
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
+    @Column(name = "promo_code")
+    private String promoCode;
+
     public LocalDate getCreatedOn() {
         return createdOn;
     }
@@ -61,6 +64,14 @@ public class Subscription extends BaseEntity{
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
     }
 
     // getters and setters
