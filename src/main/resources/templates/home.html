@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en" >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    Movie Title
-  </title>
-  <!-- GOOGLE FONTS -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
-  <!-- OWL CAROUSEL -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
-  <!-- BOX ICONS -->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <!-- APP CSS -->
-  <link rel="stylesheet" href="/css/grid.css"/>
-  <link rel="stylesheet" href="/css/app.css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Movie Title
+    </title>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+          rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous"/>
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    <link rel="stylesheet" href="/css/grid.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
 
 </head>
 
@@ -25,38 +28,38 @@
 
 <!-- NAV -->
 <header class="nav-wrapper">
-  <div class="container">
-    <div class="nav">
-      <a href="#" class="logo">
-        <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
-      </a>
-      <a href="/movies/add" class="logo" sec:authorize="hasRole('ADMIN')">
-        <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color" >Add Movie</span>
-      </a>
-      <ul class="nav-menu" id="nav-menu">
-        <li><a href="/home">Home</a></li>
-        <li><a href="/genres">Genres</a></li>
-        <li><a href="#infoSection">About</a></li>
-        <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
-        <li>
-          <a href="/login" class="btn btn-hover"  sec:authorize="!isAuthenticated()">
-            <span>Log in</span>
-          </a>
-          <a href="/register" class="btn btn-hover" sec:authorize="!isAuthenticated()">
-            <span>Register</span>
-          </a>
-          <form th:method="post"
-                th:action="@{/logout}">
-            <input type="submit" class="button1" value="Logout" sec:authorize="isAuthenticated()"/>
-          </form>
-        </li>
-      </ul>
-      <!-- MOBILE MENU TOGGLE -->
-      <div class="hamburger-menu" id="hamburger-menu">
-        <div class="hamburger"></div>
-      </div>
+    <div class="container">
+        <div class="nav">
+            <a href="#" class="logo">
+                <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
+            </a>
+            <a href="/movies/add" class="logo" sec:authorize="hasRole('ADMIN')">
+                <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color">Add Movie</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/genres">Genres</a></li>
+                <li><a href="#infoSection">About</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
+                <li>
+                    <a href="/login" class="btn btn-hover" sec:authorize="!isAuthenticated()">
+                        <span>Log in</span>
+                    </a>
+                    <a href="/register" class="btn btn-hover" sec:authorize="!isAuthenticated()">
+                        <span>Register</span>
+                    </a>
+                    <form th:method="post"
+                          th:action="@{/logout}">
+                        <input type="submit" class="button1" value="Logout" sec:authorize="isAuthenticated()"/>
+                    </form>
+                </li>
+            </ul>
+            <!-- MOBILE MENU TOGGLE -->
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="hamburger"></div>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 <!-- END NAV -->
 
@@ -93,240 +96,330 @@
             <div class="item-content-description top-down delay-4" th:text="${movie.description}">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, possimus eius. Deserunt non odit, cum vero reprehenderit laudantium odio vitae autem quam, incidunt molestias ratione mollitia accusantium, facere ab suscipit.
             </div>
-            <div class="item-action top-down delay-6">
-              <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-hover">
-                <i class="bx bxs-right-arrow"></i>
-                <span>Watch now</span>
-              </a>
-            </div>
+              <div class="item-action top-down delay-6">
+                  <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                      <input type="hidden" name="watched" value="true" />
+                      <button type="submit" class="btn2 btn2-hover">
+                          <i class="bx bxs-right-arrow"></i>
+                          <span>Watch now</span>
+                      </button>
+                  </form>
+              </div>
           </div>
         </div>
       </div>
       <!-- END SLIDE ITEM -->
 
-    </div>
-  </div>
-  <!-- END HERO SLIDE -->
-  <!-- TOP MOVIES SLIDE -->
-  <div class="top-movies-slide">
-      <div class="section-header">
-          top movies
-      </div>
-    <div class="owl-carousel" id="top-movies-slide">
-      <!-- MOVIE ITEM -->
-      <div th:each="movie : ${movies}"  class="movie-item">
-        <img th:src="${movie.poster}" alt="" class="movie-item-img">
-        <div class="movie-item-content">
-          <a th:href="@{'/movies/' + ${movie.id}}">
-            <div class="movie-item-title" th:text="${movie.title}">
-              The Dark Knight
-            </div>
-          </a>
-          <div class="movie-infos">
-            <div class="movie-info">
-              <i class="bx bxs-star"></i>
-              <span th:text="${movie.rating}">9.5</span>
-            </div>
-            <div class="movie-info">
-              <i class="bx bxs-time"></i>
-              <span th:text="${movie.runtime} + ' mins'">120 mins</span>
-            </div>
-            <div class="movie-info">
-              <span>HD</span>
-            </div>
-            <div class="movie-info">
-              <span th:text="${movie.category}">16+</span>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- END MOVIE ITEM -->
     </div>
-  </div>
-  <!-- END TOP MOVIES SLIDE -->
-</div>
-<!-- LATEST MOVIES SECTION -->
-      <div class="section">
-        <div class="container">
-          <div class="section-header">
-            latest movies
-          </div>
-          <div class="movies-slide carousel-nav-center owl-carousel">
+    <!-- END HERO SLIDE -->
+    <!-- TOP MOVIES SLIDE -->
+    <div class="top-movies-slide">
+        <div class="section-header">
+            top movies
+        </div>
+        <div class="owl-carousel" id="top-movies-slide">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${movies}" href="#" class="movie-item">
-              <img th:src="${movie.poster}" alt="" class="movie-item-img">
-              <div class="movie-item-content">
-                <a th:href="@{'/movies/' + ${movie.id}}">
-                  <div class="movie-item-title" th:text="${movie.title}">
-                    The Dark Knight
-                  </div>
-                </a>
-                <div class="movie-infos">
-                  <div class="movie-info">
-                    <i class="bx bxs-star"></i>
-                    <span th:text="${movie.rating}">9.5</span>
-                  </div>
-                  <div class="movie-info">
-                    <i class="bx bxs-time"></i>
-                    <span th:text="${movie.runtime} + ' mins'">120 mins</span>
-                  </div>
-                  <div class="movie-info">
-                    <span>HD</span>
-                  </div>
-                  <div class="movie-info">
-                    <span th:text="${movie.category}">16+</span>
-                  </div>
+            <div th:each="movie : ${movies}" class="movie-item">
+                <img th:src="${movie.poster}" alt="" class="movie-item-img">
+                <div class="movie-item-content">
+                    <a th:href="@{'/movies/' + ${movie.id}}">
+                        <div class="movie-item-title" th:text="${movie.title}">
+                            The Dark Knight
+                        </div>
+                    </a>
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span th:text="${movie.rating}">9.5</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>HD</span>
+                        </div>
+                        <div class="movie-info">
+                            <span th:text="${movie.category}">16+</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
             <!-- END MOVIE ITEM -->
+        </div>
     </div>
-  </div>
+    <!-- END TOP MOVIES SLIDE -->
+</div>
+<!-- LATEST MOVIES SECTION -->
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            latest movies
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            <div th:each="movie : ${movies}" href="#" class="movie-item">
+                <img th:src="${movie.poster}" alt="" class="movie-item-img">
+                <div class="movie-item-content">
+                    <a th:href="@{'/movies/' + ${movie.id}}">
+                        <div class="movie-item-title" th:text="${movie.title}">
+                            The Dark Knight
+                        </div>
+                    </a>
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span th:text="${movie.rating}">9.5</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>HD</span>
+                        </div>
+                        <div class="movie-info">
+                            <span th:text="${movie.category}">16+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MOVIE ITEM -->
+        </div>
+    </div>
 </div>
 <!-- END LATEST MOVIES SECTION -->
-<!-- END HERO SECTION -->
 
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Last Watched Movies
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            <div th:each="movie : ${lastWatchedMovies}" href="#" class="movie-item">
+                <img th:src="${movie.poster}" alt="" class="movie-item-img">
+                <div class="movie-item-content">
+                    <a th:href="@{'/movies/' + ${movie.id}}">
+                        <div class="movie-item-title" th:text="${movie.title}">
+                            The Dark Knight
+                        </div>
+                    </a>
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span th:text="${movie.rating}">9.5</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>HD</span>
+                        </div>
+                        <div class="movie-info">
+                            <span th:text="${movie.category}">16+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MOVIE ITEM -->
+        </div>
+    </div>
+</div>
+
+
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            Recommended Movies
+        </div>
+        <div class="movies-slide carousel-nav-center owl-carousel">
+            <!-- MOVIE ITEM -->
+            <div th:each="movie : ${recommendedMovies}" href="#" class="movie-item">
+                <img th:src="${movie.poster}" alt="" class="movie-item-img">
+                <div class="movie-item-content">
+                    <a th:href="@{'/movies/' + ${movie.id}}">
+                        <div class="movie-item-title" th:text="${movie.title}">
+                            The Dark Knight
+                        </div>
+                    </a>
+                    <div class="movie-infos">
+                        <div class="movie-info">
+                            <i class="bx bxs-star"></i>
+                            <span th:text="${movie.rating}">9.5</span>
+                        </div>
+                        <div class="movie-info">
+                            <i class="bx bxs-time"></i>
+                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        </div>
+                        <div class="movie-info">
+                            <span>HD</span>
+                        </div>
+                        <div class="movie-info">
+                            <span th:text="${movie.category}">16+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MOVIE ITEM -->
+        </div>
+    </div>
+</div>
+
+
+<!-- END HERO SECTION -->
 
 
 <!-- INFO SECTION -->
 <div class="section" id="infoSection">
-  <div class="container">
-    <div class="pricing">
-      <div class="pricing-header">
-        Fl<span class="main-color">i</span>x info
-      </div>
-      <div class="pricing-list">
-        <div class="row">
+    <div class="container">
+        <div class="pricing">
+            <div class="pricing-header">
+                Fl<span class="main-color">i</span>x info
+            </div>
+            <div class="pricing-list">
+                <div class="row">
 
-          <div class="col-4 col-md-12 col-sm-12">
-            <div class="pricing-box hightlight">
-              <div class="pricing-box-header">
-                <div class="pricing-price">
-                  About Us
+                    <div class="col-4 col-md-12 col-sm-12">
+                        <div class="pricing-box hightlight">
+                            <div class="pricing-box-header">
+                                <div class="pricing-price">
+                                    About Us
+                                </div>
+                            </div>
+                            <div class="pricing-box-content">
+                                <p>Originals</p>
+                                <p>
+                                    Your Movie Site is dedicated to bringing you the latest and greatest in the world of
+                                    movies.
+                                    Whether you're a film enthusiast or just looking for something to watch on a lazy
+                                    Sunday,
+                                    we've got you covered with reviews, recommendations, and much more.<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-12 col-sm-12">
+                        <div class="pricing-box hightlight">
+                            <div class="pricing-box-header">
+                                <div class="pricing-price">
+                                    Our Mission
+                                </div>
+                            </div>
+                            <div class="pricing-box-content">
+                                <p>Switch plans anytime</p>
+                                <p>
+                                    At Your Movie Site, our mission is to provide a platform for movie lovers to
+                                    explore, discover,
+                                    and discuss their favorite films. We believe in the power of storytelling and the
+                                    impact of
+                                    cinema on our lives. Join us in the journey of celebrating the art of filmmaking.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-12 col-sm-12" id="contacts">
+                        <div class="pricing-box hightlight">
+                            <div class="pricing-box-header">
+                                <div class="pricing-price">
+                                    Contact Us
+                                </div>
+                            </div>
+                            <div class="pricing-box-content">
+                                <p>
+                                    Have questions, suggestions, or just want to say hello? Feel free to contact us
+                                    at<br>
+                                    <a href="mailto:info@yourmoviesite.com">info@yourmoviesite.com</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="pricing-box-content">
-                <p>Originals</p>
-                <p>
-                  Your Movie Site is dedicated to bringing you the latest and greatest in the world of movies.
-                  Whether you're a film enthusiast or just looking for something to watch on a lazy Sunday,
-                  we've got you covered with reviews, recommendations, and much more.<br>
-                </p>
-              </div>
             </div>
-          </div>
-          <div class="col-4 col-md-12 col-sm-12">
-            <div class="pricing-box hightlight">
-              <div class="pricing-box-header">
-                <div class="pricing-price">
-                  Our Mission
-                </div>
-              </div>
-              <div class="pricing-box-content">
-                <p>Switch plans anytime</p>
-                <p>
-                  At Your Movie Site, our mission is to provide a platform for movie lovers to explore, discover,
-                  and discuss their favorite films. We believe in the power of storytelling and the impact of
-                  cinema on our lives. Join us in the journey of celebrating the art of filmmaking.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-4 col-md-12 col-sm-12" id="contacts">
-            <div class="pricing-box hightlight">
-              <div class="pricing-box-header">
-                <div class="pricing-price">
-                  Contact Us
-                </div>
-              </div>
-              <div class="pricing-box-content">
-                <p>
-                  Have questions, suggestions, or just want to say hello? Feel free to contact us at<br>
-                  <a href="mailto:info@yourmoviesite.com">info@yourmoviesite.com</a>.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- END INFO SECTION -->
 
 <!-- FOOTER SECTION -->
 <footer class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-4 col-md-6 col-sm-12">
-        <div class="content">
-          <a href="/home" class="logo">
-            <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
-          </a>
-          <p>
-            ...Dream, Want, Watch...
-          </p>
-          <div class="social-list">
-            <a href="#" class="social-item">
-              <i class="bx bxl-facebook"></i>
-            </a>
-            <a href="#" class="social-item">
-              <i class="bx bxl-twitter"></i>
-            </a>
-            <a href="#" class="social-item">
-              <i class="bx bxl-instagram"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-8 col-md-6 col-sm-12">
+    <div class="container">
         <div class="row">
-          <div class="col-3 col-md-6 col-sm-6">
-            <div class="content">
-              <p><b>Flix</b></p>
-              <ul class="footer-menu">
-                <li><a href="#infoSection">About us</a></li>
-                <li><a href="#">My profile</a></li>
-                <li><a href="#contacts">Contacts</a></li>
-              </ul>
+            <div class="col-4 col-md-6 col-sm-12">
+                <div class="content">
+                    <a href="/home" class="logo">
+                        <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
+                    </a>
+                    <p>
+                        ...Dream, Want, Watch...
+                    </p>
+                    <div class="social-list">
+                        <a href="#" class="social-item">
+                            <i class="bx bxl-facebook"></i>
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="bx bxl-twitter"></i>
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="bx bxl-instagram"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-3 col-md-6 col-sm-6">
-            <div class="content">
-              <p><b>Browse</b></p>
-              <ul class="footer-menu">
-                <li><a href="#infoSection">About us</a></li>
-                <li><a href="#">My profile</a></li>
-                <li><a href="#contacts">Contacts</a></li>
-              </ul>
+            <div class="col-8 col-md-6 col-sm-12">
+                <div class="row">
+                    <div class="col-3 col-md-6 col-sm-6">
+                        <div class="content">
+                            <p><b>Flix</b></p>
+                            <ul class="footer-menu">
+                                <li><a href="#infoSection">About us</a></li>
+                                <li><a href="#">My profile</a></li>
+                                <li><a href="#contacts">Contacts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3 col-md-6 col-sm-6">
+                        <div class="content">
+                            <p><b>Browse</b></p>
+                            <ul class="footer-menu">
+                                <li><a href="#infoSection">About us</a></li>
+                                <li><a href="#">My profile</a></li>
+                                <li><a href="#contacts">Contacts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3 col-md-6 col-sm-6">
+                        <div class="content">
+                            <p><b>Help</b></p>
+                            <ul class="footer-menu">
+                                <li><a href="#infoSection">About us</a></li>
+                                <li><a href="#">My profile</a></li>
+                                <li><a href="#contacts">Contacts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-3 col-md-6 col-sm-6">
-            <div class="content">
-              <p><b>Help</b></p>
-              <ul class="footer-menu">
-                <li><a href="#infoSection">About us</a></li>
-                <li><a href="#">My profile</a></li>
-                <li><a href="#contacts">Contacts</a></li>
-              </ul>
-            </div>
-          </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="copyright">
-    Copyright 2023 &copy; Boyan
-  </div>
+    </div>
+    <div class="copyright">
+        Copyright 2023 &copy; Boyan
+    </div>
 </footer>
 <!-- END FOOTER SECTION -->
 
 <!-- SCRIPT -->
 <!-- JQUERY -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- OWL CAROUSEL -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous"></script>
 <!-- APP SCRIPT -->
 <script src="/JavaScript/app.js"></script>
 

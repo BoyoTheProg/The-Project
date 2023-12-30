@@ -29,8 +29,9 @@ public class HomeController {
 
         MovieHomeDto movieHomeDto = movieService.getHomeViewData();
         model.addAttribute("movies", movieHomeDto.getAvailableMovies());
+        model.addAttribute("lastWatchedMovies", movieHomeDto.getLastWatchedMovies());
+        model.addAttribute("recommendedMovies", movieHomeDto.getRecommendedMovies());
 
         return "home";
-//        return new ModelAndView("home");
     }
 }

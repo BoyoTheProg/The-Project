@@ -27,12 +27,9 @@ spring:
         period: 0
 logging:
   level:
-    org:
-      hibernate:
-        type:
-          descriptor: TRACE
-        SQL: DEBUG
-      nodeValue: WARN
+    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.SQL: DEBUG
+    org.hibernate.nodeValue: WARN
     blog: WARN
 server:
   port: 8080
