@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <style>
+        .con {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white; /* Set the text color to white */
+            font-family: Arial, sans-serif; /* Choose an appropriate font */
+        }
+
+        .container1{
+            padding: 20px; /* Adjust as needed */
+            border-radius: 10px; /* Rounded corners for the container */
+            height: auto;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+    <h2>User Profile</h2>
+
+    <!-- Display the user's profile picture -->
+    <div class="con">
+        <div class="container1">
+            <div class="profile-pic-container">
+                <!-- Use Thymeleaf to dynamically set the src attribute -->
+               <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic" alt="Profile Picture"/>
+            </div>
+            <br>
+            <br>
+            <a class="button1" th:href="@{'/profile/' + ${userId} + '/upload'}">Update Profile Picture</a>
+        </div>
+        <div class="movie-details">
+            <div class="movie-details-left">
+                <div class="release-year" th:text="'Username: ' + ${profile.getUsername()}">User</div>
+            </div>
+
+            <div class="movie-details-right">
+                <div class="genre" th:text="'Subscription: ' + ${subscription.getPlan().getName()}">Example</div>
+            </div>
+        </div>
+    </div>
+    <a th:href="@{'/profile/' + ${userId} + '/upload'}">Upload Profile Picture</a>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Picture Upload</title>
+  <link rel="stylesheet" href="/css/app.css"/>
+  <style>
+        .con {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("/images/404.jpg");
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white; /* Set the text color to white */
+            font-family: Arial, sans-serif; /* Choose an appropriate font */
+        }
+
+        .container1{
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px; /* Adjust as needed */
+            border-radius: 10px; /* Rounded corners for the container */
+            height: 80vh;
+            width: 800px;
+        }
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::nav}"></header>
+
+<div class="con">
+  <div class="container1">
+    <h2>Profile Picture Upload</h2>
+    <br>
+    <br>
+    <div class="profile-pic-container">
+      <!-- Use Thymeleaf to dynamically set the src attribute -->
+      <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic" alt="Profile Picture"/>
+    </div>
+    <br>
+    <br>
+    <form th:action="@{'/profile/' + ${userId} + '/upload'}" method="post" enctype="multipart/form-data">
+      <label for="profilePicInput" class="button1">
+        <span id="fileLabel">Choose File</span>
+      </label>
+      <input class="file-input"  id="profilePicInput" type="file" onchange="updateFileLabel(this)" name="profilePicFile" accept="image/*" required>
+      <input class="button1" type="submit" value="Upload">
+    </form>
+  </div>
+</div>
+
+<script>
+    function updateFileLabel(input) {
+        const fileLabel = document.getElementById('fileLabel');
+        if (input.files.length > 0) {
+            fileLabel.textContent = input.files[0].name;
+        } else {
+            fileLabel.textContent = 'Choose File';
+        }
+    }
+</script>
+
+</body>
+</html>
