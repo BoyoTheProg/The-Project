@@ -21,7 +21,6 @@
     <!-- APP CSS -->
     <link rel="stylesheet" href="/css/grid.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-
 </head>
 
 <body>
@@ -36,10 +35,26 @@
             <a href="/movies/add" class="logo" sec:authorize="hasRole('ADMIN')">
                 <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color">Add Movie</span>
             </a>
+            <div class="dropdown">
+                <input type="text" placeholder="Search.." id="myInput" oninput="filterFunction()" class="form-control">
+                <div id="myDropdown" class="dropdown-content">
+                    <!-- Thymeleaf loop to insert movies into the HTML -->
+                    <th:block th:each="movie : ${movies}">
+                        <a th:href="@{'/movies/' + ${movie.id}}" class="th-movie-item" th:style="'display: none;'">
+                            <div class="movie-details">
+                                <span class="movie-title" th:text="${movie.title}"></span>
+                                <span class="movie-year" th:text="${movie.releaseYear}"></span>
+                                <img th:src="${movie.poster}" alt="Movie Poster" />
+                            </div>
+                        </a>
+                    </th:block>
+                </div>
+            </div>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/genres">Genres</a></li>
                 <li><a href="#infoSection">About</a></li>
+                <li><a th:href="@{'/profile/' + ${userId}}">Profile</a></li>
                 <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
                 <li>
                     <a href="/login" class="btn btn-hover" sec:authorize="!isAuthenticated()">
@@ -376,7 +391,7 @@
                             <p><b>Flix</b></p>
                             <ul class="footer-menu">
                                 <li><a href="#infoSection">About us</a></li>
-                                <li><a href="#">My profile</a></li>
+                                <li><a th:href="@{'/profile/' + ${userId}}">Profile</a></li>
                                 <li><a href="#contacts">Contacts</a></li>
                             </ul>
                         </div>
@@ -386,7 +401,7 @@
                             <p><b>Browse</b></p>
                             <ul class="footer-menu">
                                 <li><a href="#infoSection">About us</a></li>
-                                <li><a href="#">My profile</a></li>
+                                <li><a th:href="@{'/profile/' + ${userId}}">Profile</a></li>
                                 <li><a href="#contacts">Contacts</a></li>
                             </ul>
                         </div>
@@ -396,7 +411,7 @@
                             <p><b>Help</b></p>
                             <ul class="footer-menu">
                                 <li><a href="#infoSection">About us</a></li>
-                                <li><a href="#">My profile</a></li>
+                                <li><a th:href="@{'/profile/' + ${userId}}">Profile</a></li>
                                 <li><a href="#contacts">Contacts</a></li>
                             </ul>
                         </div>
@@ -422,6 +437,38 @@
         crossorigin="anonymous"></script>
 <!-- APP SCRIPT -->
 <script src="/JavaScript/app.js"></script>
+<script>
+    document.addEventListener("click", function(event) {
+        var dropdown = document.getElementById("myDropdown");
+
+        // Check if the clicked element is not within the dropdown
+        if (!event.target.closest("#myDropdown")) {
+          // If it's outside, hide the dropdown
+           dropdown.classList.remove("show");
+        }
+    });
+
+    function toggleDropdown() {
+        var dropdown = document.getElementById("myDropdown");
+        dropdown.classList.toggle("show");
+    }
+
+    function filterFunction() {
+        var input, filter, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        a = document.getElementsByClassName("th-movie-item");
+
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>
 
 </body>
 
