@@ -9,12 +9,18 @@ import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.SubscriptionType;
 import com.movieapp.model.enums.UserRoleEnum;
 import com.movieapp.repo.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -114,8 +120,14 @@ public class UserServiceImpl implements UserService {
                 String username = ((User) principal).getUsername();
 
                 // Assuming you have a method to get the user by username returning Optional<UserEntity>
-                Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+                Optional<UserEntity> userEntityOptional = userRepository.getByUsername(username);
 
+                if (userEntityOptional.isPresent()) {
+                    UserEntity user = userEntityOptional.get();
+                    // Force initialization of collections if necessary
+                    Hibernate.initialize(user.getClass());
+                    // Now you can safely access the collections
+                }
                 // Return the UserEntity if present in the Optional
                 return userEntityOptional.orElse(null);
             }
@@ -169,15 +181,60 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getUserIdByUsername(String username) {
         // Assume user repository method to get the user's ID by username
-        Optional<UserEntity> user = userRepository.findByUsername(username);
+        Optional<UserEntity> user = userRepository.getByUsername(username);
         return user != null ? user.get().getId() : null;
     }
 
     @Override
     public UserEntity getUserByUsername(String username) {
 
-        Optional<UserEntity> user = userRepository.findByUsername(username);
+        Optional<UserEntity> user = userRepository.getByUsername(username);
 
         return user != null ? user.get() : null;
     }
+
+
+    private static final String PROFILE_PICS_DIR = "/images";
+
+    @Override
+    public void setUserProfilePic( MultipartFile profilePicFile) throws IOException {
+        UserEntity currentUser = getCurrentUser();
+
+        // Check if the user is authenticated
+        if (currentUser != null) {
+            // Save the profile picture to the file system with a unique filename
+            String fileName = currentUser.getId() + "_profile_pic_" + System.currentTimeMillis() + ".jpg";
+            Path profilePicsPath = Path.of(PROFILE_PICS_DIR);
+            Files.createDirectories(profilePicsPath);
+            Path filePath = profilePicsPath.resolve(fileName);
+            Files.copy(profilePicFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Update the user's profile pic field in the database with the filename
+            currentUser.setProfilePic(fileName);
+            userRepository.save(currentUser);
+        }
+    }
+
+    @Override
+    public byte[] getUserProfilePic() throws IOException {
+        UserEntity currentUser = getCurrentUser();
+
+        if (currentUser != null) {
+            String fileName = currentUser.getProfilePic();
+
+            if (fileName != null) {
+                Path filePath = Path.of(PROFILE_PICS_DIR, fileName);
+
+                try {
+                    return Files.readAllBytes(filePath);
+                } catch (IOException e) {
+                    e.printStackTrace(); // Handle the exception (log or rethrow)
+                }
+            }
+        }
+
+        return null;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.movieapp.controller;
 
 import com.movieapp.model.dto.movie.MovieHomeDto;
 import com.movieapp.service.MovieService;
+import com.movieapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,11 @@ public class HomeController {
 
 
     private final MovieService movieService;
+    private final UserService userService;
 
-    public HomeController(MovieService movieService) {
+    public HomeController(MovieService movieService, UserService userService) {
         this.movieService = movieService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -31,6 +34,7 @@ public class HomeController {
         model.addAttribute("movies", movieHomeDto.getAvailableMovies());
         model.addAttribute("lastWatchedMovies", movieHomeDto.getLastWatchedMovies());
         model.addAttribute("recommendedMovies", movieHomeDto.getRecommendedMovies());
+        model.addAttribute("userId", userService.getCurrentUser().getId());
 
         return "home";
     }

@@ -5,7 +5,9 @@ import com.movieapp.model.dto.user.UserRegisterBindingDto;
 import com.movieapp.model.entity.Subscription;
 import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.UserRoleEnum;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -27,4 +29,8 @@ public interface UserService {
     Long getUserIdByUsername(String username);
 
     UserEntity getUserByUsername(String username);
+
+    void setUserProfilePic(MultipartFile profilePicFile) throws IOException;
+
+    byte[] getUserProfilePic() throws IOException;
 }
