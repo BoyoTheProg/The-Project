@@ -6,23 +6,31 @@ import com.movieapp.model.dto.movie.MovieDetailDto;
 import com.movieapp.model.dto.movie.MovieHomeDto;
 import com.movieapp.model.entity.Movie;
 import com.movieapp.model.entity.Review;
+import com.movieapp.model.entity.UserEntity;
+import com.movieapp.model.entity.UserMovieInteraction;
 import com.movieapp.model.enums.GenreType;
 import com.movieapp.repo.MovieRepository;
 import com.movieapp.repo.ReviewRepository;
+import com.movieapp.repo.UserMovieInteractionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final ReviewRepository reviewRepository;
+    private final UserMovieInteractionRepository userMovieInteractionRepository;
+    private final UserService userService;
 
-    public MovieServiceImpl(MovieRepository movieRepository, ReviewRepository reviewRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, ReviewRepository reviewRepository, UserMovieInteractionRepository userMovieInteractionRepository, UserService userService) {
         this.movieRepository = movieRepository;
         this.reviewRepository = reviewRepository;
+        this.userMovieInteractionRepository = userMovieInteractionRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -38,6 +46,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setUrl(movieAddBindingDto.getUrl());
             movie.setDescription(movieAddBindingDto.getDescription());
             movie.setReleaseYear(movieAddBindingDto.getReleaseYear());
+            movie.setSlidePoster(movieAddBindingDto.getSlidePoster());
             movie.setPoster(movieAddBindingDto.getPoster());
             movie.setCategory(movieAddBindingDto.getCategory());
             movie.setGenre(movieAddBindingDto.getGenre());
@@ -54,12 +63,90 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Transactional
     public MovieHomeDto getHomeViewData() {
-        List<MovieDTO> availableMovies = movieRepository.getAllAvailable().stream()
-                .map(MovieDTO::createFromMovie)
-                .toList();
+        try {
+            UserEntity currentUser = userService.getCurrentUser();
 
-        return new MovieHomeDto(availableMovies);
+            List<MovieDTO> availableMovies = movieRepository.getAllAvailable().stream()
+                    .map(MovieDTO::createFromMovie)
+                    .collect(Collectors.toList());
+
+            List<MovieDTO> latestMovies = movieRepository.getLatestMovies().stream()
+                    .map(MovieDTO::createFromMovie)
+                    .collect(Collectors.toList());
+
+            List<MovieDTO> lastWatchedMovies = getLastWatchedMovies(currentUser.getId());
+
+            List<MovieDTO> recommendedMovies = getRecommendedMovies(currentUser.getId());
+
+            if (lastWatchedMovies.isEmpty()){
+                lastWatchedMovies = availableMovies;
+            }
+            // Return MovieHomeDto with available, last watched, and recommended movies
+            return new MovieHomeDto(availableMovies,latestMovies, lastWatchedMovies, recommendedMovies);
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            e.printStackTrace();
+            // Return an empty MovieHomeDto or throw a custom exception
+            return new MovieHomeDto(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        }
+    }
+
+    public List<MovieDTO> getLastWatchedMovies(Long userId) {
+        // Get the last five interactions for the specified user
+        UserEntity user = userService.getCurrentUser();
+        List<UserMovieInteraction> lastFiveInteractions = userMovieInteractionRepository.findLastFiveInteractions(user.getId());
+
+        // Map Movie entities to MovieDTOs
+        List<MovieDTO> lastWatchedMoviesDTO = lastFiveInteractions.stream()
+                .map(UserMovieInteraction::getMovie) // Get the Movie entity from each interaction
+                .map(MovieDTO::createFromMovie) // Map the Movie entity to MovieDTO
+                .collect(Collectors.toList());
+
+        return lastWatchedMoviesDTO;
+    }
+
+
+    @Override
+    public List<MovieDTO> getRecommendedMovies(Long userId) {
+        UserEntity user = userService.getCurrentUser();
+        // Get the last watched movies for the user
+        List<MovieDTO> lastWatchedMovies = getLastWatchedMovies(user.getId());
+
+        // Calculate the most common genre in the last watched movies
+        Map<GenreType, Long> genreFrequencyMap = lastWatchedMovies.stream()
+                .collect(Collectors.groupingBy(MovieDTO::getGenre, Collectors.counting()));
+
+        // Find the most frequent genre
+        Optional<Map.Entry<GenreType, Long>> mostFrequentGenreEntry = genreFrequencyMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue());
+
+        // Retrieve recommended movies of the most common genre
+        GenreType mostFrequentGenre = mostFrequentGenreEntry.map(Map.Entry::getKey).orElse(GenreType.ACTION);
+        List<MovieDTO> recommendedMoviesDTO = getAllMoviesByGenre(mostFrequentGenre);
+
+        return recommendedMoviesDTO;
+    }
+
+    @Override
+    public List<MovieDTO> getAllMoviesByGenre(GenreType genre) {
+        return movieRepository.getMoviesByGenre(genre.toString()).stream()
+                .map(MovieDTO::createFromMovie)
+                .collect(Collectors.toList());
+    }
+
+    // Method to get a random movie poster for a given genre
+    @Override
+    public String getRandomMoviePoster(GenreType genre) {
+        List<MovieDTO> movies = getAllMoviesByGenre(genre);
+        if (movies.isEmpty()) {
+            // Handle case when there are no movies for the given genre
+            return ""; // Or provide a default poster
+        }
+        Random random = new Random();
+        MovieDTO randomMovie = movies.get(random.nextInt(movies.size()));
+        return randomMovie.getSlidePoster();
     }
 
     @Override
@@ -70,6 +157,7 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.getUrl(),
                 movie.getPoster(),
+                movie.getSlidePoster(),
                 movie.getReleaseYear(),
                 movie.getRuntime(),
                 movie.getCast(),

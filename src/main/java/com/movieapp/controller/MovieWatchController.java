@@ -4,6 +4,7 @@ import com.movieapp.model.entity.Movie;
 import com.movieapp.model.entity.Review;
 import com.movieapp.service.MovieService;
 import com.movieapp.service.ReviewService;
+import com.movieapp.service.UserMovieInteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,8 @@ public class MovieWatchController {
     private ReviewService reviewService;
     @Autowired
     private MovieService movieService; // Assume you have a MovieService to fetch movie data
-
+    @Autowired
+    private UserMovieInteractionService userMovieInteractionService;
 
 
     @GetMapping("/movies/{id}")
@@ -29,6 +31,12 @@ public class MovieWatchController {
             model.addAttribute("movie", movie);
             return "movie";
         }
+
+    @PostMapping("/movies/{id}/interaction")
+    public String saveUserMovieInteraction(@PathVariable Long id, @RequestParam(name = "watched", defaultValue = "true") boolean watched) {
+        userMovieInteractionService.saveUserMovieInteraction(id, watched);
+        return "redirect:/movies/" + id;
+    }
 
     @PostMapping("/movies/remove/{id}")
     public ModelAndView remove(@PathVariable("id") Long id){

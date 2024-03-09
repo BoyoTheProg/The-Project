@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/css/app.css"/>
 </head>
 <body>
-<header th:replace="fragments/commons::nav"></header>
+<header th:replace="fragments/commons::header"></header>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add movie</span></h1>
 
@@ -60,6 +60,17 @@
                    th:errorclass="bg-danger">
             <small th:if="${#fields.hasErrors('poster')}"
                    th:errors="*{poster}" class="text-danger">Poster error message</small>
+        </div>
+<!--        slide poster-->
+        <div class="form-group">
+            <div class="label-holder text-white textCol d-flex justify-content-center">
+                    <label for="slidePoster" class="h4 mb-2">Slide Poster</label>
+            </div>
+            <input type="text" class="form-control" id="slidePoster"
+                   th:field="*{slidePoster}"
+                   th:errorclass="bg-danger">
+            <small th:if="${#fields.hasErrors('slidePoster')}"
+                   th:errors="*{slidePoster}" class="text-danger">Slide poster error message</small>
         </div>
 <!--        releaseYear-->
         <div class="form-group">
@@ -131,6 +142,9 @@
                 <option value="SCIENCE_FICTION">Science-Fiction</option>
                 <option value="FANTASY">Fantasy</option>
                 <option value="WESTERN">Western</option>
+                <option value="ADVENTURE">Adventure</option>
+                <option value="ANIMATION">Animation</option>
+                <option value="MYSTERY">Mystery</option>
             </select>
 
             <small th:if="${#fields.hasErrors('genre')}"

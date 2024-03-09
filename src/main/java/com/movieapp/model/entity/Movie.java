@@ -1,14 +1,14 @@
 package com.movieapp.model.entity;
+import com.movieapp.model.dto.movie.MovieDTO;
 import com.movieapp.model.enums.CategoryType;
 import com.movieapp.model.enums.GenreType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "movies")
@@ -19,6 +19,8 @@ public class Movie extends BaseEntity{
     private String url;
     @Column(nullable = false, unique = true)
     private String poster;
+    @Column(nullable = false, unique = true, name = "slide")
+    private String slidePoster;
     @Column(nullable = false, name = "release_year")
     private int releaseYear;
     @Column(nullable = false, name = "runtime")
@@ -28,7 +30,7 @@ public class Movie extends BaseEntity{
     @Column(nullable = false)
     private String director;
     @Column(nullable = false)
-    @Length(min = 2, max = 50)
+    @Length(min = 2, max = 255)
     private String description;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -155,6 +157,14 @@ public class Movie extends BaseEntity{
     // Calculate total reviews dynamically based on reviews list size
     public int getTotalReviews() {
         return (reviews != null) ? reviews.size() : 0;
+    }
+
+    public String getSlidePoster() {
+        return slidePoster;
+    }
+
+    public void setSlidePoster(String slidePoster) {
+        this.slidePoster = slidePoster;
     }
 }
 

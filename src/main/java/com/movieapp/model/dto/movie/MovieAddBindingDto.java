@@ -18,6 +18,8 @@ public class MovieAddBindingDto {
     private String url;
     @NotNull(message = "You must enter the poster url!")
     private String poster;
+    @NotNull(message = "You must enter the slide poster url!")
+    private String slidePoster;
     @NotNull(message = "You must enter the year! Year must not be in the future!")
     @Min(1900)
     @Max(2023)
@@ -30,7 +32,7 @@ public class MovieAddBindingDto {
     @NotNull(message = "You must enter the director!")
     private String director;
     @NotNull
-    @Length(min = 2, max = 50,  message = "Description length must be between 2 and 50 characters!")
+    @Length(min = 2, max = 255,  message = "Description length must be between 2 and 255 characters!")
     private String description;
     @NotNull(message = "You must select a genre!")
     private GenreType genre;
@@ -127,5 +129,13 @@ public class MovieAddBindingDto {
 
     public void setRuntime(int runtime) {
         this.runtime = runtime;
+    }
+
+    public String getSlidePoster() {
+        return slidePoster;
+    }
+
+    public void setSlidePoster(String slidePoster) {
+        this.slidePoster = slidePoster;
     }
 }

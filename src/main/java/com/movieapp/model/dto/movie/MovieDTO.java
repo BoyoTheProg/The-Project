@@ -10,6 +10,7 @@ public class MovieDTO {
     private String title;
     private String url;
     private String poster;
+    private String slidePoster;
     private int releaseYear;
     private int runtime;
     private String cast;
@@ -18,6 +19,7 @@ public class MovieDTO {
     private GenreType genre;
     private CategoryType category;
     private double rating;
+    private String formattedRuntime;
 
 
     public Long getId() {
@@ -116,6 +118,22 @@ public class MovieDTO {
         this.runtime = runtime;
     }
 
+    public String getSlidePoster() {
+        return slidePoster;
+    }
+
+    public void setSlidePoster(String slidePoster) {
+        this.slidePoster = slidePoster;
+    }
+
+    public String getFormattedRuntime() {
+        return formattedRuntime;
+    }
+
+    public void setFormattedRuntime(String formattedRuntime) {
+        this.formattedRuntime = formattedRuntime;
+    }
+
     public static MovieDTO createFromMovie(Movie movie){
         MovieDTO movieDTO = new MovieDTO();
 
@@ -123,6 +141,7 @@ public class MovieDTO {
         movieDTO.setTitle(movie.getTitle());
         movieDTO.setUrl(movie.getUrl());
         movieDTO.setPoster(movie.getPoster());
+        movieDTO.setSlidePoster(movie.getSlidePoster());
         movieDTO.setReleaseYear(movie.getReleaseYear());
         movieDTO.setRuntime(movie.getRuntime());
         movieDTO.setCast(movie.getCast());
@@ -132,6 +151,31 @@ public class MovieDTO {
         movieDTO.setCategory(movie.getCategory());
         movieDTO.setRating(movie.getRating());
 
+        int runtime = movie.getRuntime();
+        int hours = runtime / 60;  // Get the whole number of hours
+        int minutes = runtime % 60;
+        movieDTO.setFormattedRuntime(hours + "h " + minutes + "min");
+
         return movieDTO;
+    }
+
+    public Movie toMovie() {
+        Movie movie = new Movie();
+
+        movie.setId(this.getId());
+        movie.setTitle(this.getTitle());
+        movie.setUrl(this.getUrl());
+        movie.setPoster(this.getPoster());
+        movie.setSlidePoster(this.getSlidePoster());
+        movie.setReleaseYear(this.getReleaseYear());
+        movie.setRuntime(this.getRuntime());
+        movie.setCast(this.getCast());
+        movie.setDirector(this.getDirector());
+        movie.setDescription(this.getDescription());
+        movie.setGenre(this.getGenre());
+        movie.setCategory(this.getCategory());
+        movie.setRating(this.getRating());
+
+        return movie;
     }
 }
