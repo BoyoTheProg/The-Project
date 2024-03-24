@@ -1,4 +1,3 @@
-<!-- add.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,6 +5,12 @@
     <title>Add Review</title>
     <link rel="stylesheet" href="/css/grid.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+          rel="stylesheet">
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <style>
         .con {
             margin: 0;
@@ -62,35 +67,103 @@
         .back-link:hover {
             text-decoration: underline;
         }
+
+       .star-wrapper {
+  direction: rtl;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.star-wrapper a {
+  font-size: 4em;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.5s;
+  margin: 4px;
+}
+.star-wrapper a:hover {
+  color: gold;
+  transform: scale(1.3);
+}
+.s1:hover ~ a,
+.s2:hover ~ a,
+.s3:hover ~ a,
+.s4:hover ~ a,
+.s5:hover ~ a,
+.s6:hover ~ a,
+.s7:hover ~ a,
+.s8:hover ~ a,
+.s9:hover ~ a,
+.s10:hover ~ a {
+    color: gold;
+}
+
+.star-wrapper a:hover,
+.star-wrapper a.hovered {
+    color: gold;
+    transform: scale(1.3);
+}
+
+.star-wrapper .selected {
+    color: gold;
+}
     </style>
 </head>
 <body>
-    <header th:replace="~{fragments/commons::nav}"></header>
-    <div class="con">
-        <div class="container">
-            <h2>Add Review</h2>
-            <form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
-                <input type="hidden" th:field="*{movie.id}">
+<header th:replace="~{fragments/commons::header}"></header>
+<div class="con">
+    <div class="container">
+        <h2>Add Review</h2>
+        <form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
+            <input type="hidden" th:field="*{movie.id}">
 
-                <label >User:</label>
-                <th:block sec:authorize="isAuthenticated()">
-                    <th:block sec:authentication="name"></th:block>
-                </th:block>
-                <br>
+            <label>User:</label>
+            <th:block sec:authorize="isAuthenticated()">
+                <th:block sec:authentication="name"></th:block>
+            </th:block>
+            <br>
 
-                <label for="review">Review:</label>
-                <textarea id="review" class="form-control" name="review" th:field="*{review}" required></textarea>
-                <br>
+            <label for="review">Review:</label>
+            <textarea id="review" class="form-control" name="review" th:field="*{review}" required></textarea>
+            <br>
 
-                <label for="doubleRating">Score :</label>
-                <input type="number" id="doubleRating" name="newRating" class="form-control" step="0.1" min="1" max="10" required>
-                <br>
+            <!-- Stars -->
+            <div>
+                <label for="newRating">Rating:</label>
+                <input type="number" id="newRating" name="newRating" class="form-control" min="1" max="10" required>
+                <div class="star-wrapper">
+                    <a href="#" class="bx bxs-star s10" onclick="setRating(10)"></a>
+                    <a href="#" class="bx bxs-star s9" onclick="setRating(9)"></a>
+                    <a href="#" class="bx bxs-star s8" onclick="setRating(8)"></a>
+                    <a href="#" class="bx bxs-star s7" onclick="setRating(7)"></a>
+                    <a href="#" class="bx bxs-star s6" onclick="setRating(6)"></a>
+                    <a href="#" class="bx bxs-star s5" onclick="setRating(5)"></a>
+                    <a href="#" class="bx bxs-star s4" onclick="setRating(4)"></a>
+                    <a href="#" class="bx bxs-star s3" onclick="setRating(3)"></a>
+                    <a href="#" class="bx bxs-star s2" onclick="setRating(2)"></a>
+                    <a href="#" class="bx bxs-star s1" onclick="setRating(1)"></a>
+                </div>
+            </div>
 
-                <button type="submit" class="button">Submit</button>
-            </form>
-            <a th:href="@{/movies/{movieId}}" class="back-link">Back to Reviews</a>
-        </div>
+            <button type="submit" class="button">Submit</button>
+        </form>
+        <a th:href="@{/movies/{movieId}}" class="back-link">Back to Reviews</a>
     </div>
-    <footer th:replace="~{fragments/commons::footer}"></footer>
+</div>
+<footer th:replace="~{fragments/commons::footer}"></footer>
+<script>
+        function setRating(rating) {
+            document.getElementById('newRating').value = rating;
+            const stars = document.querySelectorAll('.star-wrapper a');
+            stars.forEach((star, index) => {
+                const starRating = parseInt(star.classList[1].substring(1));
+                if (index >= 10 - rating ) {
+                    star.style.color = 'gold'; // Also style stars before and including the clicked one
+                } else {
+                    star.style.color = '#fff'; // Change it back to default color
+                }
+            });
+        }
+    </script>
 </body>
 </html>

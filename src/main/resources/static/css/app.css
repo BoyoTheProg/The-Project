@@ -259,6 +259,31 @@ a.movie-item:hover {
     transition: 0.3s ease-in-out;
 }
 
+.button2 {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    text-decoration: none;
+    position: relative;
+    color: #fff;
+    border-radius: 20px;
+    border-color:rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
+    transition: background-color 0.6s ease-in-out, transform 0.6s ease-in-out, font-size 0.3s ease-in-out, border-color 0.6s ease-in-out;
+}
+
+.button2:hover {
+    border-radius: 20px; /* Transparent border */
+    font-weight: 900; /* Increase font size */
+    background-color:rgba(0, 0, 0, 1); /* Non-transparent background */
+    border-color: rgba(255, 0, 0, 1); /* Transparent border */
+}
+
+
 /* Add this style for the Remove Button */
 .button-remove {
     background-color: #d9534f; /* Red color for remove button */
@@ -361,7 +386,7 @@ a.movie-item:hover {
     height: auto; /* Maintain aspect ratio */
     position: absolute;
     top: 50%; /* Center vertically */
-    transform: translateY(-40%); /* Adjust for half of the image height */
+    transform: translateY(-42%); /* Adjust for half of the image height */
     left: 0;
 }
 
@@ -498,6 +523,42 @@ a.movie-item:hover {
     transition-delay: 0.8s;
 }
 
+
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure the loader appears on top of other content */
+}
+
+.loader {
+    border: 8px solid #181616; /* Light grey border */
+    border-top: 8px solid red; /* Blue border for animation */
+    border-radius: 50%; /* Makes the loader circular */
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Animation */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Additional styling for your content */
+
+
+
 .owl-item.active .top-down {
     transform: translateY(0);
     visibility: visible;
@@ -521,7 +582,7 @@ a.movie-item:hover {
 }
 
 .movie-item:hover img {
-    transform: scale(1.2);
+    transform: scale(1.05);
 }
 
 .movie-item-content {
@@ -530,7 +591,7 @@ a.movie-item:hover {
     left: 0;
     width: 100%;
     padding: 5px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .movie-item-content::before {
@@ -540,7 +601,7 @@ a.movie-item:hover {
     left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
 }
 
 .movie-item-title {
@@ -686,11 +747,13 @@ footer .content {
 }
 
 .copyright {
+    bottom:0px;
     padding: 10px;
     height:50px;
     border-top: 1px solid var(--body-bg);
     background-color: var(--box-bg);
     text-align: center;
+    width: 100vm;
 }
 
 /* RESPONSIVE */
@@ -768,6 +831,74 @@ footer .content {
         left: 0;
     }
 }
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+    /* Adjust styles for phones in portrait orientation */
+    html {
+        font-size: 10px; /* Adjust font size as needed */
+    }
+
+    .container {
+        padding: 0 15px; /* Adjust container padding */
+    }
+
+    .hero-slide-item {
+        height: auto; /* Adjust hero slide item height */
+        padding-top: unset; /* Reset padding top */
+    }
+    .hero-slide-item img {
+            height: 100%; /* Set height to 100% */
+            position: absolute; /* Position absolutely */
+            top: 50%; /* Center vertically */
+            transform: translateY(-50%) translateX(-50%); /* Adjust for center horizontally */
+            left: 50%; /* Set left to 50% */
+        }
+
+    .item-content-wraper {
+        width: 100%; /* Adjust content wrapper width */
+        height: 100%; /* Adjust content wrapper height */
+        padding-bottom: 20px; /* Adjust padding */
+        padding-right: 5rem; /* Adjust padding */
+        background-color: rgba(0, 0, 0, 0.2); /* Adjust background color */
+    }
+
+    .hero-slide-item-content {
+        position: relative; /* Adjust position */
+    }
+
+    .hero-slide-item img {
+        height: 100%; /* Adjust image height */
+    }
+
+    .item-content-title {
+        font-size: 2rem; /* Adjust font size */
+    }
+
+    .hamburger-menu {
+        display: grid; /* Adjust display */
+    }
+
+    .nav-menu {
+        /* Adjust navigation menu styles */
+        position: absolute;
+        top: 100%;
+        left: -100%;
+        background-color: #000000;
+        flex-direction: column;
+        width: 80%;
+        height: 100vh;
+        padding: 20px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-menu li {
+        margin: 10px 30px; /* Adjust margin */
+    }
+
+    .nav-menu.active {
+        left: 0; /* Adjust position */
+    }
+}
+
 
 /* Styles for the movie-view class */
 .movie-view {
@@ -777,8 +908,8 @@ footer .content {
     padding: 20px;
     background-color: #141414;
     color: white;
-    width: 900px;
-    margin-left: 300px;
+    margin: 0 auto;
+    width: 75%;
 }
 
 .movie-title {
@@ -804,6 +935,10 @@ footer .content {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    border-radius:20px;
+    border: 2px solid red;
+    margin: 0 auto;
 }
 
 .movie-details-left {
@@ -818,29 +953,31 @@ footer .content {
 .cast,
 .director,
 .genre,
+.runtime,
 .category,
 .rating {
     margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 5%;
 }
 
 .description {
     line-height: 1.5;
     margin-bottom: 20px;
+    padding: 2rem;
 }
 
 
 .profile-pic-container {
-    height: 400px;
-    width:400px;
+    height: 100px;
+    width: 100px;
     display: block;
     position: relative;
     overflow: hidden;
     cursor: pointer;
     margin: 0 auto; /* Center the image horizontally */
-    border: 5px solid red; /* Add a solid red border (adjust thickness as needed) */
-    outline: 5px solid red; /* Add a solid red outline (adjust thickness as needed) */
     box-shadow: 0 0 20px 20px red; /* Add a red glow on the outside (adjust spread as needed) */
-    border-radius: 20px;
+    border-radius: 50%;
 
 }
 
@@ -852,15 +989,20 @@ footer .content {
     transition: transform 0.3s linear;
 }
 
-.profile-pic {
-    width: 100%; /* Set the width to 100% */
-    height: 100%; /* Set the height to 100% */
-    object-fit: cover; /* Crop the image while maintaining aspect ratio */
-    position:absolute;
+.profile-pic-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Set a default box-shadow color */
+.profile-pic-container {
+    --box-shadow-color: red;
+    box-shadow: 0 0 10px 10px var(--box-shadow-color);
 }
 
 .profile-pic-container:hover img {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .th-movie-item {
@@ -908,6 +1050,13 @@ max-height: 0;
     margin-top:200px;
     max-height: 400px;
     max-width: 400px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar {

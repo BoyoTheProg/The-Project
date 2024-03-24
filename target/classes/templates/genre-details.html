@@ -15,59 +15,190 @@
     <!-- APP CSS -->
     <link rel="stylesheet" href="/css/grid.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
+    <style>
+        .movie-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(calc(25% - 10px), 1fr)); /* Each column with a minimum width of 25% minus the gap */
+            grid-gap: 10px; /* Add gap between grid items */
+            max-width: 100vw; /* Set maximum width of the grid container */
+            margin: 0 auto; /* Center the grid container horizontally */
+            background-color: black;
+            border: 2px solid red;
+            padding: 2rem;
+        }
+
+        .hero-slide-item-content .section-header {
+            font-size: 3rem;
+            font-weight: 1200;
+            background: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 0, 0));
+            background-clip: padding-box;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .btn3 {
+    color: #ffffff;
+    padding: 0.5rem 3rem;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    background: transparent;
+    border: none;
+}
+
+.btn3::before {
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 0, 0));
+    transition: 0.3s ease-in-out;
+}
+
+.btn3:hover::before {
+    width: 100%;
+}
+
+.btn3 i,
+.btn3 span {
+    z-index: 1;
+}
+
+    </style>
 </head>
 <body>
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
+<header th:replace="~{fragments/commons::header}"></header>
 
-<header th:replace="~{fragments/commons::nav}"></header>
-
-<!-- genre.html -->
-<div class="top-movies-slide">
-    <div class="section-header">
-        <span th:text="${genre} + ' Movies'">Genre Movies</span>
-    </div>
-    <div class="owl-carousel" id="top-movies-slide">
-        <!-- MOVIE ITEM -->
-        <div th:each="movie : ${movies}" class="movie-item">
-            <img th:src="${movie.poster}" alt="" class="movie-item-img">
-            <div class="movie-item-content">
-                <a th:href="@{'/movies/' + ${movie.id}}">
-                    <div class="movie-item-title" th:text="${movie.title}">
-                        The Dark Knight
-                    </div>
-                </a>
-                <div class="movie-infos">
+<div class="hero-slide">
+    <div class="hero-slide-item">
+        <img th:src="${mostWatchedMovie.slidePoster}" alt="">
+        <div class="hero-slide-item-content">
+            <div class="item-content-wraper">
+                <div class="section-header" style="font-size: 1rem;font-weight: 1200;background: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 0, 0));
+background-clip: padding-box;">
+                    <span th:text="${genre} + ' Hit'">Genre Movies</span>
+                </div>
+                <div class="item-content-title" th:text="${mostWatchedMovie.title}">
+                    <!-- Title of the most watched movie will be inserted here -->
+                </div>
+                <div class="movie-infos ">
                     <div class="movie-info">
                         <i class="bx bxs-star"></i>
-                        <span th:text="${movie.rating}">9.5</span>
+                        <span th:text="${mostWatchedMovie.rating}">
+                            <!-- Rating of the most watched movie will be inserted here -->
+                        </span>
                     </div>
                     <div class="movie-info">
                         <i class="bx bxs-time"></i>
-                        <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        <span th:text="${mostWatchedMovie.formattedRuntime}">
+                            <!-- Runtime of the most watched movie will be inserted here -->
+                        </span>
                     </div>
                     <div class="movie-info">
                         <span>HD</span>
                     </div>
                     <div class="movie-info">
-                        <span th:text="${movie.category}">16+</span>
+                        <span th:text="${mostWatchedMovie.category}">
+                            <!-- Category of the most watched movie will be inserted here -->
+                        </span>
+                    </div>
+                </div>
+                <div class="item-content-description" th:text="${mostWatchedMovie.description}">
+                    <!-- Description of the most watched movie will be inserted here -->
+                </div>
+                <div class="item-action">
+                    <form th:action="@{'/movies/' + ${mostWatchedMovie.id} + '/interaction'}" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <input type="hidden" name="watched" value="true" />
+                        <button type="submit" class="btn3 btn3-hover">
+                            <i class="bx bxs-right-arrow"></i>
+                            <span>Watch now</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="top-movies-slide">
+    <div class="section-header">
+        <span th:text="'Other ' +  ${genre}">Genre Movies</span>
+    </div>
+    <div class="movie-grid-container">
+        <!-- Loop over movies and add them as grid items -->
+        <div th:each="movie : ${movies}" class="movie-item" onclick="submitForm1(this)">
+            <!-- Content of each movie item -->
+            <img th:src="${movie.poster}" alt="" class="movie-item-img">
+            <div class="movie-item-content">
+                <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" style="display: inline-flex; align-items: left;">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input type="hidden" name="id" th:value="${movie.id}" />
+                    <button type="submit" class="button2" style="cursor: pointer;">
+                        <span th:text="${movie.title}">Movie Title</span>
+                    </button>
+                </form>
+                <div class="movie-infos">
+                    <div class="movie-info">
+                        <i class="bx bxs-star"></i>
+                        <span th:text="${movie.rating}">Rating</span>
+                    </div>
+                    <div class="movie-info">
+                        <i class="bx bxs-time"></i>
+                        <span th:text="${movie.formattedRuntime}">Runtime</span>
+                    </div>
+                    <div class="movie-info">
+                        <span>HD</span>
+                    </div>
+                    <div class="movie-info">
+                        <span th:text="${movie.category}">Category</span>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- END MOVIE ITEM -->
+        <!-- End Loop -->
     </div>
 </div>
 
-
 <footer th:replace="~{fragments/commons::footer}"></footer>
 
-<!-- Add content specific to the genre -->
-
 <!-- SCRIPT -->
-<!-- JQUERY -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- OWL CAROUSEL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 <!-- APP SCRIPT -->
-<script src="/JavaScript/app.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+
+
+function submitForm1(element) {
+    // Find the form element within the movie-item
+    var form = element.querySelector('form');
+    // Submit the form
+    form.submit();
+}
+
+window.addEventListener('load', function() {
+    const loader = document.querySelector('.loader-wrapper');
+    loader.style.display = 'none'; // Hide the loader when the page finishes loading
+});
+
+</script>
+
 </body>
 </html>

@@ -35,3 +35,5 @@ server:
   port: 8080
   error:
     include-message: always
+  tomcat:
+    max-http-header-size: 3MB

@@ -45,7 +45,7 @@
     </style>
 </head>
 <body>
-    <header th:replace="~{fragments/commons::nav}"></header>
+    <header th:replace="~{fragments/commons::header}"></header>
     <div class="con">
         <div class="container">
             <h1>404 - Not Found</h1>
@@ -54,5 +54,17 @@
         </div>
     </div>
     <footer th:replace="~{fragments/commons::footer}"></footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+    <script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+</script>
+
 </body>
 </html>
