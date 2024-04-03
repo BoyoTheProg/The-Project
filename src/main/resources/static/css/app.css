@@ -27,7 +27,7 @@ body {
 
 .welcome-page {
     position: relative;
-    height: 100vh;
+    height: 85vh;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -682,7 +682,12 @@ a.movie-item:hover {
     text-align: center;
     margin-top: 60px;
 }
-
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 footer.section {
     margin-top: 80px;
     padding-bottom: 80px;
@@ -1031,9 +1036,8 @@ footer .content {
 }
 
 #myDropdown {
-max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.6s ease-in-out;
     max-height: 600px; /* Set the maximum height based on your requirement */
     overflow-y: auto;
     position: absolute; /* Set the position to absolute */
@@ -1074,7 +1078,36 @@ max-height: 0;
 
 .form-control{
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 50px;
+    color: white;
+    background-color: transparent;
     outline: none;
     font-size: 16px;
+}
+.form-control:focus{
+    color: white;
+    background-color: transparent;
+    outline: none;
+    box-shadow: 0 0 20px 5px rgba(0, 0, 100, 0.8);
+}
+
+.form-control1{
+    padding: 10px;
+    border-radius: 50px;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    font-size: 16px;
+    transition: width 0.9s ease;
+}
+
+.form-control1:hover{
+                        border: 0px;
+                        width: 120%;
+                        box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.8); /* Red glowing border with translucency */
+                     }
+.form-control1:focus{
+                        border: 0px;
+                        width: 120%;
+                        box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.8); /* Red glowing border with translucency */
 }

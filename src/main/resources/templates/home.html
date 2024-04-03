@@ -35,21 +35,26 @@
             <a href="/movies/add" class="logo" sec:authorize="hasRole('ADMIN')">
                 <i class='bx bx-movie-play bx-tada main-color'></i><span class="main-color">Add Movie</span>
             </a>
-            <div class="dropdown">
-                <input type="text" placeholder="Search.." id="myInput" oninput="filterFunction()" class="form-control">
-                <div id="myDropdown" class="dropdown-content">
+            <div class="dropdown" >
+                <input type="text" placeholder="Search..." onclick="toggleDropdown()" id="myInput" oninput="filterFunction()" class="form-control1 col-8 col-sm-8">
+                <div id="myDropdown" class="dropdown-content" style="width:100%; border-radius: 10px;">
                     <!-- Thymeleaf loop to insert movies into the HTML -->
                     <th:block th:each="movie : ${movies}">
-                        <a th:href="@{'/movies/' + ${movie.id}}" class="th-movie-item" th:style="'display: none;'">
-                            <div class="movie-details">
+                        <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" class="th-movie-item" style="display: none">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <input type="hidden" name="id" th:value="${movie.id}" />
+                            <div class="movie-details" style="cursor: pointer;justify-content: space-between;" onclick="submitForm(this)">
                                 <span class="movie-title" th:text="${movie.title}"></span>
                                 <span class="movie-year" th:text="${movie.releaseYear}"></span>
-                                <img th:src="${movie.poster}" alt="Movie Poster" />
+                                <img th:src="${movie.poster}" style="float: right;border-radius:5px; margin-top:2px; margin-bottom:2px;" alt="Movie Poster" />
                             </div>
-                        </a>
+                        </form>
                     </th:block>
+
                 </div>
             </div>
+
+
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/genres">Genres</a></li>
@@ -77,7 +82,9 @@
     </div>
 </header>
 <!-- END NAV -->
-
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
 <!-- HERO SECTION -->
 <div class="hero-section">
   <!-- HERO SLIDE -->
@@ -85,7 +92,7 @@
     <div  class="owl-carousel carousel-nav-center" id="hero-carousel">
       <!-- SLIDE ITEM -->
       <div th:each="movie : ${movies}" class="hero-slide-item">
-        <img th:src="${movie.poster}" alt="">
+        <img th:src="${movie.slidePoster}" alt="Slide poster">
         <div class="overlay"></div>
         <div class="hero-slide-item-content">
           <div class="item-content-wraper">
@@ -99,7 +106,7 @@
               </div>
               <div class="movie-info">
                 <i class="bx bxs-time"></i>
-                <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                <span th:text="${movie.formattedRuntime}">120 mins</span>
               </div>
               <div class="movie-info">
                 <span>HD</span>
@@ -136,34 +143,89 @@
         </div>
         <div class="owl-carousel" id="top-movies-slide">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${movies}" class="movie-item">
-                <img th:src="${movie.poster}" alt="" class="movie-item-img">
-                <div class="movie-item-content">
-                    <a th:href="@{'/movies/' + ${movie.id}}">
-                        <div class="movie-item-title" th:text="${movie.title}">
-                            The Dark Knight
+            <div th:each="movie : ${topMovies}" class="movie-item" onclick="submitForm1(this)">
+                <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" class="full-width full-height">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input type="hidden" name="id" th:value="${movie.id}" />
+                    <img th:src="${movie.poster}" alt="" class="movie-item-img">
+                    <div class="movie-item-content">
+                        <button type="submit" class="button2" style=" cursor: pointer;">
+                            <span th:text="${movie.title}">The Dark Knight</span>
+                        </button>
+                        <div class="movie-infos">
+                            <div class="movie-info">
+                                <i class="bx bxs-star"></i>
+                                <span th:text="${movie.rating}">9.5</span>
+                            </div>
+                            <div class="movie-info">
+                                <i class="bx bxs-time"></i>
+                                <span th:text="${movie.formattedRuntime}">120 mins</span>
+                            </div>
+                            <div class="movie-info">
+                                <span>HD</span>
+                            </div>
+                            <div class="movie-info">
+                                <span th:text="${movie.category}">16+</span>
+                            </div>
                         </div>
-                    </a>
-                    <div class="movie-infos">
-                        <div class="movie-info">
-                            <i class="bx bxs-star"></i>
-                            <span th:text="${movie.rating}">9.5</span>
+                    </div>
+                </form>
+            </div>
+
+            <!-- END MOVIE ITEM -->
+        </div>
+        <div class="hero-slide">
+            <div class="hero-slide-item">
+                <img th:src="${mostWatchedMovie.slidePoster}" alt="">
+                <div class="hero-slide-item-content">
+                    <div class="item-content-wraper">
+                        <div class="section-header" style="font-size: 1rem;font-weight: 1200;background: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 0, 0));
+background-clip: padding-box;">
+                            Most popular
                         </div>
-                        <div class="movie-info">
-                            <i class="bx bxs-time"></i>
-                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                        <div class="item-content-title" th:text="${mostWatchedMovie.title}">
+                            <!-- Title of the most watched movie will be inserted here -->
                         </div>
-                        <div class="movie-info">
-                            <span>HD</span>
+                        <div class="movie-infos ">
+                            <div class="movie-info">
+                                <i class="bx bxs-star"></i>
+                                <span th:text="${mostWatchedMovie.rating}">
+                            <!-- Rating of the most watched movie will be inserted here -->
+                        </span>
+                            </div>
+                            <div class="movie-info">
+                                <i class="bx bxs-time"></i>
+                                <span th:text="${mostWatchedMovie.formattedRuntime}">
+                            <!-- Runtime of the most watched movie will be inserted here -->
+                        </span>
+                            </div>
+                            <div class="movie-info">
+                                <span>HD</span>
+                            </div>
+                            <div class="movie-info">
+                        <span th:text="${mostWatchedMovie.category}">
+                            <!-- Category of the most watched movie will be inserted here -->
+                        </span>
+                            </div>
                         </div>
-                        <div class="movie-info">
-                            <span th:text="${movie.category}">16+</span>
+                        <div class="item-content-description" th:text="${mostWatchedMovie.description}">
+                            <!-- Description of the most watched movie will be inserted here -->
+                        </div>
+                        <div class="item-action">
+                            <form th:action="@{'/movies/' + ${mostWatchedMovie.id} + '/interaction'}" method="post">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                <input type="hidden" name="watched" value="true" />
+                                <button type="submit" class="btn2 btn2-hover">
+                                    <i class="bx bxs-right-arrow"></i>
+                                    <span>Watch now</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MOVIE ITEM -->
         </div>
+
     </div>
     <!-- END TOP MOVIES SLIDE -->
 </div>
@@ -175,14 +237,16 @@
         </div>
         <div class="movies-slide carousel-nav-center owl-carousel">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${movies}" href="#" class="movie-item">
+            <div th:each="movie : ${latestMovies}"  class="movie-item" onclick="submitForm1(this)">
                 <img th:src="${movie.poster}" alt="" class="movie-item-img">
                 <div class="movie-item-content">
-                    <a th:href="@{'/movies/' + ${movie.id}}">
-                        <div class="movie-item-title" th:text="${movie.title}">
-                            The Dark Knight
-                        </div>
-                    </a>
+                    <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" style="display: inline-flex; align-items: left;">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <input type="hidden" name="id" th:value="${movie.id}" />
+                        <button type="submit" class="button2" style=" cursor: pointer;">
+                            <span th:text="${movie.title}">The Dark Knight</span>
+                        </button>
+                    </form>
                     <div class="movie-infos">
                         <div class="movie-info">
                             <i class="bx bxs-star"></i>
@@ -190,7 +254,7 @@
                         </div>
                         <div class="movie-info">
                             <i class="bx bxs-time"></i>
-                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                            <span th:text="${movie.formattedRuntime}">120 mins</span>
                         </div>
                         <div class="movie-info">
                             <span>HD</span>
@@ -214,14 +278,16 @@
         </div>
         <div class="movies-slide carousel-nav-center owl-carousel">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${lastWatchedMovies}" href="#" class="movie-item">
+            <div th:each="movie : ${lastWatchedMovies}" href="#" class="movie-item" onclick="submitForm1(this)">
                 <img th:src="${movie.poster}" alt="" class="movie-item-img">
                 <div class="movie-item-content">
-                    <a th:href="@{'/movies/' + ${movie.id}}">
-                        <div class="movie-item-title" th:text="${movie.title}">
-                            The Dark Knight
-                        </div>
-                    </a>
+                    <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" style="display: inline-flex; align-items: left;">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <input type="hidden" name="id" th:value="${movie.id}" />
+                        <button type="submit" class="button2" style=" cursor: pointer;">
+                            <span th:text="${movie.title}">The Dark Knight</span>
+                        </button>
+                    </form>
                     <div class="movie-infos">
                         <div class="movie-info">
                             <i class="bx bxs-star"></i>
@@ -229,7 +295,7 @@
                         </div>
                         <div class="movie-info">
                             <i class="bx bxs-time"></i>
-                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                            <span th:text="${movie.formattedRuntime}">120 mins</span>
                         </div>
                         <div class="movie-info">
                             <span>HD</span>
@@ -253,14 +319,16 @@
         </div>
         <div class="movies-slide carousel-nav-center owl-carousel">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${recommendedMovies}" href="#" class="movie-item">
+            <div th:each="movie : ${recommendedMovies}" href="#" class="movie-item" onclick="submitForm1(this)">
                 <img th:src="${movie.poster}" alt="" class="movie-item-img">
                 <div class="movie-item-content">
-                    <a th:href="@{'/movies/' + ${movie.id}}">
-                        <div class="movie-item-title" th:text="${movie.title}">
-                            The Dark Knight
-                        </div>
-                    </a>
+                    <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" style="display: inline-flex; align-items: left;">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <input type="hidden" name="id" th:value="${movie.id}" />
+                        <button type="submit" class="button2" style=" cursor: pointer;">
+                            <span th:text="${movie.title}">The Dark Knight</span>
+                        </button>
+                    </form>
                     <div class="movie-infos">
                         <div class="movie-info">
                             <i class="bx bxs-star"></i>
@@ -268,7 +336,7 @@
                         </div>
                         <div class="movie-info">
                             <i class="bx bxs-time"></i>
-                            <span th:text="${movie.runtime} + ' mins'">120 mins</span>
+                            <span th:text="${movie.formattedRuntime}">120 mins</span>
                         </div>
                         <div class="movie-info">
                             <span>HD</span>
@@ -438,38 +506,77 @@
 <!-- APP SCRIPT -->
 <script src="/JavaScript/app.js"></script>
 <script>
-    document.addEventListener("click", function(event) {
-        var dropdown = document.getElementById("myDropdown");
 
-        // Check if the clicked element is not within the dropdown
-        if (!event.target.closest("#myDropdown")) {
-          // If it's outside, hide the dropdown
-           dropdown.classList.remove("show");
-        }
-    });
 
-    function toggleDropdown() {
-        var dropdown = document.getElementById("myDropdown");
-        dropdown.classList.toggle("show");
-    }
 
-    function filterFunction() {
-        var input, filter, a, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        a = document.getElementsByClassName("th-movie-item");
+window.onclick = function(event) {
+    var filterInput = document.getElementById("myInput");
+    var dropdown = document.getElementById("myDropdown");
+    var a = document.getElementsByClassName("th-movie-item");
+    var filterDropdown = event.target === filterInput || event.target === dropdown;
 
-        for (i = 0; i < a.length; i++) {
-            txtValue = a[i].textContent || a[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
-            }
+    var anyDisplayed = false;
+    for (var i = 0; i < a.length; i++) {
+        if (a[i].style.display !== "none") {
+            anyDisplayed = true;
+            break;
         }
     }
+
+    // Hide 'th-movie-item' elements if clicked outside of filter input or dropdown,
+    // and only if there are 'th-movie-item' elements currently displayed
+    if (!filterDropdown && anyDisplayed) {
+        for (var i = 0; i < a.length; i++) {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+
+
+function filterFunction() {
+    var input, filter, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    a = document.getElementsByClassName("th-movie-item");
+    var dropdown = document.getElementById("myDropdown");
+
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+
+    // Show or hide the dropdown based on filter input
+    if (filter === "") {
+        dropdown.style.display = "none"; // Hide the dropdown
+    } else {
+        dropdown.style.display = ""; // Show the dropdown
+    }
+}
+
+
+
 </script>
+<script>
+    function submitForm(element) {
+        element.closest('form').submit();
+    }
 
+   function submitForm1(element) {
+    // Find the form element within the movie-item
+    var form = element.querySelector('form');
+    // Submit the form
+    form.submit();
+}
+window.addEventListener('load', function() {
+    const loader = document.querySelector('.loader-wrapper');
+    loader.style.display = 'none'; // Hide the loader when the page finishes loading
+});
+</script>
 </body>
 
 </html>

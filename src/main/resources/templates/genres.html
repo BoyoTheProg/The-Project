@@ -41,10 +41,14 @@
 
         /* Style for the div element */
         #specificDivId {
-            height: 100vh;
+            height: 80vh;
+            margin-bottom: 10px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-evenly; /* Evenly distribute columns */
+        }
+        #specificDivId > * {
+            margin: 5px; /* Adjust the margin to reduce the space between flex items */
         }
 
         /* CSS to set background images for each genre */
@@ -82,7 +86,7 @@
 </div>
 <header th:replace="~{fragments/commons::header}"></header>
 
-<h2>Select a Genre</h2>
+<!--<h2>Select a Genre</h2>-->
 <div id="specificDivId" class="buttons">
     <th:block th:each="url, i : ${posterUrls}">
         <a th:href="@{'/genres/' + ${genres[i.index].name()}}"
