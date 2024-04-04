@@ -4,9 +4,6 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Movie Time</title>
-    <link rel="stylesheet" href="/css/reset-css.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <!--    <link rel="stylesheet" href="/css/style.css"/>-->
     <link rel="stylesheet" href="/css/grid.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
     <!-- GOOGLE FONTS -->
@@ -15,8 +12,26 @@
           rel="stylesheet">
     <!-- BOX ICONS -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
+    body {
+            padding: 0 2rem;
+            transition: background-color 0.5s ease-in-out;
+        }
+         .wrapper {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+         canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+    }
         .form-popup {
             display: none;
             position: fixed;
@@ -28,7 +43,6 @@
             padding: 20px;
             z-index: 1;
         }
-
         .form-container {
             max-width: 400px;
         }
@@ -41,26 +55,6 @@
             cursor: pointer;
             width: 100%;
         }
-<!--        ul {-->
-<!--            list-style-type: none;-->
-<!--            padding: 10px;-->
-<!--            background-color:#ffcc00;-->
-<!--            border-radius: 10px;-->
-<!--            width: 100%;-->
-<!--        }-->
-
-<!--        li {-->
-<!--            display: flex;-->
-<!--            justify-content: space-between;-->
-<!--            align-items: center;-->
-<!--            margin-bottom: 10px;-->
-<!--            margin-left: 5px;-->
-<!--            margin-right: 5px;-->
-<!--            padding-top: 5px;-->
-<!--            padding-bottom: 5px;-->
-<!--            border-radius: 10px;-->
-<!--            background-color:#ed872d;-->
-<!--        }-->
 
         p {
             flex-grow: 1; /* Take up remaining space to the left of the buttons */
@@ -70,40 +64,131 @@
             display: flex;
         }
 
-        .button-edit,
-        .button-remove {
-            margin-left: 10px; /* Adjust the margin as needed for spacing between buttons */
+        .review-list {
+            height: auto;
+            max-height: 300px; /* Set the height as desired */
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+            border: 2px solid red;
+            border-radius: 20px;
+            width: 100%;
         }
 
+        .review {
+            padding-top: 5px;
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            margin-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 2px solid red;
+        }
+
+        .review-content {
+            flex: 1;
+        }
+
+
+        /* Remove default list-style dots */
+        .review-list li {
+            list-style-type: none;
+        }
+        .review + .review {
+            border-top: 2px solid red;
+            padding-top: 5px; /* Adjust spacing if needed */
+        }
+
+        .review-text {
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .review-text strong {
+            font-weight: 900;
+            color: #007bff; /* Adjust the color as needed */
+        }
+
+        .actual{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .actual .review-text,
+        .actual .rating{
+            margin: 0;
+        }
+         i {
+            color: red;
+        }
+        .movie-title{
+            padding-top: 3rem;
+        }
+        #js-canvas {
+          width: 100vw; /* Set the width of the canvas to fill the entire viewport width */
+          height: 100vh; /* Set the height of the canvas to fill the entire viewport height */
+          display: block; /* Ensure the canvas behaves as a block element */
+        }
+        .movie-view:hover {
+    box-shadow: 0 0 75px 10px rgba(255, 0, 0, 0.8); /* Red glowing border with translucency */
+}
+footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+/* Adjustments for the content inside the .movie-view */
+.movie-content {
+    padding: 20px; /* Add padding to prevent content from touching the border */
+}
     </style>
 
 </head>
 
 <body>
-<header th:replace="~{fragments/commons::nav}"></header>
-<div class="movie-view">
+<header th:replace="~{fragments/commons::header}"></header>
+<!--<canvas id="js-canvas"></canvas>-->
+<div class="movie-view" style="
+        border: 20px solid transparent;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.9);
+        transition: box-shadow 0.5s ease-in-out;">
 
-
-    <div class="movie-title" th:text="${movie.title}">Movie Title</div>
+    <div class="movie-title">
+        <span th:text="${movie.title}">Movie</span>
+        <i class="bx bxs-film"></i>
+    </div>
     <!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
 
-    <iframe id="iframe-embed" width="100%" height="500" scrolling="no" frameborder="0"
-            th:src="${movie.url}" allowfullscreen=""
+    <iframe id="iframe-embed" width="100%" height="auto" scrolling="no" frameborder="0"
+            th:src="${movie.url}" allowfullscreen="true"
             webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
 
     <!--    <iframe width="700" height="350" allowfullscreen src="https://doc.vidcloud9.org/watch/?v11#RERHMFlTWVZGQ1N4alloZnVNMXZ5bEJSWndEdjlGWVJ4OVMyb3JXTnE4T0hDM3JmaEpuSzdTeWVtN0IxQ3RKZW1FbjZYR2VsZTY4PQ">-->
 
-    <img th:src="${movie.poster}" alt="Movie Poster" class="poster">
+    <img th:src="${movie.slidePoster}" id="js-img" alt="Movie Poster" class="poster" style="display:none;" >
     <!--    </div>-->
 
     <div class="description" th:text="${movie.description}">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
     </div>
 
-    <div class="movie-details">
+    <div class="movie-details" >
         <div class="movie-details-left">
             <div class="release-year" th:text="'Release Year: ' + ${movie.releaseYear}">Release Year: 2022</div>
-            <div class="runtime" th:text="'Runtime: ' + ${movie.runtime} + ' minutes'">Runtime: 120 mins</div>
+            <div class="runtime" th:text="'Runtime: ' + ${movie.formattedRuntime}">Runtime: 120 mins</div>
             <div class="cast" th:text="'Cast: ' + ${movie.cast}">Cast: Actor 1, Actor 2, Actor 3</div>
             <div class="director" th:text="'Director: ' + ${movie.director}">Director: Director Name</div>
         </div>
@@ -111,42 +196,64 @@
         <div class="movie-details-right">
             <div class="genre" th:text="'Genre: ' + ${movie.genre}">Genre: Action, Drama</div>
             <div class="category" th:text="'Category: ' + ${movie.category}">Category: Thriller</div>
-            <div class="rating" th:text="'Rating: ' + ${movie.rating}">Rating: 4.5/5</div>
+            <div class="rating">
+                Rating:
+                <span th:text="${movie.rating}">4.5/5</span>
+                <i class="bx bxs-star"></i>
+            </div>
         </div>
     </div>
 
-    <br>
-    <br>
-
-    <div>
+    <div class="section" style="width:75%;">
+    <div class="section-header">
+        Reviews
+    </div>
+    <div class="review-list">
         <ul>
             <th:block th:each="review : ${reviews}">
-            <li>
-                <!-- Display review information -->
-                <p th:text="${review.userEntity.username + ': ' + review.review}"></p>
+                <li class="review">
+                    <!-- Use Thymeleaf to dynamically set the src attribute -->
+                    <img th:src="${review.emoji}" class="profile-pic"
+                         alt="Profile Picture"
+                         onerror="this.onerror=null; this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg';"/>
 
-                <div class="button-container" sec:authorize="hasRole('ADMIN')">
-                    <!-- Edit Button -->
-                    <button type="button" class="button-edit" th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit</button>
+                    <div class="actual">
+                        <!-- Display review information -->
+                        <div class="review-text">
+                            <span th:text="${review.userEntity.username}" style="font-weight: 1000;">Username</span>
+                            <br>
+                            <span th:text="${review.review}">Something</span>
+                        </div>
+                        <div class="rating">
+                            <span th:text="${review.rating}">4.5/5</span>
+                            <i class="bx bxs-star"></i>
+                        </div>
 
-                    <!-- Delete Form -->
-                    <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post" >
-                        <button type="submit" class="button-remove">Delete</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="button-container" sec:authorize="hasRole('ADMIN')">
+                        <!-- Edit Button -->
+                        <button type="button" class="button2"
+                                th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit
+                        </button>
 
-                <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
+                        <!-- Delete Form -->
+                        <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post">
+                            <button type="submit" class="button2">Delete</button>
+                        </form>
+                    </div>
 
-                </div>
-            </li>
-        </th:block>
+                    <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
+
+                    </div>
+                </li>
+            </th:block>
         </ul>
-        <br>
-        <br>
-        <div class="button-container">
-            <a th:href="@{'/movies/reviews/add/' + ${movie.id}}" class="button ">Add Review</a>
-            <a th:href="@{/home}" class="button ">Back to Movies</a>
-        </div>
+    </div>
+    </div>
+    <br>
+    <div class="button-container">
+        <a th:href="@{'/movies/reviews/add/' + ${movie.id}}" class="button ">Add Review</a>
+        <a th:href="@{/home}" class="button ">Back to Movies</a>
     </div>
 
     <br>
@@ -154,15 +261,58 @@
     <div class="button-container" sec:authorize="hasRole('ADMIN')">
         <!-- Remove Button -->
         <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post" >
-            <button type="submit" class="button-remove">Remove Movie</button>
+            <button type="submit" class="button2">Remove Movie</button>
         </form>
 
         <!-- Add this button within the movie-view div in movie.html -->
-        <button type="button" class="button-edit" onclick="redirectToEdit()" >Edit Movie
+        <button type="button" class="button2" onclick="redirectToEdit()" >Edit Movie
         </button>
     </div>
 
 </div>
+
+
+<!--<script>-->
+<!--    const img = document.getElementById("js-img");-->
+<!--    const canvas = document.getElementById("js-canvas");-->
+
+<!--    let step;-->
+
+<!--    const ctx = canvas.getContext("2d");-->
+
+<!--    const draw = () => {-->
+<!--      ctx.filter = 'blur(20px) brightness(40%) saturate(300%)'; // Apply blur and brightness filters-->
+<!--      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);-->
+<!--      ctx.filter = 'none'; // Reset filters-->
+<!--    };-->
+
+<!--    const drawLoop = () => {-->
+<!--      draw();-->
+<!--      step = window.requestAnimationFrame(drawLoop);-->
+<!--    };-->
+
+<!--    const drawPause = () => {-->
+<!--      window.cancelAnimationFrame(step);-->
+<!--      step = undefined;-->
+<!--    };-->
+
+<!--    const init = () => {-->
+<!--      img.addEventListener("load", draw, false);-->
+<!--      window.addEventListener("resize", draw, false);-->
+<!--      drawLoop();-->
+<!--    };-->
+
+<!--    const cleanup = () => {-->
+<!--      img.removeEventListener("load", draw);-->
+<!--      window.removeEventListener("resize", draw);-->
+<!--      drawPause();-->
+<!--    };-->
+
+<!--    window.addEventListener("load", init);-->
+<!--    window.addEventListener("unload", cleanup);-->
+<!--  </script>-->
+
+
 <!--<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
 <script th:inline="javascript">
     function redirectToEdit() {
@@ -193,7 +343,29 @@ function openEditForm(reviewId) {
         // Close the popup form
         $('#editReviewFormContainer_' + reviewId).fadeOut();
     }
+// Function to set the height of the iframe based on its aspect ratio
+function setIframeHeight() {
+    var iframe = document.getElementById('iframe-embed');
+    var aspectRatio = 16 / 9; // Example aspect ratio (width / height)
+    var width = iframe.offsetWidth;
+    var height = width / aspectRatio;
+    iframe.style.height = height + 'px';
+}
 
+// Call the function initially and whenever the window is resized
+setIframeHeight();
+window.addEventListener('resize', setIframeHeight);
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
 </script>
 
 <footer th:replace="~{fragments/commons::footer}"></footer>
