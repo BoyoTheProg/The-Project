@@ -4,7 +4,7 @@
 <head th:replace="~{fragments/commons::head}"></head>
 
 <body>
-<header th:replace="~{fragments/commons::nav}"></header>
+<header th:replace="~{fragments/commons::header}"></header>
 <div class="welcome-page">
     <div class="movie-list">
         <!-- Add movie cards here -->
@@ -23,6 +23,18 @@
     </div>
 </div>
 <footer th:replace="~{fragments/commons::footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+</script>
+
 </body>
 
 </html>

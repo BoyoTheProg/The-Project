@@ -974,8 +974,6 @@ footer .content {
 
 
 .profile-pic-container {
-    height: 100px;
-    width: 100px;
     display: block;
     position: relative;
     overflow: hidden;
@@ -1081,14 +1079,14 @@ footer .content {
     border-radius: 50px;
     color: white;
     background-color: transparent;
-    outline: none;
     font-size: 16px;
 }
 .form-control:focus{
     color: white;
     background-color: transparent;
-    outline: none;
-    box-shadow: 0 0 20px 5px rgba(0, 0, 100, 0.8);
+    outline: rgba(255, 0, 0, 1);
+    border: rgba(255, 0, 0, 1);
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8);
 }
 
 .form-control1{

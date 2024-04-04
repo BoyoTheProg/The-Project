@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/app.css"/>
 </head>
 <body>
-<header th:replace="~{fragments/commons::nav}"></header>
+<header th:replace="~{fragments/commons::header}"></header>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
     <form class="mx-auto w-25 bg-blur"
@@ -57,6 +57,17 @@
     </form>
 </main>
 <footer th:replace="~{fragments/commons::footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+</script>
 
 
 </body>
