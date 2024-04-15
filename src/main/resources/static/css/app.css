@@ -902,6 +902,10 @@ footer .content {
     .nav-menu.active {
         left: 0; /* Adjust position */
     }
+
+    .movie-item-content{
+        display: none;
+    }
 }
 
 

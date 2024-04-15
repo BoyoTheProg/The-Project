@@ -32,8 +32,11 @@ public class HomeController {
 
         MovieHomeDto movieHomeDto = movieService.getHomeViewData();
         model.addAttribute("movies", movieHomeDto.getAvailableMovies());
+        model.addAttribute("latestMovies", movieHomeDto.getLatestMovies());
+        model.addAttribute("topMovies", movieHomeDto.getTopMovies());
         model.addAttribute("lastWatchedMovies", movieHomeDto.getLastWatchedMovies());
         model.addAttribute("recommendedMovies", movieHomeDto.getRecommendedMovies());
+        model.addAttribute("mostWatchedMovie", movieService.getMostWatchedMovie());
         model.addAttribute("userId", userService.getCurrentUser().getId());
 
         return "home";
