@@ -153,6 +153,111 @@ footer {
 .movie-content {
     padding: 20px; /* Add padding to prevent content from touching the border */
 }
+
+.iframe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Adjust this value as needed */
+    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.iframe-container iframe {
+    width: 90%; /* Adjust iframe width as needed */
+    height: 90%; /* Adjust iframe height as needed */
+    border: none;
+}
+
+.iframe-container button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.play-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Adjust as needed */
+    height: auto; /* Adjust as needed */
+}
+
+.background-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.close-icon {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    cursor: pointer;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.stroke-dotted {
+  opacity: 0;
+  stroke-dasharray: 4,5;
+  stroke-width: 1px;
+  transform-origin: 50% 50%;
+  animation: spin 4s infinite linear;
+  transition: opacity 1s ease,
+              stroke-width 1s ease;
+}
+
+.stroke-solid {
+  stroke-dashoffset: 0;
+  stroke-dasharray: 300;
+  stroke-width: 4px;
+  transition: stroke-dashoffset 1s ease,
+              opacity 1s ease;
+}
+
+.icon {
+  transform-origin: 50% 50%;
+  transition: transform 200ms ease-out;
+}
+
+.play-container:hover .stroke-dotted {
+  stroke-width: 4px;
+  opacity: 1;
+}
+
+.play-container:hover .stroke-solid {
+  opacity: 0;
+  stroke-dashoffset: 300;
+}
+
+.play-container:hover .icon {
+  transform: scale(1.05);
+}
+.background-image {
+  transition: filter 0.5s ease;
+}
+
+.play-container:hover .background-image {
+  filter: brightness(1.1); /* Decrease brightness to 80% */
+}
+
+
+
     </style>
 
 </head>
@@ -172,20 +277,49 @@ footer {
     </div>
     <!--    <div class="video-player"> &lt;!&ndash; Video Player goes here &ndash;&gt;-->
 
-    <iframe id="iframe-embed" width="100%" height="auto" scrolling="no" frameborder="0"
-            th:src="${movie.url}" allowfullscreen="true"
-            webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+    <!-- Button to open the iframe popup -->
+    <div class="play-container">
+        <img th:src="${movie.slidePoster}" alt="Open Iframe Popup" class="background-image"
+             onclick="openIframePopup('iframe-embed', '${movie.url}')">
+        <!-- SVG to open the iframe popup -->
+        <svg version="1.1" id="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             x="0px" y="0px" height="100px" width="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"
+             xml:space="preserve" class="play-icon" onclick="openIframePopup('iframe-embed', '${movie.url}')">
+        <path class="stroke-dotted" fill="none" stroke="white" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+    C97.3,23.7,75.7,2.3,49.9,2.5"/>
+            <path class="stroke-solid" fill="none" stroke="white" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+    C97.3,23.7,75.7,2.3,49.9,2.5"/>
+            <path class="icon" fill="white" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z"/>
+    </svg>
+    </div>
+
+    <!-- Iframe container -->
+    <div id="iframe-embed_container" class="iframe-container" style="display: none;">
+        <div class="close-icon" onclick="closeIframePopup('iframe-embed')">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 6L18 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <iframe width="100%" height="100%" frameborder="0" th:src="${movie.url}" allowfullscreen="true"
+                webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+    </div>
+
+
+    <!--        <iframe id="iframe-embed" width="100%" height="auto" scrolling="no" frameborder="0"-->
+    <!--            th:src="${movie.url}" allowfullscreen="true"-->
+    <!--            webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>-->
 
     <!--    <iframe width="700" height="350" allowfullscreen src="https://doc.vidcloud9.org/watch/?v11#RERHMFlTWVZGQ1N4alloZnVNMXZ5bEJSWndEdjlGWVJ4OVMyb3JXTnE4T0hDM3JmaEpuSzdTeWVtN0IxQ3RKZW1FbjZYR2VsZTY4PQ">-->
 
-    <img th:src="${movie.slidePoster}" id="js-img" alt="Movie Poster" class="poster" style="display:none;" >
+    <img th:src="${movie.slidePoster}" id="js-img" alt="Movie Poster" class="poster" style="display:none;">
     <!--    </div>-->
 
     <div class="description" th:text="${movie.description}">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. ...
     </div>
 
-    <div class="movie-details" >
+    <div class="movie-details">
         <div class="movie-details-left">
             <div class="release-year" th:text="'Release Year: ' + ${movie.releaseYear}">Release Year: 2022</div>
             <div class="runtime" th:text="'Runtime: ' + ${movie.formattedRuntime}">Runtime: 120 mins</div>
@@ -205,50 +339,50 @@ footer {
     </div>
 
     <div class="section" style="width:85%;">
-    <div class="section-header">
-        Reviews
-    </div>
-    <div class="review-list">
-        <ul>
-            <th:block th:each="review : ${reviews}">
-                <li class="review" style="background: rgba(255,255,255,0.1);">
-                    <!-- Use Thymeleaf to dynamically set the src attribute -->
-                    <img th:src="${review.emoji}" class="profile-pic"
-                         alt="Profile Picture"
-                         onerror="this.onerror=null; this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg';"/>
+        <div class="section-header">
+            Reviews
+        </div>
+        <div class="review-list">
+            <ul>
+                <th:block th:each="review : ${reviews}">
+                    <li class="review" style="background: rgba(255,255,255,0.1);">
+                        <!-- Use Thymeleaf to dynamically set the src attribute -->
+                        <img th:src="${review.emoji}" class="profile-pic"
+                             alt="Profile Picture"
+                             onerror="this.onerror=null; this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg';"/>
 
-                    <div class="actual">
-                        <!-- Display review information -->
-                        <div class="review-text">
-                            <span th:text="${review.userEntity.username}" style="font-weight: 1000;">Username</span>
-                            <br>
-                            <span th:text="${review.review}">Something</span>
+                        <div class="actual">
+                            <!-- Display review information -->
+                            <div class="review-text">
+                                <span th:text="${review.userEntity.username}" style="font-weight: 1000;">Username</span>
+                                <br>
+                                <span th:text="${review.review}">Something</span>
+                            </div>
+                            <div class="rating">
+                                <span th:text="${review.rating}">4.5/5</span>
+                                <i class="bx bxs-star"></i>
+                            </div>
+
                         </div>
-                        <div class="rating">
-                            <span th:text="${review.rating}">4.5/5</span>
-                            <i class="bx bxs-star"></i>
+                        <div class="button-container" sec:authorize="hasRole('ADMIN')">
+                            <!-- Edit Button -->
+                            <button type="button" class="button2"
+                                    th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit
+                            </button>
+
+                            <!-- Delete Form -->
+                            <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post">
+                                <button type="submit" class="button2">Delete</button>
+                            </form>
                         </div>
 
-                    </div>
-                    <div class="button-container" sec:authorize="hasRole('ADMIN')">
-                        <!-- Edit Button -->
-                        <button type="button" class="button2"
-                                th:attr="onclick='openEditForm(\'' + ${review.id} + '\')'">Edit
-                        </button>
+                        <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
 
-                        <!-- Delete Form -->
-                        <form th:action="@{'/movies/reviews/delete/' + ${review.id}}" method="post">
-                            <button type="submit" class="button2">Delete</button>
-                        </form>
-                    </div>
-
-                    <div class="form-popup" th:id="'editReviewFormContainer_' + ${review.id}">
-
-                    </div>
-                </li>
-            </th:block>
-        </ul>
-    </div>
+                        </div>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
     </div>
     <br>
     <div class="button-container">
@@ -260,12 +394,12 @@ footer {
 
     <div class="button-container" sec:authorize="hasRole('ADMIN')">
         <!-- Remove Button -->
-        <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post" >
+        <form th:action="@{'/movies/remove/' + ${movie.id}}" method="post">
             <button type="submit" class="button2">Remove Movie</button>
         </form>
 
         <!-- Add this button within the movie-view div in movie.html -->
-        <button type="button" class="button2" onclick="redirectToEdit()" >Edit Movie
+        <button type="button" class="button2" onclick="redirectToEdit()">Edit Movie
         </button>
     </div>
 
@@ -343,6 +477,9 @@ function openEditForm(reviewId) {
         // Close the popup form
         $('#editReviewFormContainer_' + reviewId).fadeOut();
     }
+
+
+
 // Function to set the height of the iframe based on its aspect ratio
 function setIframeHeight() {
     var iframe = document.getElementById('iframe-embed');
@@ -355,17 +492,38 @@ function setIframeHeight() {
 // Call the function initially and whenever the window is resized
 setIframeHeight();
 window.addEventListener('resize', setIframeHeight);
+
+
+function openIframePopup(iframeId, iframeSrc) {
+    // Set the source of the iframe
+    $('#' + iframeId).attr('src', iframeSrc);
+
+    // Display the iframe popup
+    $('#' + iframeId + '_container').fadeIn();
+}
+
+function closeIframePopup(iframeId) {
+    // Clear the source of the iframe
+    $('#' + iframeId).attr('src', '');
+
+    // Close the iframe popup
+    $('#' + iframeId + '_container').fadeOut();
+}
+
+
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 
-<script >
+<script>
     $(document).ready(() => {
     $('body').on('click', '#hamburger-menu', () => {
         $('#hamburger-menu').toggleClass('active');
         $('#nav-menu').toggleClass('active');
     });
 });
+
 </script>
 
 <footer th:replace="~{fragments/commons::footer}"></footer>

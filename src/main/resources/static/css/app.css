@@ -779,6 +779,9 @@ footer .content {
     }
 }
 
+
+}
+
 @media only screen and (max-width: 850px) {
     html {
         font-size: 12px;
@@ -852,6 +855,9 @@ footer .content {
         padding: 0 15px; /* Adjust container padding */
     }
 
+    .hero-slide{
+        display:none;
+    }
     .hero-slide-item {
         height: auto; /* Adjust hero slide item height */
         padding-top: unset; /* Reset padding top */
@@ -1076,12 +1082,12 @@ footer .content {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #cc0002;
+    background-color: #b81416;
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #b81416;
+    background-color: #cc0002;
 }
 
 .form-control{
@@ -1111,11 +1117,11 @@ footer .content {
 
 .form-control1:hover{
                         border: 0px;
-                        width: 120%;
+                        width: 100%;
                         box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.8); /* Red glowing border with translucency */
                      }
 .form-control1:focus{
                         border: 0px;
-                        width: 120%;
+                        width: 100%;
                         box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.8); /* Red glowing border with translucency */
 }
