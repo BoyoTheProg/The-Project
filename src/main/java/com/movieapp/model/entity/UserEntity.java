@@ -34,6 +34,17 @@ public class UserEntity extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserMovieInteraction> movieInteractions;
+
+
+    @Column(name = "profile_pic")
+    private String profilePic;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+
     public String getUsername() {
         return username;
     }
@@ -72,6 +83,23 @@ public class UserEntity extends BaseEntity{
 
     public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public List<UserMovieInteraction> getMovieInteractions() {
+        return movieInteractions;
+    }
+
+    public void setMovieInteractions(List<UserMovieInteraction> movieInteractions) {
+        this.movieInteractions = movieInteractions;
+    }
+
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }
 

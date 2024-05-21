@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Picture Upload</title>
   <link rel="stylesheet" href="/css/app.css"/>
+  <link rel="stylesheet" href="/css/grid.css"/>
   <style>
         .con {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            height: 85vh;
             background-image: url("/images/404.jpg");
             background-size: cover;
             display: flex;
@@ -24,8 +25,8 @@
             background-color: rgba(0, 0, 0, 0.8);
             padding: 20px; /* Adjust as needed */
             border-radius: 10px; /* Rounded corners for the container */
-            height: 80vh;
-            width: 800px;
+            height: 100%;
+            width: 50vw;
         }
         .file-input {
             position: absolute;
@@ -43,14 +44,15 @@
 <div class="con">
   <div class="container1">
     <h2>Profile Picture Upload</h2>
-    <br>
-    <br>
-    <div class="profile-pic-container">
-      <!-- Use Thymeleaf to dynamically set the src attribute -->
-      <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic" alt="Profile Picture"/>
+    <div class="col-8 col-sm-6" style="margin: auto;  padding: 2rem;">
+      <div class="profile-pic-container" style=" display: block;
+    padding-top: 100%;">
+        <!-- Display the user's profile picture -->
+        <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic img-fluid" id="js-img"
+             alt="Profile Picture"
+             onerror="this.onerror=null; this.src='/images/syd.gif';"/>
+      </div>
     </div>
-    <br>
-    <br>
     <form th:action="@{'/profile/' + ${userId} + '/upload'}" method="post" enctype="multipart/form-data">
       <label for="profilePicInput" class="button1">
         <span id="fileLabel">Choose File</span>
@@ -61,6 +63,12 @@
   </div>
 </div>
 
+<footer>
+  <div class="copyright">
+    Copyright 2024 &copy; Boyan
+  </div>
+</footer>
+
 <script>
     function updateFileLabel(input) {
         const fileLabel = document.getElementById('fileLabel');
@@ -70,6 +78,17 @@
             fileLabel.textContent = 'Choose File';
         }
     }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
 </script>
 
 </body>

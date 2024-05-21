@@ -4,53 +4,509 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+          rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous"/>
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/css/app.css"/>
+    <link rel="stylesheet" href="/css/grid.css"/>
+
+
     <style>
-        .con {
+        body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             color: white; /* Set the text color to white */
-            font-family: Arial, sans-serif; /* Choose an appropriate font */
+            background-color: rgba(0, 0, 0, 0.4); /* Set the background color to transparent */
+        }
+        .row {
+            transform: translate(0%, 20%);
+            align-items: center;
+        }
+        #js-canvas {
+            position: fixed;
+            left: 0;
+            z-index: -1; /* Set the canvas behind other elements */
+            top: 0;
+            width: 100vw;
+            height: 100vh;
         }
 
-        .container1{
-            padding: 20px; /* Adjust as needed */
-            border-radius: 10px; /* Rounded corners for the container */
-            height: auto;
-            width: 400px;
+
+        .movie-details{
+            top: 0px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
         }
+
+.game-details-content {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  opacity: 1;
+}
+
+.game-image {
+  border-radius:20px;
+  justify-content:center;
+}
+
+
+.game-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  / color: #333; /
+  color: var(--silver);
+  font-weight: var(--fw-700);
+  text-transform: uppercase;
+}
+
+.game-meta p {
+  margin-bottom: 10px;
+  font-size: 2rem;
+  color: var(--roman-silver);
+}
+
+.game-description {
+  background: rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  width: 80%;
+  color: var(--roman-silver);
+}
+
+
+.h2 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-block-end: 90px;
+}
+
+offsetX offsetY blurRadius spreadRadius color
+
     </style>
 </head>
 <body>
-<header th:replace="~{fragments/commons::nav}"></header>
-    <h2>User Profile</h2>
+<canvas id="js-canvas"></canvas>
+<header th:replace="~{fragments/commons::header}"></header>
 
-    <!-- Display the user's profile picture -->
-    <div class="con">
-        <div class="container1">
-            <div class="profile-pic-container">
-                <!-- Use Thymeleaf to dynamically set the src attribute -->
-               <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic" alt="Profile Picture"/>
-            </div>
-            <br>
-            <br>
-            <a class="button1" th:href="@{'/profile/' + ${userId} + '/upload'}">Update Profile Picture</a>
-        </div>
-        <div class="movie-details">
-            <div class="movie-details-left">
-                <div class="release-year" th:text="'Username: ' + ${profile.getUsername()}">User</div>
-            </div>
 
-            <div class="movie-details-right">
+<section class="col-12 container" style="padding: 10vh;">
+    <h2 class="h2 section-title">USER INFO</h2>
+    <div class="game-details-content" style="height: 45vh; filter: brightness(120%);">
+        <div class="game-details-content col-8 col-sm-6">
+            <div class="game-description" style="border: 10px solid red;">
+                <h2 class="section-title">Account</h2>
+                <div class="genre" th:text="'Username: ' + ${profile.getUsername()}">Username:</div>
+<!--                <div class="genre" th:text="'Password: ' + ${profile.getPassword()}" type="password">Username:</div>-->
+                <div class="genre" th:text="'Email: ' + ${profile.getEmail()}">Example</div>
                 <div class="genre" th:text="'Subscription: ' + ${subscription.getPlan().getName()}">Example</div>
+                <div class="genre" th:if="${movie.title != null and movie.title != ''}"
+                                   th:text="'Favourite Movie: ' + ${movie.title}">Example</div>
+                <div class="genre" th:if="${promoCode != null and promoCode != ''}"
+                     th:text="'Promo Code: ' + ${promoCode}"></div>
             </div>
+            <div class="movie-details-right" style="display:none;">
+                <p>Favourite Movie</p>
+                <img th:src="${movie.poster}" alt="Movie Poster" style="border-radius: 20px; color:white;">
+            </div>
+        </div>
+        <div class="game-image col-3 col-sm-6">
+            <div class="profile-pic-container" style=" display: block;
+    padding-top: 100%;">
+                <!-- Display the user's profile picture -->
+                <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic img-fluid" id="js-img"
+                     alt="Profile Picture"
+                     onerror="this.onerror=null; this.src='/images/syd.gif';"/>
+            </div>
+            <a class="button1" style="margin: 1.2rem;  z-index: -1;" th:href="@{'/profile/' + ${userId} + '/upload'}">Update Profile
+                Picture</a>
         </div>
     </div>
-    <a th:href="@{'/profile/' + ${userId} + '/upload'}">Upload Profile Picture</a>
+</section>
+
+<footer th:replace="~{fragments/commons::footer}"></footer>
+
+
+<!-- APP SCRIPT -->
+<script src="/JavaScript/app.js"></script>
+
+<!-- SCRIPT -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script>
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+
+
+
+
+</script>
+>
+
+<script>
+   const profilePicContainer = document.querySelector('.profile-pic-container');
+const profilePic = profilePicContainer.querySelector('img');
+const detailsBorder = document.querySelector('.game-details-content');
+
+const updateCanvasWithColors = () => {
+    // Function to preprocess the image for better color extraction
+    const preprocessImage = (image) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        ctx.drawImage(image, 0, 0);
+        return ctx.getImageData(0, 0, canvas.width, canvas.height);
+    };
+
+    // Function to calculate the most common color from image data
+    const getDominantColor = (imageData) => {
+        const colors = {};
+        const pixels = imageData.data;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const color = `rgb(${r},${g},${b})`;
+            colors[color] = (colors[color] || 0) + 1;
+        }
+
+        let maxCount = 0;
+        let dominantColor = null;
+        for (const color in colors) {
+            if (colors[color] > maxCount) {
+                maxCount = colors[color];
+                dominantColor = color;
+            }
+        }
+
+        return dominantColor;
+    };
+
+    // Function to calculate the most common bright color from image data
+    const getCommonBrightColor = (imageData) => {
+        const colors = {};
+        const pixels = imageData.data;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const brightness = (r + g + b) / 3; // Simple average of RGB values
+            if (brightness > 127) { // Considering brightness above 50% as bright
+                const color = `rgb(${r},${g},${b})`;
+                colors[color] = (colors[color] || 0) + 1;
+            }
+        }
+
+        let maxCount = 0;
+        let commonBrightColor = null;
+        for (const color in colors) {
+            if (colors[color] > maxCount) {
+                maxCount = colors[color];
+                commonBrightColor = color;
+            }
+        }
+
+        return commonBrightColor;
+    };
+
+    // Function to calculate the most saturated color from image data
+    const getMostSaturatedColor = (imageData) => {
+        const pixels = imageData.data;
+        let maxSaturation = -1;
+        let mostSaturatedColor = null;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const hsl = rgbToHsl(r, g, b);
+            const saturation = hsl[1];
+
+            if (saturation > maxSaturation) {
+                maxSaturation = saturation;
+                mostSaturatedColor = `rgb(${r},${g},${b})`;
+            }
+        }
+
+        return mostSaturatedColor;
+    };
+
+    // Function to calculate the brightest color from image data
+    const getBrightestColor = (imageData) => {
+        const pixels = imageData.data;
+        let maxBrightness = -1;
+        let brightestColor = null;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const brightness = (r + g + b) / 3; // Simple average of RGB values
+
+            if (brightness > maxBrightness) {
+                maxBrightness = brightness;
+                brightestColor = `rgb(${r},${g},${b})`;
+            }
+        }
+
+        return brightestColor;
+    };
+
+    // Function to calculate the least bright color from image data
+    const getLeastBrightColor = (imageData) => {
+        const pixels = imageData.data;
+        let minBrightness = 256; // Maximum brightness index
+        let leastBrightColor = null;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const brightness = (r + g + b) / 3; // Simple average of RGB values
+
+            if (brightness < minBrightness) {
+                minBrightness = brightness;
+                leastBrightColor = `rgb(${r},${g},${b})`;
+            }
+        }
+
+        return leastBrightColor;
+    };
+
+    // Function to calculate contrasting color
+    const getContrastingColor = (color) => {
+        const rgb = color.match(/\d+/g);
+        const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
+        return brightness >= 128 ? 'black' : 'white';
+    };
+
+    // Function to calculate color harmony
+    const getColorHarmony = (color) => {
+        const rgb = color.match(/\d+/g);
+        const hsl = rgbToHsl(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
+        const hue = hsl[0];
+        const complementaryHue = (hue + 0.5) % 1;
+        const complementaryRgb = hslToRgb(complementaryHue, 1, 0.5);
+        return `rgb(${complementaryRgb[0]},${complementaryRgb[1]},${complementaryRgb[2]})`;
+    };
+
+    // Function to convert RGB to HSL color space
+    function rgbToHsl(r, g, b) {
+        r /= 255, g /= 255, b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+
+        if (max === min) {
+            h = s = 0;
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, l];
+    }
+
+    // Function to convert HSL to RGB color space
+    function hslToRgb(h, s, l) {
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l; // Achromatic
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return [r * 255, g * 255, b * 255];
+    }
+
+    // Get the profile pic container
+    const profilePicContainer = document.querySelector('.profile-pic-container');
+
+    // Get the image element
+    const profilePic = profilePicContainer.querySelector('img');
+
+    // Function to update the box-shadow color based on the dominant color
+    const updateBoxShadowColor = (color) => {
+        if (color) {
+            profilePicContainer.style.boxShadow = `0 0 20px 20px ${color}`;
+        }
+    };
+
+    // Get the image data from the profile picture
+    const imageData = preprocessImage(profilePic);
+
+    // Get the dominant color and update the box shadow
+    const dominantColor = getDominantColor(imageData);
+    updateBoxShadowColor(dominantColor);
+
+    // Get the most common bright color
+    const brightestColor = getBrightestColor(imageData);
+    const leastBrightColor = getLeastBrightColor(imageData);
+
+    // Get the most saturated color
+    const mostSaturatedColor = getMostSaturatedColor(imageData);
+
+    // Set border color to brightest color
+    profilePicContainer.style.boxShadow =  `0 0 30px 10px ${getColorHarmony(dominantColor)} `;
+
+    const gameDescription = document.querySelector('.game-description');
+    gameDescription.style.borderColor = getColorHarmony(mostSaturatedColor);
+    gameDescription.style.boxShadow =  `0 0 0px 0x ${getColorHarmony(mostSaturatedColor)}
+        `;
+
+    // Get canvas and context
+const canvas = document.getElementById("js-canvas");
+const ctx = canvas.getContext("2d");
+
+// Function to calculate canvas dimensions based on aspect ratio
+const setCanvasDimensions = () => {
+    const aspectRatio = profilePic.width / profilePic.height;
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
+    if (aspectRatio > 1) {
+        // Landscape orientation (width > height)
+        canvas.width = maxWidth;
+        canvas.height = maxWidth / aspectRatio;
+    } else {
+        // Portrait orientation (height > width)
+        canvas.height = maxHeight;
+        canvas.width = maxHeight * aspectRatio;
+    }
+};
+
+// Function to draw the image with effects centered on the canvas
+const drawImageWithEffects = () => {
+    // Calculate canvas dimensions based on the loaded profile picture
+    setCanvasDimensions();
+
+    // Clear canvas before drawing (optional)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Apply filters
+    ctx.filter = 'blur(200px) brightness(70%) saturate(300%) contrast(200%)'; // Apply filters
+
+    // Determine if the image is portrait or landscape
+    const isPortrait = profilePic.height > profilePic.width;
+
+    // Draw the image based on orientation
+    if (isPortrait) {
+        // Portrait orientation: Crop and draw centered
+        const sWidth = profilePic.width;
+        const sHeight = profilePic.height;
+        const sx = (profilePic.width - sWidth) / 2;
+        const sy = (profilePic.height - sHeight) / 2;
+        ctx.drawImage(profilePic, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+    } else {
+        // Landscape orientation: Draw entire image centered
+        ctx.drawImage(profilePic, 0, 0, canvas.width, canvas.height);
+    }
+
+    // Reset filters after drawing
+    ctx.filter = 'none';
+};
+
+// Call the method initially and listen for image load event
+if (profilePic.complete && profilePic.naturalWidth !== 0) {
+    drawImageWithEffects();
+} else {
+    profilePic.addEventListener('load', drawImageWithEffects);
+}
+
+    // Apply gradient background
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    gradient.addColorStop(0.30, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(0.60, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 1)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Reset filters
+    ctx.filter = 'none';
+};
+
+// Call the method initially and listen for image load event
+updateCanvasWithColors();
+profilePic.addEventListener('load', updateCanvasWithColors);
+
+
+
+
+    const drawLoop = () => {
+      draw();
+      step = window.requestAnimationFrame(drawLoop);
+    };
+
+    const drawPause = () => {
+      window.cancelAnimationFrame(step);
+      step = undefined;
+    };
+
+    const init = () => {
+      img.addEventListener("load", draw, false);
+      window.addEventListener("resize", draw, false);
+      drawLoop();
+    };
+
+    const cleanup = () => {
+      img.removeEventListener("load", draw);
+      window.removeEventListener("resize", draw);
+      drawPause();
+    };
+
+    window.addEventListener("load", init);
+    window.addEventListener("unload", cleanup);
+
+
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

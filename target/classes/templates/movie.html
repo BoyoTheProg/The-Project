@@ -66,7 +66,7 @@
 
         .review-list {
             height: auto;
-            max-height: 300px; /* Set the height as desired */
+            max-height: 160px; /* Set the height as desired */
             overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
             border: 2px solid red;
             border-radius: 20px;
@@ -79,7 +79,7 @@
             width: 100%;
             justify-content: flex-start;
             align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
         }
 
         .profile-pic {
@@ -104,7 +104,7 @@
         }
         .review + .review {
             border-top: 2px solid red;
-            padding-top: 5px; /* Adjust spacing if needed */
+            padding-top: 0px; /* Adjust spacing if needed */
         }
 
         .review-text {
@@ -204,14 +204,14 @@ footer {
         </div>
     </div>
 
-    <div class="section" style="width:75%;">
+    <div class="section" style="width:85%;">
     <div class="section-header">
         Reviews
     </div>
     <div class="review-list">
         <ul>
             <th:block th:each="review : ${reviews}">
-                <li class="review">
+                <li class="review" style="background: rgba(255,255,255,0.1);">
                     <!-- Use Thymeleaf to dynamically set the src attribute -->
                     <img th:src="${review.emoji}" class="profile-pic"
                          alt="Profile Picture"

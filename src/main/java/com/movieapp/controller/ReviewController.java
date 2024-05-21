@@ -43,6 +43,7 @@ public class ReviewController {
 
     @PostMapping("/reviews/add/{movieId}")
     public String saveReview(@PathVariable Long movieId, @RequestParam String review, @RequestParam Double newRating) {
+
         reviewService.saveReview(movieId, review, newRating);
         return "redirect:/movies/{movieId}";
     }

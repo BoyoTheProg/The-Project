@@ -10,6 +10,7 @@
     </title>
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet">
     <!-- OWL CAROUSEL -->
@@ -43,7 +44,7 @@
                         <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post" class="th-movie-item" style="display: none">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <input type="hidden" name="id" th:value="${movie.id}" />
-                            <div class="movie-details" style="cursor: pointer;justify-content: space-between;" onclick="submitForm(this)">
+                            <div class="movie-details" style="cursor: pointer; justify-content: space-between; padding: 10px;" onclick="submitForm(this)">
                                 <span class="movie-title" th:text="${movie.title}"></span>
                                 <span class="movie-year" th:text="${movie.releaseYear}"></span>
                                 <img th:src="${movie.poster}" style="float: right;border-radius:5px; margin-top:2px; margin-bottom:2px;" alt="Movie Poster" />
@@ -56,10 +57,10 @@
 
 
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="/home">Home</a></li>
+                <li><a href="/home">Home <i class="material-icons nav-object" style="vertical-align: middle;">computer</i></a></li>
                 <li><a href="/genres">Genres</a></li>
                 <li><a href="#infoSection">About</a></li>
-                <li><a th:href="@{'/profile/' + ${userId}}">Profile</a></li>
+                <li><a th:href="@{'/profile'}">Profile</a></li>
                 <li sec:authorize="hasRole('ADMIN')"><a href="/subscriptions">Subscriptions</a></li>
                 <li>
                     <a href="/login" class="btn btn-hover" sec:authorize="!isAuthenticated()">

@@ -7,15 +7,17 @@ public class MovieHomeDto {
 
     private List<MovieDTO> availableMovies;
     private List<MovieDTO> latestMovies;
+    private List<MovieDTO> topMovies;
     private List<MovieDTO> lastWatchedMovies;
     private List<MovieDTO> recommendedMovies;
 
 
     private int availableSize;
 
-    public MovieHomeDto(List<MovieDTO> availableMovies, List<MovieDTO> latestMovies, List<MovieDTO> lastWatchedMovies, List<MovieDTO> recommendedMovies) {
+    public MovieHomeDto(List<MovieDTO> availableMovies, List<MovieDTO> latestMovies, List<MovieDTO> topMovies, List<MovieDTO> lastWatchedMovies, List<MovieDTO> recommendedMovies) {
         this.availableMovies = availableMovies;
         this.latestMovies = latestMovies;
+        this.topMovies = topMovies;
         this.lastWatchedMovies = lastWatchedMovies;
         this.recommendedMovies = recommendedMovies;
     }
@@ -49,5 +51,9 @@ public class MovieHomeDto {
 
     public List<MovieDTO> getLatestMovies() {
         return latestMovies;
+    }
+
+    public List<MovieDTO> getTopMovies() {
+        return topMovies;
     }
 }

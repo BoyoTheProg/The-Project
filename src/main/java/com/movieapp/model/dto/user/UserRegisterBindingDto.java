@@ -1,6 +1,5 @@
 package com.movieapp.model.dto.user;
 
-import com.movieapp.model.entity.Plan;
 import com.movieapp.model.enums.SubscriptionType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,14 +12,14 @@ import jakarta.validation.constraints.Size;
 
 public class UserRegisterBindingDto {
     @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
-    @NotNull
+    @NotNull(message = "Can't be empty!")
     private String username;
 
     @Size(min = 3, max = 20, message = "Password length must be between 3 and 20 characters!")
-    @NotNull
+    @NotNull(message = "Can't be empty!")
     private String password;
 
-    @NotNull
+    @NotNull(message = "Can't be empty!")
     private String confirmPassword;
 
     @Email
@@ -28,6 +27,7 @@ public class UserRegisterBindingDto {
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Can't be empty!")
     private SubscriptionType plan;
 
     public String getUsername() {

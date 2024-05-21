@@ -23,18 +23,22 @@
 
     <form class="mx-auto w-25 bg-blur rounded"
           th:method="post"
-          th:action="@{/register}">
+          th:action="@{/register}"
+          th:object="${userRegistrationDTO}">
 
         <div class="form-group ">
             <label for="username" class="text-white font-weight-bold">Username</label>
             <input id="username"
                    name="username"
+                   th:field="*{username}"
                    type="text"
                    class="form-control"
                    placeholder="Username"/>
 <!--            <p class="errors alert alert-danger">-->
 <!--                Username is required.-->
 <!--            </p>-->
+            <small th:if="${#fields.hasErrors('username')}"
+                   th:errors="*{username}" class="text-danger">Username error message</small>
         </div>
 
 
@@ -42,9 +46,12 @@
             <label for="email" class="text-white font-weight-bold">Email</label>
             <input id="email"
                    name="email"
-                   type="text"
+                   type="email"
                    class="form-control"
+                   th:field="*{email}"
                    placeholder="Email"/>
+            <p th:if="${#fields.hasErrors('email')}" class="errors alert alert-danger"
+               th:errors="*{email}"></p>
         </div>
 
 
@@ -55,32 +62,39 @@
                     name="password"
                     type="password"
                     class="form-control"
+                    th:field="*{password}"
                     placeholder="Password"/>
+            <p th:if="${#fields.hasErrors('password')}" class="errors alert alert-danger"
+               th:errors="*{password}"></p>
         </div>
         <div class="form-group ">
             <label for="confirmPassword" class="text-white font-weight-bold">Confirm Password</label>
             <input id="confirmPassword"
                    name="confirmPassword"
                    type="password"
+                   th:field="*{confirmPassword}"
                    class="form-control"
                    placeholder="Confirm password"/>
+            <p th:if="${#fields.hasErrors('confirmPassword')}" class="errors alert alert-danger"
+               th:errors="*{confirmPassword}"></p>
         </div>
 
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="plan" class="h4 mb-2">Subscription Plan</label>
             </div>
-            <select name="plan" class="browser-default custom-select" id="plan">
+            <select name="plan" class="browser-default custom-select" th:field="*{plan}" id="plan">
                 <option value="">Select plan</option>
                 <option value="STANDARD">Standard - 9.99$</option>
                 <option value="PREMIUM">Premium - 14.99$</option>
             </select>
 
-
+            <p th:if="${#fields.hasErrors('plan')}" class="errors alert alert-danger"
+               th:errors="*{plan}"></p>
         </div>
 
         <p th:if="${registration_error}" class="errors alert alert-danger">
-            Make sure to enter everything.
+            Make sure if the passwords are correct. If yes, try change username or email
         </p>
 
         <div class="button-holder d-flex justify-content-center">
@@ -92,12 +106,18 @@
 <footer th:replace="~{fragments/commons::footer}"></footer>
 
 <!-- SCRIPT -->
-<!-- JQUERY -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<!-- OWL CAROUSEL -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
-<!-- APP SCRIPT -->
-<script src="/JavaScript/app.js"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+</script>
+
 
 </body>
 </html>

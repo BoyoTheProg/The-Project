@@ -35,7 +35,6 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void add(MovieAddBindingDto movieAddBindingDto) {
-//        Movie movie = movieRepository.findByTitle(movieAddBindingDto.getTitle());
 
 
         if (movieRepository.count() >= 0) {
@@ -76,6 +75,10 @@ public class MovieServiceImpl implements MovieService {
                     .map(MovieDTO::createFromMovie)
                     .collect(Collectors.toList());
 
+            List<MovieDTO> topMovies = movieRepository.getTopRatedMovies().stream()
+                    .map(MovieDTO::createFromMovie)
+                    .collect(Collectors.toList());
+
             List<MovieDTO> lastWatchedMovies = getLastWatchedMovies(currentUser.getId());
 
             List<MovieDTO> recommendedMovies = getRecommendedMovies(currentUser.getId());
@@ -84,13 +87,36 @@ public class MovieServiceImpl implements MovieService {
                 lastWatchedMovies = availableMovies;
             }
             // Return MovieHomeDto with available, last watched, and recommended movies
-            return new MovieHomeDto(availableMovies,latestMovies, lastWatchedMovies, recommendedMovies);
+            return new MovieHomeDto(availableMovies,latestMovies, topMovies, lastWatchedMovies, recommendedMovies);
         } catch (Exception e) {
             // Log the exception or handle it as needed
             e.printStackTrace();
             // Return an empty MovieHomeDto or throw a custom exception
             return new MovieHomeDto(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
         }
+    }
+
+    @Override
+    public MovieDTO getMostWatchedMovie() {
+        // Retrieve the most watched movie from the repository
+        Movie mostWatchedMovie = movieRepository.findMostWatchedMovie();
+
+        // Map the most watched movie to a MovieDTO
+        return MovieDTO.createFromMovie(mostWatchedMovie);
+    }
+
+    @Override
+    public MovieDTO getMostWatchedMovieByUser(){
+        Movie mostWatchedMovie = movieRepository.findMostWatchedMovieByUser(userService.getCurrentUser().getId());
+
+        return MovieDTO.createFromMovie(mostWatchedMovie);
+
+    }
+
+    @Override
+    public MovieDTO getMostWatchedMovieByGenre(String genre) {
+        Movie mostWatchedMovie = movieRepository.findMostWatchedMovieByGenre(genre);
+        return MovieDTO.createFromMovie(mostWatchedMovie);
     }
 
     public List<MovieDTO> getLastWatchedMovies(Long userId) {
@@ -192,6 +218,8 @@ public class MovieServiceImpl implements MovieService {
         existingMovie.setGenre(editedMovie.getGenre());
         existingMovie.setCategory(editedMovie.getCategory());
         existingMovie.setRating(editedMovie.getRating());
+        existingMovie.setPoster(editedMovie.getPoster());
+        existingMovie.setSlidePoster(editedMovie.getSlidePoster());
 
         // Save the updated movie back to the database
         movieRepository.save(existingMovie);

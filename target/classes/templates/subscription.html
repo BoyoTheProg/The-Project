@@ -7,40 +7,50 @@
     <link rel="stylesheet" href="/css/grid.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
     <style>
+        li {
+            list-style-type: none;
+        }
         /* Apply styles to the entire table */
         table {
-            width: 50%;
-            height: 50%;
             border-collapse: collapse; /* This removes the default spacing between table cells */
+            border: 2px solid #ddd;
         }
 
         /* Apply styles to the table header (th) */
         th {
             background-color: red;
             color: white;
+            border: 2px solid #ddd;
             padding: 10px; /* Adjust as needed */
             text-align: left; /* Adjust as needed */
         }
 
         /* Apply styles to the table cells (td) */
         td {
-            border: 1px solid #ddd; /* Border color for cells */
-            padding: 8px; /* Adjust as needed */
+            border: 2px solid #ddd; /* Border color for cells */
+            padding: 10px; /* Adjust as needed */
         }
 
         /* Add some hover effect to the table rows */
         tr:hover {
             background-color: red; /* Adjust as needed */
         }
-
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .con {
+            transform: translate(0%, 20%);
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 <header th:replace="~{fragments/commons::header}"></header>
+<div class="con">
+<h1>Subscriptions</h1>
 
-<h1>Subscription Information</h1>
-
-<table border="1">
+<table border="2" class="col-9" style="margin: auto;">
     <thead>
     <tr>
         <th>User</th>
@@ -88,16 +98,29 @@
     </tr>
     </tbody>
 </table>
-
+</div>
 <footer th:replace="~{fragments/commons::footer}"></footer>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script >
+    $(document).ready(() => {
+    $('body').on('click', '#hamburger-menu', () => {
+        $('#hamburger-menu').toggleClass('active');
+        $('#nav-menu').toggleClass('active');
+    });
+});
+</script>
+
 
 <script th:inline="javascript">
-
     function showChangeRolePopup(button) {
         var userId = $(button).data('userid');
-        $("#changeRolePopup_" + userId).show();
+        var popup = $("#changeRolePopup_" + userId);
+
+        // Toggle the visibility of the popup
+        popup.toggle();  // This will show or hide the popup based on its current state
     }
 
     $(document).ready(function () {

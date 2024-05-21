@@ -23,6 +23,12 @@ public interface MovieService {
 //
 //    List<MovieDTO> getAllMoviesByGenre(GenreType genre);
 
+    MovieDTO getMostWatchedMovie();
+
+    MovieDTO getMostWatchedMovieByUser();
+
+    MovieDTO getMostWatchedMovieByGenre(String genre);
+
     List<MovieDTO> getRecommendedMovies(Long userId);
 
     List<MovieDTO> getAllMoviesByGenre(GenreType genre);

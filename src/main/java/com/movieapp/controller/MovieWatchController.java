@@ -1,5 +1,6 @@
 package com.movieapp.controller;
 
+import com.movieapp.model.dto.movie.MovieDTO;
 import com.movieapp.model.entity.Movie;
 import com.movieapp.model.entity.Review;
 import com.movieapp.service.MovieService;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -25,8 +27,23 @@ public class MovieWatchController {
 
     @GetMapping("/movies/{id}")
         public String getMovieById(@PathVariable Long id, Model model) {
-            Movie movie = movieService.getMovieById(id);
+            Movie m = movieService.getMovieById(id);
+            MovieDTO movie = MovieDTO.createFromMovie(m);
             List<Review> reviews = reviewService.getReviewsByMovieId(id);
+            String profilePic = "";
+            for (Review review: reviews) {
+                double rating = review.getRating();
+                if (rating > 0 && rating < 4){
+                    profilePic = "https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f620.gif";
+                } else if (rating > 3 && rating < 6) {
+                    profilePic = "https://assets-v2.lottiefiles.com/a/45cb6bd0-116b-11ee-ab1e-c37d9971e10f/GbrbMx3XE2.gif";
+                } else if (rating > 5 && rating < 9) {
+                    profilePic = "https://cdn0.iconfinder.com/data/icons/remoji-soft-1/512/emoji-cool-smile-sunglasses.png";
+                } else {
+                    profilePic = "https://cdn.pixabay.com/animation/2022/10/27/12/57/12-57-22-874_512.gif";
+                }
+                review.setEmoji(profilePic);
+            }
             model.addAttribute("reviews", reviews);
             model.addAttribute("movie", movie);
             return "movie";

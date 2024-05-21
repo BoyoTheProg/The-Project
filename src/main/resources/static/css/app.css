@@ -760,7 +760,9 @@ footer .content {
     text-align: center;
     width: 100vm;
 }
-
+.nav-object{
+    display: none;
+}
 /* RESPONSIVE */
 
 @media only screen and (max-width: 1280px) {
@@ -834,6 +836,10 @@ footer .content {
 
     .nav-menu.active {
         left: 0;
+    }
+
+    .nav-object{
+        display: block;
     }
 }
 @media only screen and (max-width: 767px) and (orientation: portrait) {

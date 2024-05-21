@@ -17,7 +17,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests(
+        return httpSecurity.authorizeRequests(
                 authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/login", "/register", "/login-error").permitAll()
@@ -27,7 +27,7 @@ public class SecurityConfiguration {
                     formLogin.loginPage("/login")
                             .usernameParameter("username")
                             .passwordParameter("password")
-                            .defaultSuccessUrl("/")
+                            .defaultSuccessUrl("/home")
                             .failureForwardUrl("/login-error");
                 }
         ).logout(

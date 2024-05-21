@@ -9,12 +9,16 @@ import com.movieapp.model.entity.UserEntity;
 import com.movieapp.model.enums.SubscriptionType;
 import com.movieapp.model.enums.UserRoleEnum;
 import com.movieapp.repo.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.validation.Valid;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -43,6 +47,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+
     public UserServiceImpl(UserRepository userRepository, SubscriptionRepository subscriptionRepository, RoleRepository roleRepository, PlanRepository planRepository, ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.subscriptionRepository = subscriptionRepository;
@@ -53,6 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean register(UserRegisterBindingDto userRegisterBindingDto) {
         if (!userRegisterBindingDto.getPassword().equals(userRegisterBindingDto.getConfirmPassword())){
             return false;
@@ -65,20 +71,27 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
+        //Retrieve the selected plan
+        Plan plan = planRepository.findByName(userRegisterBindingDto.getPlan());
+
+        // Create a new user entity
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userRegisterBindingDto.getUsername());
         userEntity.setEmail(userRegisterBindingDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userRegisterBindingDto.getPassword()));
 
+        // Assign the default role USER to the user
+        UserRoleEnum defaultRole = UserRoleEnum.USER;
+        RoleEntity role = roleRepository.findByRole(defaultRole)
+                .orElseThrow(() -> new IllegalArgumentException("Default role not found"));
 
-        // Save the user first to obtain the user ID
+        // Set the roles for the user
+        userEntity.getRoles().add(role);
+
+        // Save the user entity
         userEntity = userRepository.save(userEntity);
 
-        //Retrieve the selected plan
-        Plan plan = planRepository.findByName(userRegisterBindingDto.getPlan());
-
-
-        // Create a subscription
+        // Create a subscription and save it
         Subscription subscription = new Subscription();
         subscription.setPlan(plan);
         subscription.setUser(userEntity);
@@ -89,21 +102,7 @@ public class UserServiceImpl implements UserService {
             String promoCode = generateRandomPromoCode();
             subscription.setPromoCode(promoCode);
         }
-
-        // Save the subscription
         subscriptionRepository.save(subscription);
-
-        // Assign the default role USER to the user
-        UserRoleEnum defaultRole = UserRoleEnum.USER;
-        RoleEntity role = roleRepository.findByRole(defaultRole)
-                .orElseThrow(() -> new IllegalArgumentException("Default role not found"));
-
-        // Set the roles for the user
-        List<RoleEntity> userRoles = Collections.singletonList(role);
-        userEntity.setRoles(userRoles);
-
-        // Update the user entity with the assigned role
-        userRepository.save(userEntity);
 
         return true;
     }

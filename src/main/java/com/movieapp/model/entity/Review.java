@@ -17,6 +17,8 @@ public class Review extends BaseEntity{
     @Column
     private Double rating;
 
+    private String emoji;
+
     public String getReview() {
         return review;
     }
@@ -51,5 +53,13 @@ public class Review extends BaseEntity{
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public String getEmoji() {
+        return emoji;
+    }
+
+    public void setEmoji(String emoji) {
+        this.emoji = emoji;
     }
 }

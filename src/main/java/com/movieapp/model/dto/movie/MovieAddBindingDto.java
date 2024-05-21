@@ -22,7 +22,7 @@ public class MovieAddBindingDto {
     private String slidePoster;
     @NotNull(message = "You must enter the year! Year must not be in the future!")
     @Min(1900)
-    @Max(2023)
+    @Max(2024)
     private int releaseYear;
     @NotNull(message = "You must enter the runtime!")
     @Min(1)
@@ -32,7 +32,7 @@ public class MovieAddBindingDto {
     @NotNull(message = "You must enter the director!")
     private String director;
     @NotNull
-    @Length(min = 2, max = 255,  message = "Description length must be between 2 and 255 characters!")
+    @Length(min = 2,  message = "Description length must be between 2 and 500 characters!")
     private String description;
     @NotNull(message = "You must select a genre!")
     private GenreType genre;
