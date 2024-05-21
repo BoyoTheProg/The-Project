@@ -79,7 +79,7 @@
   padding: 10px;
   font-size: 1.5rem;
   line-height: 1.5;
-  width: 80%;
+  width: 90%;
   color: var(--roman-silver);
 }
 
@@ -104,7 +104,7 @@ offsetX offsetY blurRadius spreadRadius color
     <h2 class="h2 section-title">USER INFO</h2>
     <div class="game-details-content" style="height: 45vh; filter: brightness(120%);">
         <div class="game-details-content col-8 col-sm-6">
-            <div class="game-description" style="border: 10px solid red;">
+            <div class="game-description" style="border: 6px solid red;">
                 <h2 class="section-title">Account</h2>
                 <div class="genre" th:text="'Username: ' + ${profile.getUsername()}">Username:</div>
 <!--                <div class="genre" th:text="'Password: ' + ${profile.getPassword()}" type="password">Username:</div>-->
@@ -121,7 +121,7 @@ offsetX offsetY blurRadius spreadRadius color
             </div>
         </div>
         <div class="game-image col-3 col-sm-6">
-            <div class="profile-pic-container" style=" display: block;
+            <div class="profile-pic-container" style="display: block;
     padding-top: 100%;">
                 <!-- Display the user's profile picture -->
                 <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic img-fluid" id="js-img"
@@ -394,7 +394,9 @@ const updateCanvasWithColors = () => {
     profilePicContainer.style.boxShadow =  `0 0 30px 10px ${getColorHarmony(dominantColor)} `;
 
     const gameDescription = document.querySelector('.game-description');
-    gameDescription.style.borderColor = getColorHarmony(mostSaturatedColor);
+    gameDescription.style.borderColor = dominantColor;
+    gameDescription.style.background = mostSaturatedColor;
+    gameDescription.style.color = getColorHarmony(dominantColor);
     gameDescription.style.boxShadow =  `0 0 0px 0x ${getColorHarmony(mostSaturatedColor)}
         `;
 
@@ -419,36 +421,33 @@ const setCanvasDimensions = () => {
     }
 };
 
-// Function to draw the image with effects centered on the canvas
+// Function to draw the image with effects filling the canvas
 const drawImageWithEffects = () => {
-    // Calculate canvas dimensions based on the loaded profile picture
-    setCanvasDimensions();
+    // Set canvas dimensions to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // Clear canvas before drawing (optional)
+    // Clear canvas before drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Apply filters
-    ctx.filter = 'blur(200px) brightness(70%) saturate(300%) contrast(200%)'; // Apply filters
+    ctx.filter = 'blur(100px) brightness(70%) saturate(300%) contrast(200%)';
 
-    // Determine if the image is portrait or landscape
-    const isPortrait = profilePic.height > profilePic.width;
-
-    // Draw the image based on orientation
-    if (isPortrait) {
-        // Portrait orientation: Crop and draw centered
-        const sWidth = profilePic.width;
-        const sHeight = profilePic.height;
-        const sx = (profilePic.width - sWidth) / 2;
-        const sy = (profilePic.height - sHeight) / 2;
-        ctx.drawImage(profilePic, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
-    } else {
-        // Landscape orientation: Draw entire image centered
-        ctx.drawImage(profilePic, 0, 0, canvas.width, canvas.height);
-    }
+    // Draw a rectangle on the canvas with the same dimensions as the canvas
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'; // Make it transparent
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Reset filters after drawing
-    ctx.filter = 'none';
+     ctx.filter = 'blur(100px) brightness(70%) saturate(300%) contrast(200%)';
 };
+
+// Set body's background with the profile picture
+document.body.style.backgroundImage = `url('${profilePic.src}')`;
+document.body.style.backgroundSize = 'cover';
+document.body.style.backgroundPosition = 'center';
+
+
+
 
 // Call the method initially and listen for image load event
 if (profilePic.complete && profilePic.naturalWidth !== 0) {

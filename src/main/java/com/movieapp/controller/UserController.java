@@ -179,8 +179,7 @@ public class UserController {
     @PostMapping("/profile/{userId}/upload")
     public String handleProfilePicUpload(@PathVariable Long userId,
                                          @RequestParam("profilePicFile") MultipartFile file) {
-        // Handle the profile picture upload
-        Long userId1 = userService.getCurrentUser().getId();
+
         try {
             userService.setUserProfilePic(file);
         } catch (IOException e) {
@@ -189,7 +188,7 @@ public class UserController {
         }
 
         // Redirect to the user profile page
-        return "redirect:/profile/" + userId1;
+        return "redirect:/profile";
     }
 
 }

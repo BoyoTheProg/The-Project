@@ -153,7 +153,7 @@
         </div>
         <div class="owl-carousel" id="top-movies-slide">
             <!-- MOVIE ITEM -->
-            <div th:each="movie : ${topMovies}" class="movie-item" onclick="submitForm1(this)">
+            <div th:each="movie : ${topMovies}" class="movie-item" ondblclick="submitForm1(this)">
                 <form th:action="@{'/movies/' + ${movie.id} + '/interaction'}" method="post"
                       class="full-width full-height">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

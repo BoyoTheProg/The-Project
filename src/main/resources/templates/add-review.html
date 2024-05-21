@@ -39,9 +39,10 @@
             border: 2px solid red;
             padding-bottom: 10px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             max-height: 60vh;
+            justify-content: space-evenly;
         }
 
         label, textarea {
@@ -123,23 +124,24 @@
 <div class="con">
     <div class="container">
         <h2>Add Review</h2>
+        <label>User:</label>
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authentication="name"></th:block>
+        </th:block>
         <form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
             <input type="hidden" th:field="*{movie.id}">
 
-            <label>User:</label>
-            <th:block sec:authorize="isAuthenticated()">
-                <th:block sec:authentication="name"></th:block>
-            </th:block>
-            <br>
 
-            <label for="review">Review:</label>
-            <textarea id="review" class="form-control" name="review" th:field="*{review}" required style="max-width:50%;"></textarea>
+<!--            <label for="review">Review:</label>-->
+            <textarea id="review" class="form-control" name="review" th:field="*{review}" required maxlength="580" style="resize: none;
+             width:40%; height: 40vh; border-radius: 10px;
+             padding: 5px 10px 10px 10px; background: rgba(0,0,0,1); overflow: hidden;" ></textarea>
             <br>
 
             <!-- Stars -->
             <div>
                 <label for="newRating">Rating:</label>
-                <input type="number" id="newRating" name="newRating" class="form-control" min="1" max="10" required readonly style="cursor: default;">
+                <input type="number" id="newRating" name="newRating" class="form-control" min="1" max="10" required readonly style="cursor: default; display: none;">
                 <div class="star-wrapper">
                     <a href="#" class="bx bxs-star s10" onclick="setRating(10)"></a>
                     <a href="#" class="bx bxs-star s9" onclick="setRating(9)"></a>
@@ -173,6 +175,7 @@
                 }
             });
         }
+
     </script>
 </body>
 </html>

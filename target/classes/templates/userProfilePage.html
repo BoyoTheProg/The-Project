@@ -402,60 +402,60 @@ const updateCanvasWithColors = () => {
 const canvas = document.getElementById("js-canvas");
 const ctx = canvas.getContext("2d");
 
-// Function to calculate canvas dimensions based on aspect ratio
+// Function to set canvas dimensions based on the .container section
 const setCanvasDimensions = () => {
-    const aspectRatio = profilePic.width / profilePic.height;
-    const maxWidth = window.innerWidth;
-    const maxHeight = window.innerHeight;
-
-    if (aspectRatio > 1) {
-        // Landscape orientation (width > height)
-        canvas.width = maxWidth;
-        canvas.height = maxWidth / aspectRatio;
-    } else {
-        // Portrait orientation (height > width)
-        canvas.height = maxHeight;
-        canvas.width = maxHeight * aspectRatio;
-    }
+    const container = document.querySelector('.container');
+    canvas.width = profilePic.width;
+    canvas.height = profilePic.height;
 };
 
 // Function to draw the image with effects centered on the canvas
 const drawImageWithEffects = () => {
-    // Calculate canvas dimensions based on the loaded profile picture
+    // Set canvas dimensions to match the container size
     setCanvasDimensions();
 
-    // Clear canvas before drawing (optional)
+    // Clear canvas before drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Apply filters
-    ctx.filter = 'blur(200px) brightness(70%) saturate(300%) contrast(200%)'; // Apply filters
+    ctx.filter = 'blur(0px) brightness(70%) saturate(300%) contrast(200%)';
 
-    // Determine if the image is portrait or landscape
-    const isPortrait = profilePic.height > profilePic.width;
+    // Calculate dimensions to maintain aspect ratio and cover the canvas
+    const canvasAspect = canvas.width / canvas.height;
+    const imageAspect = profilePic.width / profilePic.height;
+    let drawWidth, drawHeight;
 
-    // Draw the image based on orientation
-    if (isPortrait) {
-        // Portrait orientation: Crop and draw centered
-        const sWidth = profilePic.width;
-        const sHeight = profilePic.height;
-        const sx = (profilePic.width - sWidth) / 2;
-        const sy = (profilePic.height - sHeight) / 2;
-        ctx.drawImage(profilePic, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+    if (canvasAspect > imageAspect) {
+        // Canvas is wider relative to its height compared to the image
+        drawWidth = canvas.width;
+        drawHeight = canvas.width / imageAspect;
     } else {
-        // Landscape orientation: Draw entire image centered
-        ctx.drawImage(profilePic, 0, 0, canvas.width, canvas.height);
+        // Canvas is taller relative to its width compared to the image
+        drawHeight = canvas.height;
+        drawWidth = canvas.height * imageAspect;
     }
+
+    // Calculate offsets to center the image
+    const offsetX = (canvas.width - drawWidth) / 2;
+    const offsetY = (canvas.height - drawHeight) / 2;
+
+    // Draw the image centered on the canvas
+    ctx.drawImage(profilePic, offsetX, offsetY, drawWidth, drawHeight);
 
     // Reset filters after drawing
     ctx.filter = 'none';
 };
 
-// Call the method initially and listen for image load event
+
 if (profilePic.complete && profilePic.naturalWidth !== 0) {
     drawImageWithEffects();
 } else {
     profilePic.addEventListener('load', drawImageWithEffects);
 }
+
+// Redraw on window resize to maintain background-attachment: fixed effect
+window.addEventListener('resize', drawImageWithEffects);
+
 
     // Apply gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
