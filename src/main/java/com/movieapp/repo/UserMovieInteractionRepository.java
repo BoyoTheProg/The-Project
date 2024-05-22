@@ -19,7 +19,10 @@ public interface UserMovieInteractionRepository extends JpaRepository<UserMovieI
             " GROUP BY user_id, movie_id) ORDER BY timestamp DESC LIMIT 5",
             nativeQuery = true)
     List<UserMovieInteraction> findLastFiveInteractions(@Param("userId") Long userId);
-//    List<UserMovieInteraction> findTopNByUserOrderByTimestampDesc(Long userId, int count);
 
+    @Query(value = "DELETE FROM movie_app.watch_history WHERE movie_id = :movieId",
+            nativeQuery = true)
+    void deleteAllByMovieId(@Param("movieId") Long userId);
+    
 }
 

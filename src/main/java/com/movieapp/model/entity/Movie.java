@@ -1,5 +1,4 @@
 package com.movieapp.model.entity;
-import com.movieapp.model.dto.movie.MovieDTO;
 import com.movieapp.model.enums.CategoryType;
 import com.movieapp.model.enums.GenreType;
 import jakarta.persistence.*;
@@ -8,7 +7,6 @@ import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Table(name = "movies")
