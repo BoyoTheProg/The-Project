@@ -34,7 +34,7 @@
             max-height: 80%;
         }
 
-        form {
+        .form {
             border-radius: 20px;
             border: 2px solid red;
             padding-bottom: 10px;
@@ -117,6 +117,25 @@
 .star-wrapper .selected {
     color: gold;
 }
+
+@media only screen and (max-width: 1100px){
+    .star-wrapper a {
+      font-size: 2em;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.5s;
+      margin: 4px;
+    }
+}
+@media only screen and (max-width: 800px){
+    .star-wrapper a {
+      font-size: 1em;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.5s;
+      margin: 4px;
+    }
+}
     </style>
 </head>
 <body>
@@ -128,20 +147,20 @@
         <th:block sec:authorize="isAuthenticated()">
             <th:block sec:authentication="name"></th:block>
         </th:block>
-        <form th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
+        <form class="form" th:object="${review}" th:action="@{'/movies/reviews/add/' + ${movie.id}}" method="post">
             <input type="hidden" th:field="*{movie.id}">
 
-
 <!--            <label for="review">Review:</label>-->
-            <textarea id="review" class="form-control" name="review" th:field="*{review}" required maxlength="580" style="resize: none;
-             width:40%; height: 40vh; border-radius: 10px;
-             padding: 5px 10px 10px 10px; background: rgba(0,0,0,1); overflow: hidden;" ></textarea>
+            <textarea id="review" class="form-control" name="review" th:field="*{review}" required maxlength="700" style="resize: none;
+             width:40%; height: 40vh; border-radius: 10px; font-size: 18px; min-width: 10vw;
+             padding: 5px 10px 10px 10px; background: rgba(0,0,0,1); overflow: hidden;"
+            placeholder="Comment..."></textarea>
             <br>
 
             <!-- Stars -->
             <div>
-                <label for="newRating">Rating:</label>
-                <input type="number" id="newRating" name="newRating" class="form-control" min="1" max="10" required readonly style="cursor: default; display: none;">
+<!--                <label for="newRating">Rating:</label>-->
+                <input type="number" id="newRating" name="newRating" class="form-control" min="1" max="10" required style="cursor: default; display: none;">
                 <div class="star-wrapper">
                     <a href="#" class="bx bxs-star s10" onclick="setRating(10)"></a>
                     <a href="#" class="bx bxs-star s9" onclick="setRating(9)"></a>
@@ -158,7 +177,7 @@
 
             <button type="submit" class="button">Submit</button>
         </form>
-        <a th:href="@{/movies/{movieId}}" class="back-link">Back to Reviews</a>
+        <a th:href="@{'/movies/' + ${movie.id}}" class="back-link">Back to Reviews</a>
     </div>
 </div>
 <footer th:replace="~{fragments/commons::footer}"></footer>

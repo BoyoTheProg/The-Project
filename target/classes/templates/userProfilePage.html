@@ -79,7 +79,7 @@
   padding: 10px;
   font-size: 1.5rem;
   line-height: 1.5;
-  width: 80%;
+  width: 90%;
   color: var(--roman-silver);
 }
 
@@ -104,7 +104,7 @@ offsetX offsetY blurRadius spreadRadius color
     <h2 class="h2 section-title">USER INFO</h2>
     <div class="game-details-content" style="height: 45vh; filter: brightness(120%);">
         <div class="game-details-content col-8 col-sm-6">
-            <div class="game-description" style="border: 10px solid red;">
+            <div class="game-description" style="border: 6px solid red;">
                 <h2 class="section-title">Account</h2>
                 <div class="genre" th:text="'Username: ' + ${profile.getUsername()}">Username:</div>
 <!--                <div class="genre" th:text="'Password: ' + ${profile.getPassword()}" type="password">Username:</div>-->
@@ -121,7 +121,7 @@ offsetX offsetY blurRadius spreadRadius color
             </div>
         </div>
         <div class="game-image col-3 col-sm-6">
-            <div class="profile-pic-container" style=" display: block;
+            <div class="profile-pic-container" style="display: block;
     padding-top: 100%;">
                 <!-- Display the user's profile picture -->
                 <img th:src="@{'data:image/jpeg;base64,' + ${profilePic}}" class="profile-pic img-fluid" id="js-img"
@@ -394,7 +394,9 @@ const updateCanvasWithColors = () => {
     profilePicContainer.style.boxShadow =  `0 0 30px 10px ${getColorHarmony(dominantColor)} `;
 
     const gameDescription = document.querySelector('.game-description');
-    gameDescription.style.borderColor = getColorHarmony(mostSaturatedColor);
+    gameDescription.style.borderColor = dominantColor;
+    gameDescription.style.background = mostSaturatedColor;
+    gameDescription.style.color = getColorHarmony(dominantColor);
     gameDescription.style.boxShadow =  `0 0 0px 0x ${getColorHarmony(mostSaturatedColor)}
         `;
 
@@ -402,60 +404,57 @@ const updateCanvasWithColors = () => {
 const canvas = document.getElementById("js-canvas");
 const ctx = canvas.getContext("2d");
 
-// Function to set canvas dimensions based on the .container section
+// Function to calculate canvas dimensions based on aspect ratio
 const setCanvasDimensions = () => {
-    const container = document.querySelector('.container');
-    canvas.width = profilePic.width;
-    canvas.height = profilePic.height;
+    const aspectRatio = profilePic.width / profilePic.height;
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
+    if (aspectRatio > 1) {
+        // Landscape orientation (width > height)
+        canvas.width = maxWidth;
+        canvas.height = maxWidth / aspectRatio;
+    } else {
+        // Portrait orientation (height > width)
+        canvas.height = maxHeight;
+        canvas.width = maxHeight * aspectRatio;
+    }
 };
 
-// Function to draw the image with effects centered on the canvas
+// Function to draw the image with effects filling the canvas
 const drawImageWithEffects = () => {
-    // Set canvas dimensions to match the container size
-    setCanvasDimensions();
+    // Set canvas dimensions to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     // Clear canvas before drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Apply filters
-    ctx.filter = 'blur(0px) brightness(70%) saturate(300%) contrast(200%)';
+    ctx.filter = 'blur(100px) brightness(70%) saturate(300%) contrast(200%)';
 
-    // Calculate dimensions to maintain aspect ratio and cover the canvas
-    const canvasAspect = canvas.width / canvas.height;
-    const imageAspect = profilePic.width / profilePic.height;
-    let drawWidth, drawHeight;
-
-    if (canvasAspect > imageAspect) {
-        // Canvas is wider relative to its height compared to the image
-        drawWidth = canvas.width;
-        drawHeight = canvas.width / imageAspect;
-    } else {
-        // Canvas is taller relative to its width compared to the image
-        drawHeight = canvas.height;
-        drawWidth = canvas.height * imageAspect;
-    }
-
-    // Calculate offsets to center the image
-    const offsetX = (canvas.width - drawWidth) / 2;
-    const offsetY = (canvas.height - drawHeight) / 2;
-
-    // Draw the image centered on the canvas
-    ctx.drawImage(profilePic, offsetX, offsetY, drawWidth, drawHeight);
+    // Draw a rectangle on the canvas with the same dimensions as the canvas
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'; // Make it transparent
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Reset filters after drawing
-    ctx.filter = 'none';
+     ctx.filter = 'blur(100px) brightness(70%) saturate(300%) contrast(200%)';
 };
 
+// Set body's background with the profile picture
+document.body.style.backgroundImage = `url('${profilePic.src}')`;
+document.body.style.backgroundSize = 'cover';
+document.body.style.backgroundPosition = 'center';
 
+
+
+
+// Call the method initially and listen for image load event
 if (profilePic.complete && profilePic.naturalWidth !== 0) {
     drawImageWithEffects();
 } else {
     profilePic.addEventListener('load', drawImageWithEffects);
 }
-
-// Redraw on window resize to maintain background-attachment: fixed effect
-window.addEventListener('resize', drawImageWithEffects);
-
 
     // Apply gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);

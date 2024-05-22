@@ -41,7 +41,9 @@
         <input type="hidden" name="_method" value="put" />
         <!-- Assuming you have an input field for editing the review content -->
         <label for="editedReview.reviewText"><b>Edit Review</b></label>
-        <textarea id="editedReview.reviewText" th:field="*{review.review}" required></textarea>
+        <textarea id="editedReview.reviewText" th:field="*{review.review}" required style="resize: none;
+             width:100%; height: 40vh; border-radius: 10px; color: white;
+             padding: 5px 10px 10px 10px; background: rgba(0,0,0,0); overflow: hidden;"></textarea>
 
         <!-- Add any additional input fields or form elements as needed -->
 
